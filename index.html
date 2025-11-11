@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>외국어 학습 도우미</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🌍 외국어 학습 도우미</h1>
+            <div class="header-actions">
+                <button class="btn-icon" id="settingsBtn" title="설정">⚙️</button>
+            </div>
+        </header>
+
+        <nav class="main-nav">
+            <button class="nav-btn active" data-page="home">홈</button>
+            <button class="nav-btn" data-page="dictionary">사전</button>
+            <button class="nav-btn" data-page="learn">학습</button>
+            <button class="nav-btn" data-page="quiz">퀴즈</button>
+            <button class="nav-btn" data-page="reading">독해</button>
+            <button class="nav-btn" data-page="mocktest">모의고사</button>
+            <button class="nav-btn" data-page="vocabulary">단어장</button>
+            <button class="nav-btn" data-page="progress">진행상황</button>
+        </nav>
+
+        <main>
+            <!-- 홈 페이지 -->
+            <section id="home-page" class="page active">
+                <div class="welcome-card">
+                    <h2>환영합니다! 👋</h2>
+                    <p>외국어 학습을 시작해보세요.</p>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalWords">0</div>
+                        <div class="stat-label">총 단어</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="learnedWords">0</div>
+                        <div class="stat-label">학습한 단어</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="quizScore">0%</div>
+                        <div class="stat-label">퀴즈 정답률</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="studyStreak">0</div>
+                        <div class="stat-label">연속 학습일</div>
+                    </div>
+                </div>
+                <div class="quick-actions">
+                    <button class="action-btn primary" onclick="showPage('learn')">
+                        📚 학습 시작하기
+                    </button>
+                    <button class="action-btn secondary" onclick="showPage('quiz')">
+                        ✏️ 퀴즈 풀기
+                    </button>
+                </div>
+            </section>
+
+            <!-- 학습 페이지 -->
+            <section id="learn-page" class="page">
+                <div class="page-header">
+                    <h2>📚 단어 학습</h2>
+                    <div class="language-selector">
+                        <label>학습 언어:</label>
+                        <select id="learnLanguage">
+                            <option value="ja" selected>일본어</option>
+                            <option value="en">영어</option>
+                            <option value="zh">중국어</option>
+                            <option value="es">스페인어</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="flashcard-container">
+                    <div class="flashcard" id="flashcard">
+                        <div class="flashcard-front">
+                            <div class="word-display" id="wordDisplay">단어를 추가해주세요</div>
+                            <div class="word-hint">카드를 클릭하여 뒤집기</div>
+                        </div>
+                        <div class="flashcard-back">
+                            <div class="word-display" id="meaningDisplay">의미를 추가해주세요</div>
+                            <div class="word-example" id="exampleDisplay"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flashcard-controls">
+                    <button class="btn" id="prevBtn">◀ 이전</button>
+                    <div class="card-counter">
+                        <span id="currentCard">0</span> / <span id="totalCards">0</span>
+                    </div>
+                    <button class="btn" id="nextBtn">다음 ▶</button>
+                </div>
+                <div class="learn-actions">
+                    <button class="btn btn-success" id="knowBtn">알고 있음 ✓</button>
+                    <button class="btn btn-danger" id="dontKnowBtn">모름 ✗</button>
+                </div>
+            </section>
+
+            <!-- 퀴즈 페이지 -->
+            <section id="quiz-page" class="page">
+                <div class="page-header">
+                    <h2>✏️ 퀴즈</h2>
+                    <div class="quiz-settings">
+                        <label>문제 수:</label>
+                        <select id="quizCount">
+                            <option value="5">5문제</option>
+                            <option value="10" selected>10문제</option>
+                            <option value="20">20문제</option>
+                        </select>
+                    </div>
+                </div>
+                <div id="quiz-container">
+                    <div class="quiz-start" id="quiz-start">
+                        <p>퀴즈를 시작하시겠습니까?</p>
+                        <button class="btn btn-primary" id="startQuizBtn">퀴즈 시작</button>
+                    </div>
+                    <div class="quiz-question" id="quiz-question" style="display: none;">
+                        <div class="quiz-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="quizProgress"></div>
+                            </div>
+                            <span id="quizProgressText">1 / 10</span>
+                        </div>
+                        <div class="question-card">
+                            <h3 id="quizQuestionText">질문</h3>
+                            <div class="quiz-options" id="quizOptions"></div>
+                        </div>
+                        <button class="btn btn-primary" id="submitAnswerBtn" disabled>답변 제출</button>
+                    </div>
+                    <div class="quiz-result" id="quiz-result" style="display: none;">
+                        <h3>퀴즈 결과</h3>
+                        <div class="result-score">
+                            <span id="quizScoreDisplay">0</span> / <span id="quizTotalDisplay">0</span>
+                        </div>
+                        <div class="result-percentage" id="resultPercentage">0%</div>
+                        <button class="btn btn-primary" id="retryQuizBtn">다시 풀기</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 단어장 페이지 -->
+            <section id="vocabulary-page" class="page">
+                <div class="page-header">
+                    <h2>📖 단어장</h2>
+                    <button class="btn btn-primary" id="addWordBtn">+ 단어 추가</button>
+                </div>
+                <div class="vocabulary-filters">
+                    <input type="text" id="searchWord" placeholder="단어 검색..." class="search-input">
+                    <select id="filterLanguage">
+                        <option value="all">모든 언어</option>
+                        <option value="en">영어</option>
+                        <option value="ja">일본어</option>
+                        <option value="zh">중국어</option>
+                        <option value="es">스페인어</option>
+                    </select>
+                </div>
+                <div class="vocabulary-list" id="vocabularyList">
+                    <!-- 단어 목록이 여기에 동적으로 추가됩니다 -->
+                </div>
+            </section>
+
+            <!-- 사전 페이지 -->
+            <section id="dictionary-page" class="page">
+                <div class="page-header">
+                    <h2>📖 사전</h2>
+                </div>
+                <div class="dictionary-search">
+                    <div class="search-box">
+                        <input type="text" id="dictSearchInput" placeholder="단어를 검색하세요..." class="search-input-large">
+                        <button class="btn btn-primary" id="dictSearchBtn">검색</button>
+                    </div>
+                    <div class="language-selector">
+                        <label>언어:</label>
+                        <select id="dictLanguage">
+                            <option value="ja" selected>일본어</option>
+                            <option value="en">영어</option>
+                            <option value="zh">중국어</option>
+                            <option value="es">스페인어</option>
+                        </select>
+                    </div>
+                    <div class="api-key-info">
+                        <small style="color: var(--text-secondary);">
+                            💡 네이버 검색 API 사용 (한국어, 일본어 모두 지원)<br>
+                            설정에서 네이버 API 키를 입력하세요
+                        </small>
+                    </div>
+                </div>
+                <div id="dictResult" class="dict-result">
+                    <div class="dict-placeholder">검색어를 입력하세요</div>
+                </div>
+                <div class="search-history">
+                    <h3>최근 검색 기록</h3>
+                    <div id="searchHistoryList" class="history-list"></div>
+                </div>
+            </section>
+
+            <!-- 독해 페이지 -->
+            <section id="reading-page" class="page">
+                <div class="page-header">
+                    <h2>📄 독해 연습</h2>
+                    <div class="reading-actions">
+                        <button class="btn btn-secondary" id="uploadImageBtn">📷 사진에서 텍스트 추출</button>
+                        <input type="file" id="imageInput" accept="image/*" style="display: none;">
+                        <button class="btn btn-primary" id="ttsBtn" style="display: none;">🔊 읽어주기</button>
+                    </div>
+                </div>
+                <div class="reading-content">
+                    <div class="reading-text-container">
+                        <div id="readingText" class="reading-text">
+                            <p>독해 지문을 선택하거나 사진을 업로드하여 텍스트를 추출하세요.</p>
+                        </div>
+                        <div class="reading-controls">
+                            <button class="btn btn-secondary" id="loadReadingBtn">새 독해 지문 불러오기</button>
+                        </div>
+                    </div>
+                    <div class="reading-questions" id="readingQuestions">
+                        <h3>문제</h3>
+                        <div id="questionsList"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 모의고사 페이지 -->
+            <section id="mocktest-page" class="page">
+                <div class="page-header">
+                    <h2>📝 모의고사 / 레벨테스트</h2>
+                </div>
+                <div class="test-selector">
+                    <div class="test-type-card" data-test="mock">
+                        <h3>모의고사</h3>
+                        <p>실제 시험 형식의 모의고사</p>
+                        <button class="btn btn-primary" onclick="startMockTest()">시작하기</button>
+                    </div>
+                    <div class="test-type-card" data-test="level">
+                        <h3>레벨테스트</h3>
+                        <p>나의 실력을 측정해보세요</p>
+                        <button class="btn btn-primary" onclick="startLevelTest()">시작하기</button>
+                    </div>
+                </div>
+                <div id="testContainer" style="display: none;">
+                    <div class="test-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="testProgress"></div>
+                        </div>
+                        <span id="testProgressText">0 / 0</span>
+                    </div>
+                    <div class="test-question" id="testQuestion"></div>
+                    <div class="test-actions">
+                        <button class="btn btn-primary" id="submitTestBtn">답안 제출</button>
+                    </div>
+                </div>
+                <div id="testResult" style="display: none;">
+                    <h3>시험 결과</h3>
+                    <div class="result-summary" id="testResultSummary"></div>
+                    <div class="result-details" id="testResultDetails"></div>
+                    <button class="btn btn-primary" id="retryTestBtn">다시 풀기</button>
+                </div>
+            </section>
+
+            <!-- 진행상황 페이지 -->
+            <section id="progress-page" class="page">
+                <div class="page-header">
+                    <h2>📊 학습 진행상황</h2>
+                </div>
+                <div class="progress-stats">
+                    <div class="progress-card">
+                        <h3>전체 통계</h3>
+                        <div class="stat-item">
+                            <span>총 학습 단어:</span>
+                            <span id="progressTotalWords">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>완전히 학습한 단어:</span>
+                            <span id="progressLearnedWords">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span>학습 중인 단어:</span>
+                            <span id="progressLearningWords">0</span>
+                        </div>
+                    </div>
+                    <div class="progress-card">
+                        <h3>언어별 통계</h3>
+                        <div id="languageStats"></div>
+                    </div>
+                    <div class="progress-card">
+                        <h3>최근 학습 활동</h3>
+                        <div id="recentActivity"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- 단어 추가 모달 -->
+        <div class="modal" id="addWordModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>단어 추가</h3>
+                    <button class="modal-close" id="closeModalBtn">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>언어</label>
+                        <select id="modalLanguage">
+                            <option value="ja" selected>일본어</option>
+                            <option value="en">영어</option>
+                            <option value="zh">중국어</option>
+                            <option value="es">스페인어</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>단어</label>
+                        <input type="text" id="modalWord" placeholder="단어를 입력하세요">
+                    </div>
+                    <div class="form-group">
+                        <label>의미</label>
+                        <input type="text" id="modalMeaning" placeholder="의미를 입력하세요">
+                    </div>
+                    <div class="form-group">
+                        <label>예문 (선택사항)</label>
+                        <input type="text" id="modalExample" placeholder="예문을 입력하세요">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" id="cancelAddBtn">취소</button>
+                    <button class="btn btn-primary" id="saveWordBtn">저장</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 설정 모달 -->
+        <div class="modal" id="settingsModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>설정</h3>
+                    <button class="modal-close" id="closeSettingsBtn">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>목표 자격증</label>
+                        <select id="targetCertification">
+                            <option value="none">없음</option>
+                            <option value="jlpt-n5">JLPT N5</option>
+                            <option value="jlpt-n4">JLPT N4</option>
+                            <option value="jlpt-n3">JLPT N3</option>
+                            <option value="jlpt-n2">JLPT N2</option>
+                            <option value="jlpt-n1">JLPT N1</option>
+                            <option value="toeic">TOEIC</option>
+                            <option value="hsk-1">HSK 1급</option>
+                            <option value="hsk-2">HSK 2급</option>
+                            <option value="hsk-3">HSK 3급</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>일일 목표 단어 수 (일본어 플래시카드)</label>
+                        <input type="number" id="dailyGoal" min="1" max="100" value="10">
+                    </div>
+                    <div class="form-group">
+                        <label>TTS 언어</label>
+                        <select id="ttsLanguage">
+                            <option value="ko">한국어</option>
+                            <option value="ja" selected>일본어</option>
+                            <option value="en">영어</option>
+                            <option value="zh">중국어</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>네이버 API 클라이언트 ID</label>
+                        <input type="text" id="naverClientId" placeholder="네이버 개발자 센터에서 발급받은 Client ID">
+                        <small style="color: var(--text-secondary); display: block; margin-top: 0.25rem;">
+                            <a href="https://developers.naver.com/apps/#/register" target="_blank">네이버 개발자 센터</a>에서 API 키 발급
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label>네이버 API 클라이언트 Secret</label>
+                        <input type="password" id="naverClientSecret" placeholder="네이버 개발자 센터에서 발급받은 Client Secret">
+                    </div>
+                    <div class="form-group" style="padding: 1rem; background: #e0f2fe; border-radius: 8px; margin-top: 1rem;">
+                        <strong style="color: #0369a1;">✅ 일본어 사전 기능</strong>
+                        <p style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.9rem;">
+                            네이버 검색 API를 사용하여 일본어 단어를 검색합니다.<br>
+                            한국어와 일본어 모두 검색 가능합니다.
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="saveSettingsBtn">저장</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 단어 상세 모달 (어원, 노래 추천 등) -->
+        <div class="modal" id="wordDetailModal">
+            <div class="modal-content modal-large">
+                <div class="modal-header">
+                    <h3 id="wordDetailTitle">단어 상세</h3>
+                    <button class="modal-close" id="closeWordDetailBtn">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="word-detail-section">
+                        <h4>의미</h4>
+                        <div id="wordDetailMeaning"></div>
+                    </div>
+                    <div class="word-detail-section" id="etymologySection" style="display: none;">
+                        <h4>어원</h4>
+                        <div id="wordEtymology"></div>
+                    </div>
+                    <div class="word-detail-section" id="songSection" style="display: none;">
+                        <h4>노래 추천</h4>
+                        <div id="wordSongs"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+
