@@ -1,0 +1,103 @@
+{
+  "reading_quizes": [
+    {
+      "body": "The annual company retreat will be held at the Grand Mountain Resort from March 15th to March 17th. All employees are required to attend this three-day event, which includes team-building activities, strategic planning sessions, and networking opportunities. The retreat aims to strengthen collaboration among departments and align everyone with the company's goals for the upcoming fiscal year.\n\nTransportation will be provided from the main office at 7:00 AM on March 15th. Employees who prefer to drive their own vehicles should notify the Human Resources department by March 1st. The resort offers various amenities including a fitness center, spa, and multiple dining options. Accommodations will be arranged in double-occupancy rooms, but single rooms can be requested for an additional fee.\n\nDuring the retreat, participants will engage in workshops covering topics such as effective communication, project management, and customer service excellence. There will also be recreational activities including hiking, team sports, and evening entertainment. The final day will conclude with a presentation by the CEO outlining the company's vision and strategic initiatives.\n\nPlease confirm your attendance by February 28th and indicate any dietary restrictions or special accommodations needed. For more information, contact Sarah Johnson in the HR department at extension 2341 or via email at sjohnson@company.com.",
+      "questions": [
+        {
+          "question": "What is the main purpose of the company retreat?",
+          "options": [
+            "A. To provide employees with a vacation",
+            "B. To strengthen collaboration and align goals",
+            "C. To conduct performance reviews",
+            "D. To announce new product launches"
+          ],
+          "correct": 1,
+          "explanation": "The passage states that the retreat aims to 'strengthen collaboration among departments and align everyone with the company's goals.'"
+        },
+        {
+          "question": "When should employees confirm their attendance?",
+          "options": [
+            "A. By March 1st",
+            "B. By March 15th",
+            "C. By February 28th",
+            "D. By March 17th"
+          ],
+          "correct": 2,
+          "explanation": "The passage explicitly states 'Please confirm your attendance by February 28th.'"
+        },
+        {
+          "question": "What accommodation option requires an additional fee?",
+          "options": [
+            "A. Double-occupancy rooms",
+            "B. Single rooms",
+            "C. Rooms with a view",
+            "D. Rooms near the fitness center"
+          ],
+          "correct": 1,
+          "explanation": "The passage mentions that 'single rooms can be requested for an additional fee.'"
+        },
+        {
+          "question": "How can employees get more information about the retreat?",
+          "options": [
+            "A. By calling the resort directly",
+            "B. By contacting Sarah Johnson in HR",
+            "C. By visiting the company website",
+            "D. By asking their department manager"
+          ],
+          "correct": 1,
+          "explanation": "The passage states 'For more information, contact Sarah Johnson in the HR department at extension 2341 or via email at sjohnson@company.com.'"
+        }
+      ]
+    },
+    {
+      "body": "Effective time management is crucial for success in today's fast-paced business environment. Many professionals struggle with balancing multiple tasks and meeting deadlines. However, by implementing a few key strategies, you can significantly improve your productivity and reduce stress.\n\nFirst, prioritize your tasks based on urgency and importance. The Eisenhower Matrix is a useful tool that categorizes tasks into four quadrants: urgent and important, important but not urgent, urgent but not important, and neither urgent nor important. Focus on completing tasks in the first two categories before moving to less critical items.\n\nSecond, eliminate distractions during focused work periods. Turn off unnecessary notifications, close irrelevant browser tabs, and create a dedicated workspace free from interruptions. Research shows that it takes an average of 23 minutes to refocus after being distracted, so protecting your concentration time is essential.\n\nThird, use time-blocking techniques to schedule specific periods for different types of work. Allocate blocks of time for deep work, meetings, email responses, and breaks. This approach helps you maintain momentum and prevents tasks from expanding to fill available time.\n\nFinally, learn to say no to non-essential requests. While being helpful is valuable, overcommitting leads to burnout and poor quality work. Evaluate each request against your current priorities and only accept those that align with your goals.\n\nBy consistently applying these strategies, you can transform your workday and achieve better results with less stress.",
+      "questions": [
+        {
+          "question": "What is the main topic of this passage?",
+          "options": [
+            "A. The importance of business meetings",
+            "B. Strategies for effective time management",
+            "C. How to eliminate workplace stress",
+            "D. The benefits of taking breaks"
+          ],
+          "correct": 1,
+          "explanation": "The passage focuses on time management strategies, as indicated by the opening sentence and the four strategies discussed."
+        },
+        {
+          "question": "According to the passage, how long does it take to refocus after being distracted?",
+          "options": [
+            "A. 5 minutes",
+            "B. 15 minutes",
+            "C. 23 minutes",
+            "D. 30 minutes"
+          ],
+          "correct": 2,
+          "explanation": "The passage states 'Research shows that it takes an average of 23 minutes to refocus after being distracted.'"
+        },
+        {
+          "question": "What does the Eisenhower Matrix help with?",
+          "options": [
+            "A. Scheduling meetings",
+            "B. Categorizing tasks by urgency and importance",
+            "C. Eliminating distractions",
+            "D. Learning to say no"
+          ],
+          "correct": 1,
+          "explanation": "The passage explains that 'The Eisenhower Matrix is a useful tool that categorizes tasks into four quadrants' based on urgency and importance."
+        },
+        {
+          "question": "What is one reason mentioned for learning to say no?",
+          "options": [
+            "A. It saves money",
+            "B. Overcommitting leads to burnout",
+            "C. It impresses supervisors",
+            "D. It reduces meeting time"
+          ],
+          "correct": 1,
+          "explanation": "The passage states 'overcommitting leads to burnout and poor quality work' as a reason to learn to say no."
+        }
+      ]
+    }
+  ]
+}
+

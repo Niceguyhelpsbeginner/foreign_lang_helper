@@ -1,0 +1,1742 @@
+{
+  "words": [
+    {
+      "word": "accommodate",
+      "meaning": "수용하다, 적응시키다",
+      "pronunciation": "əˈkɑːmədeɪt",
+      "type": "verb",
+      "example": "The hotel can accommodate up to 500 guests.",
+      "synonyms": ["house", "lodge", "fit"],
+      "level": "intermediate"
+    },
+    {
+      "word": "accomplish",
+      "meaning": "성취하다, 완수하다",
+      "pronunciation": "əˈkɑːmplɪʃ",
+      "type": "verb",
+      "example": "We need to accomplish our goals by the end of the quarter.",
+      "synonyms": ["achieve", "complete", "fulfill"],
+      "level": "intermediate"
+    },
+    {
+      "word": "accurate",
+      "meaning": "정확한",
+      "pronunciation": "ˈækjərət",
+      "type": "adjective",
+      "example": "Please provide accurate information about your expenses.",
+      "synonyms": ["precise", "correct", "exact"],
+      "level": "intermediate"
+    },
+    {
+      "word": "acquire",
+      "meaning": "획득하다, 인수하다",
+      "pronunciation": "əˈkwaɪər",
+      "type": "verb",
+      "example": "The company plans to acquire a smaller competitor.",
+      "synonyms": ["obtain", "gain", "purchase"],
+      "level": "intermediate"
+    },
+    {
+      "word": "adequate",
+      "meaning": "충분한, 적절한",
+      "pronunciation": "ˈædɪkwət",
+      "type": "adjective",
+      "example": "We have adequate resources to complete the project.",
+      "synonyms": ["sufficient", "enough", "suitable"],
+      "level": "intermediate"
+    },
+    {
+      "word": "adjacent",
+      "meaning": "인접한, 옆의",
+      "pronunciation": "əˈdʒeɪsənt",
+      "type": "adjective",
+      "example": "The parking lot is adjacent to the main building.",
+      "synonyms": ["next to", "neighboring", "adjoining"],
+      "level": "intermediate"
+    },
+    {
+      "word": "adjust",
+      "meaning": "조정하다, 적응하다",
+      "pronunciation": "əˈdʒʌst",
+      "type": "verb",
+      "example": "Please adjust the temperature to your preference.",
+      "synonyms": ["modify", "adapt", "regulate"],
+      "level": "intermediate"
+    },
+    {
+      "word": "administration",
+      "meaning": "관리, 행정",
+      "pronunciation": "ədˌmɪnɪˈstreɪʃən",
+      "type": "noun",
+      "example": "The administration of the company is handled by the executive team.",
+      "synonyms": ["management", "government", "supervision"],
+      "level": "intermediate"
+    },
+    {
+      "word": "adverse",
+      "meaning": "불리한, 역효과의",
+      "pronunciation": "ˈædvɜːrs",
+      "type": "adjective",
+      "example": "The adverse weather conditions delayed the flight.",
+      "synonyms": ["unfavorable", "harmful", "negative"],
+      "level": "intermediate"
+    },
+    {
+      "word": "advocate",
+      "meaning": "옹호하다, 지지자",
+      "pronunciation": "ˈædvəkeɪt",
+      "type": "verb/noun",
+      "example": "She advocates for environmental protection.",
+      "synonyms": ["support", "champion", "promote"],
+      "level": "intermediate"
+    },
+    {
+      "word": "affect",
+      "meaning": "영향을 미치다",
+      "pronunciation": "əˈfekt",
+      "type": "verb",
+      "example": "The new policy will affect all employees.",
+      "synonyms": ["influence", "impact", "change"],
+      "level": "intermediate"
+    },
+    {
+      "word": "aggregate",
+      "meaning": "합계, 총계",
+      "pronunciation": "ˈæɡrɪɡət",
+      "type": "noun/adjective",
+      "example": "The aggregate sales for the year exceeded expectations.",
+      "synonyms": ["total", "combined", "sum"],
+      "level": "advanced"
+    },
+    {
+      "word": "allocate",
+      "meaning": "할당하다, 배분하다",
+      "pronunciation": "ˈæləkeɪt",
+      "type": "verb",
+      "example": "We need to allocate more resources to this project.",
+      "synonyms": ["assign", "distribute", "apportion"],
+      "level": "intermediate"
+    },
+    {
+      "word": "alternative",
+      "meaning": "대안, 대체의",
+      "pronunciation": "ɔːlˈtɜːrnətɪv",
+      "type": "noun/adjective",
+      "example": "We need to find an alternative solution.",
+      "synonyms": ["option", "choice", "substitute"],
+      "level": "intermediate"
+    },
+    {
+      "word": "amend",
+      "meaning": "수정하다, 개정하다",
+      "pronunciation": "əˈmend",
+      "type": "verb",
+      "example": "The contract needs to be amended before signing.",
+      "synonyms": ["modify", "revise", "correct"],
+      "level": "intermediate"
+    },
+    {
+      "word": "anticipate",
+      "meaning": "예상하다, 기대하다",
+      "pronunciation": "ænˈtɪsɪpeɪt",
+      "type": "verb",
+      "example": "We anticipate a significant increase in sales next quarter.",
+      "synonyms": ["expect", "foresee", "predict"],
+      "level": "intermediate"
+    },
+    {
+      "word": "apparent",
+      "meaning": "명백한, 분명한",
+      "pronunciation": "əˈpærənt",
+      "type": "adjective",
+      "example": "It was apparent that the meeting would be postponed.",
+      "synonyms": ["obvious", "clear", "evident"],
+      "level": "intermediate"
+    },
+    {
+      "word": "appreciate",
+      "meaning": "감사하다, 인정하다",
+      "pronunciation": "əˈpriːʃieɪt",
+      "type": "verb",
+      "example": "I appreciate your help with this project.",
+      "synonyms": ["value", "recognize", "grate"],
+      "level": "intermediate"
+    },
+    {
+      "word": "approach",
+      "meaning": "접근하다, 방법",
+      "pronunciation": "əˈproʊtʃ",
+      "type": "verb/noun",
+      "example": "We need a different approach to solve this problem.",
+      "synonyms": ["method", "way", "strategy"],
+      "level": "intermediate"
+    },
+    {
+      "word": "appropriate",
+      "meaning": "적절한, 적합한",
+      "pronunciation": "əˈproʊpriət",
+      "type": "adjective",
+      "example": "Please wear appropriate attire for the meeting.",
+      "synonyms": ["suitable", "fitting", "proper"],
+      "level": "intermediate"
+    },
+    {
+      "word": "approximate",
+      "meaning": "대략의, 근사치",
+      "pronunciation": "əˈprɑːksɪmət",
+      "type": "adjective",
+      "example": "The approximate cost is around $500.",
+      "synonyms": ["rough", "estimated", "near"],
+      "level": "intermediate"
+    },
+    {
+      "word": "arbitrary",
+      "meaning": "임의의, 자의적인",
+      "pronunciation": "ˈɑːrbɪtreri",
+      "type": "adjective",
+      "example": "The selection process seemed arbitrary.",
+      "synonyms": ["random", "whimsical", "capricious"],
+      "level": "advanced"
+    },
+    {
+      "word": "assess",
+      "meaning": "평가하다, 측정하다",
+      "pronunciation": "əˈses",
+      "type": "verb",
+      "example": "We need to assess the situation before making a decision.",
+      "synonyms": ["evaluate", "judge", "measure"],
+      "level": "intermediate"
+    },
+    {
+      "word": "asset",
+      "meaning": "자산, 재산",
+      "pronunciation": "ˈæset",
+      "type": "noun",
+      "example": "Real estate is considered a valuable asset.",
+      "synonyms": ["property", "resource", "possession"],
+      "level": "intermediate"
+    },
+    {
+      "word": "assume",
+      "meaning": "가정하다, 추정하다",
+      "pronunciation": "əˈsuːm",
+      "type": "verb",
+      "example": "Let's assume that the project will be completed on time.",
+      "synonyms": ["presume", "suppose", "take for granted"],
+      "level": "intermediate"
+    },
+    {
+      "word": "assure",
+      "meaning": "보장하다, 확신시키다",
+      "pronunciation": "əˈʃʊr",
+      "type": "verb",
+      "example": "I can assure you that the quality is excellent.",
+      "synonyms": ["guarantee", "promise", "confirm"],
+      "level": "intermediate"
+    },
+    {
+      "word": "attach",
+      "meaning": "첨부하다, 붙이다",
+      "pronunciation": "əˈtætʃ",
+      "type": "verb",
+      "example": "Please attach the document to your email.",
+      "synonyms": ["connect", "fasten", "join"],
+      "level": "intermediate"
+    },
+    {
+      "word": "attain",
+      "meaning": "달성하다, 획득하다",
+      "pronunciation": "əˈteɪn",
+      "type": "verb",
+      "example": "We hope to attain our sales target this year.",
+      "synonyms": ["achieve", "reach", "obtain"],
+      "level": "intermediate"
+    },
+    {
+      "word": "attribute",
+      "meaning": "속성, 특징",
+      "pronunciation": "ˈætrɪbjuːt",
+      "type": "noun",
+      "example": "Leadership is an important attribute for managers.",
+      "synonyms": ["characteristic", "quality", "feature"],
+      "level": "intermediate"
+    },
+    {
+      "word": "authorize",
+      "meaning": "승인하다, 권한을 부여하다",
+      "pronunciation": "ˈɔːθəraɪz",
+      "type": "verb",
+      "example": "Only managers can authorize expenses over $1000.",
+      "synonyms": ["approve", "permit", "sanction"],
+      "level": "intermediate"
+    },
+    {
+      "word": "available",
+      "meaning": "이용 가능한, 사용할 수 있는",
+      "pronunciation": "əˈveɪləbəl",
+      "type": "adjective",
+      "example": "The product will be available next month.",
+      "synonyms": ["accessible", "obtainable", "ready"],
+      "level": "intermediate"
+    },
+    {
+      "word": "retreat",
+      "meaning": "회의, 휴양지",
+      "pronunciation": "rɪˈtriːt",
+      "type": "noun",
+      "example": "The company retreat will be held next month.",
+      "synonyms": ["conference", "resort", "meeting"],
+      "level": "intermediate"
+    },
+    {
+      "word": "employees",
+      "meaning": "직원들",
+      "pronunciation": "ɪmˈplɔɪiːz",
+      "type": "noun",
+      "example": "All employees are required to attend the meeting.",
+      "synonyms": ["staff", "workers", "personnel"],
+      "level": "intermediate"
+    },
+    {
+      "word": "attend",
+      "meaning": "참석하다",
+      "pronunciation": "əˈtend",
+      "type": "verb",
+      "example": "Please confirm if you will attend the event.",
+      "synonyms": ["participate", "join", "be present"],
+      "level": "intermediate"
+    },
+    {
+      "word": "activities",
+      "meaning": "활동들",
+      "pronunciation": "ækˈtɪvɪtiz",
+      "type": "noun",
+      "example": "Various activities are planned for the weekend.",
+      "synonyms": ["events", "programs", "actions"],
+      "level": "intermediate"
+    },
+    {
+      "word": "accommodations",
+      "meaning": "숙박 시설",
+      "pronunciation": "əˌkɑːməˈdeɪʃənz",
+      "type": "noun",
+      "example": "Accommodations will be arranged in double-occupancy rooms.",
+      "synonyms": ["lodging", "housing", "rooms"],
+      "level": "intermediate"
+    },
+    {
+      "word": "transportation",
+      "meaning": "교통, 운송",
+      "pronunciation": "ˌtrænspɔːrˈteɪʃən",
+      "type": "noun",
+      "example": "Transportation will be provided from the main office.",
+      "synonyms": ["transport", "conveyance", "travel"],
+      "level": "intermediate"
+    },
+    {
+      "word": "amenities",
+      "meaning": "편의 시설",
+      "pronunciation": "əˈmenɪtiz",
+      "type": "noun",
+      "example": "The resort offers various amenities including a fitness center.",
+      "synonyms": ["facilities", "services", "features"],
+      "level": "intermediate"
+    },
+    {
+      "word": "participants",
+      "meaning": "참가자들",
+      "pronunciation": "pɑːrˈtɪsɪpənts",
+      "type": "noun",
+      "example": "All participants will receive a certificate.",
+      "synonyms": ["attendees", "members", "contributors"],
+      "level": "intermediate"
+    },
+    {
+      "word": "workshops",
+      "meaning": "워크샵, 세미나",
+      "pronunciation": "ˈwɜːrkʃɑːps",
+      "type": "noun",
+      "example": "Participants will engage in workshops covering various topics.",
+      "synonyms": ["seminars", "sessions", "training"],
+      "level": "intermediate"
+    },
+    {
+      "word": "communication",
+      "meaning": "의사소통, 커뮤니케이션",
+      "pronunciation": "kəˌmjuːnɪˈkeɪʃən",
+      "type": "noun",
+      "example": "Effective communication is essential in business.",
+      "synonyms": ["interaction", "dialogue", "exchange"],
+      "level": "intermediate"
+    },
+    {
+      "word": "management",
+      "meaning": "관리, 경영",
+      "pronunciation": "ˈmænɪdʒmənt",
+      "type": "noun",
+      "example": "Project management requires careful planning.",
+      "synonyms": ["administration", "supervision", "control"],
+      "level": "intermediate"
+    },
+    {
+      "word": "recreational",
+      "meaning": "오락의, 레크리에이션의",
+      "pronunciation": "ˌrekriˈeɪʃənəl",
+      "type": "adjective",
+      "example": "There will be recreational activities including hiking.",
+      "synonyms": ["leisure", "entertainment", "fun"],
+      "level": "intermediate"
+    },
+    {
+      "word": "entertainment",
+      "meaning": "오락, 엔터테인먼트",
+      "pronunciation": "ˌentərˈteɪnmənt",
+      "type": "noun",
+      "example": "Evening entertainment will be provided.",
+      "synonyms": ["amusement", "recreation", "diversion"],
+      "level": "intermediate"
+    },
+    {
+      "word": "presentation",
+      "meaning": "발표, 프레젠테이션",
+      "pronunciation": "ˌprezənˈteɪʃən",
+      "type": "noun",
+      "example": "The final day will conclude with a presentation by the CEO.",
+      "synonyms": ["speech", "talk", "demonstration"],
+      "level": "intermediate"
+    },
+    {
+      "word": "initiatives",
+      "meaning": "계획, 이니셔티브",
+      "pronunciation": "ɪˈnɪʃɪətɪvz",
+      "type": "noun",
+      "example": "The company's strategic initiatives were outlined.",
+      "synonyms": ["plans", "projects", "programs"],
+      "level": "intermediate"
+    },
+    {
+      "word": "restrictions",
+      "meaning": "제한사항",
+      "pronunciation": "rɪˈstrɪkʃənz",
+      "type": "noun",
+      "example": "Please indicate any dietary restrictions.",
+      "synonyms": ["limitations", "constraints", "rules"],
+      "level": "intermediate"
+    },
+    {
+      "word": "departments",
+      "meaning": "부서들",
+      "pronunciation": "dɪˈpɑːrtmənts",
+      "type": "noun",
+      "example": "Collaboration among departments is important.",
+      "synonyms": ["divisions", "sections", "units"],
+      "level": "intermediate"
+    },
+    {
+      "word": "extension",
+      "meaning": "내선 번호",
+      "pronunciation": "ɪkˈstenʃən",
+      "type": "noun",
+      "example": "Contact us at extension 2341.",
+      "synonyms": ["phone number", "line", "number"],
+      "level": "intermediate"
+    },
+    {
+      "word": "annual",
+      "meaning": "연간의, 매년의",
+      "pronunciation": "ˈænjuəl",
+      "type": "adjective",
+      "example": "The annual company retreat will be held next month.",
+      "synonyms": ["yearly", "year-end", "per year"],
+      "level": "intermediate"
+    },
+    {
+      "word": "strategic",
+      "meaning": "전략적인",
+      "pronunciation": "strəˈtiːdʒɪk",
+      "type": "adjective",
+      "example": "Strategic planning sessions are important for the company.",
+      "synonyms": ["tactical", "planned", "calculated"],
+      "level": "intermediate"
+    },
+    {
+      "word": "strengthen",
+      "meaning": "강화하다",
+      "pronunciation": "ˈstreŋθən",
+      "type": "verb",
+      "example": "The retreat aims to strengthen collaboration among departments.",
+      "synonyms": ["reinforce", "enhance", "fortify"],
+      "level": "intermediate"
+    },
+    {
+      "word": "collaboration",
+      "meaning": "협력, 협업",
+      "pronunciation": "kəˌlæbəˈreɪʃən",
+      "type": "noun",
+      "example": "Collaboration among departments is essential.",
+      "synonyms": ["cooperation", "partnership", "teamwork"],
+      "level": "intermediate"
+    },
+    {
+      "word": "align",
+      "meaning": "정렬하다, 일치시키다",
+      "pronunciation": "əˈlaɪn",
+      "type": "verb",
+      "example": "We need to align everyone with the company's goals.",
+      "synonyms": ["adjust", "coordinate", "synchronize"],
+      "level": "intermediate"
+    },
+    {
+      "word": "upcoming",
+      "meaning": "다가오는, 예정된",
+      "pronunciation": "ˈʌpkʌmɪŋ",
+      "type": "adjective",
+      "example": "The upcoming fiscal year will bring new challenges.",
+      "synonyms": ["forthcoming", "approaching", "future"],
+      "level": "intermediate"
+    },
+    {
+      "word": "fiscal",
+      "meaning": "재정의, 회계의",
+      "pronunciation": "ˈfɪskəl",
+      "type": "adjective",
+      "example": "The fiscal year ends in December.",
+      "synonyms": ["financial", "budgetary", "economic"],
+      "level": "intermediate"
+    },
+    {
+      "word": "notify",
+      "meaning": "알리다, 통지하다",
+      "pronunciation": "ˈnoʊtɪfaɪ",
+      "type": "verb",
+      "example": "Please notify the Human Resources department.",
+      "synonyms": ["inform", "tell", "alert"],
+      "level": "intermediate"
+    },
+    {
+      "word": "various",
+      "meaning": "다양한",
+      "pronunciation": "ˈveriəs",
+      "type": "adjective",
+      "example": "The resort offers various amenities.",
+      "synonyms": ["diverse", "different", "multiple"],
+      "level": "intermediate"
+    },
+    {
+      "word": "arranged",
+      "meaning": "배치된, 준비된",
+      "pronunciation": "əˈreɪndʒd",
+      "type": "verb",
+      "example": "Accommodations will be arranged in double-occupancy rooms.",
+      "synonyms": ["organized", "prepared", "set up"],
+      "level": "intermediate"
+    },
+    {
+      "word": "engage",
+      "meaning": "참여하다, 종사하다",
+      "pronunciation": "ɪnˈɡeɪdʒ",
+      "type": "verb",
+      "example": "Participants will engage in workshops.",
+      "synonyms": ["participate", "involve", "take part"],
+      "level": "intermediate"
+    },
+    {
+      "word": "covering",
+      "meaning": "다루는, 포함하는",
+      "pronunciation": "ˈkʌvərɪŋ",
+      "type": "verb",
+      "example": "Workshops covering topics such as communication.",
+      "synonyms": ["including", "dealing with", "encompassing"],
+      "level": "intermediate"
+    },
+    {
+      "word": "effective",
+      "meaning": "효과적인",
+      "pronunciation": "ɪˈfektɪv",
+      "type": "adjective",
+      "example": "Effective communication is essential.",
+      "synonyms": ["efficient", "successful", "productive"],
+      "level": "intermediate"
+    },
+    {
+      "word": "excellence",
+      "meaning": "우수함, 탁월함",
+      "pronunciation": "ˈeksələns",
+      "type": "noun",
+      "example": "Customer service excellence is our goal.",
+      "synonyms": ["superiority", "quality", "distinction"],
+      "level": "intermediate"
+    },
+    {
+      "word": "conclude",
+      "meaning": "결론짓다, 마무리하다",
+      "pronunciation": "kənˈkluːd",
+      "type": "verb",
+      "example": "The final day will conclude with a presentation.",
+      "synonyms": ["finish", "end", "complete"],
+      "level": "intermediate"
+    },
+    {
+      "word": "outlining",
+      "meaning": "개요를 설명하다",
+      "pronunciation": "ˈaʊtlaɪnɪŋ",
+      "type": "verb",
+      "example": "The CEO outlining the company's vision.",
+      "synonyms": ["summarizing", "describing", "sketching"],
+      "level": "intermediate"
+    },
+    {
+      "word": "vision",
+      "meaning": "비전, 전망",
+      "pronunciation": "ˈvɪʒən",
+      "type": "noun",
+      "example": "The company's vision and strategic initiatives.",
+      "synonyms": ["goal", "dream", "perspective"],
+      "level": "intermediate"
+    },
+    {
+      "word": "confirm",
+      "meaning": "확인하다",
+      "pronunciation": "kənˈfɜːrm",
+      "type": "verb",
+      "example": "Please confirm your attendance by February 28th.",
+      "synonyms": ["verify", "validate", "acknowledge"],
+      "level": "intermediate"
+    },
+    {
+      "word": "attendance",
+      "meaning": "출석, 참석",
+      "pronunciation": "əˈtendəns",
+      "type": "noun",
+      "example": "Please confirm your attendance.",
+      "synonyms": ["presence", "participation", "appearance"],
+      "level": "intermediate"
+    },
+    {
+      "word": "indicate",
+      "meaning": "나타내다, 표시하다",
+      "pronunciation": "ˈɪndɪkeɪt",
+      "type": "verb",
+      "example": "Please indicate any dietary restrictions.",
+      "synonyms": ["show", "specify", "denote"],
+      "level": "intermediate"
+    },
+    {
+      "word": "dietary",
+      "meaning": "식이의, 식단의",
+      "pronunciation": "ˈdaɪəteri",
+      "type": "adjective",
+      "example": "Please indicate any dietary restrictions.",
+      "synonyms": ["nutritional", "food-related", "diet"],
+      "level": "intermediate"
+    },
+    {
+      "word": "crucial",
+      "meaning": "중요한, 결정적인",
+      "pronunciation": "ˈkruːʃəl",
+      "type": "adjective",
+      "example": "Effective time management is crucial for success.",
+      "synonyms": ["critical", "essential", "vital"],
+      "level": "intermediate"
+    },
+    {
+      "word": "fast-paced",
+      "meaning": "빠른 속도의",
+      "pronunciation": "fæst peɪst",
+      "type": "adjective",
+      "example": "Today's fast-paced business environment.",
+      "synonyms": ["rapid", "quick", "hectic"],
+      "level": "intermediate"
+    },
+    {
+      "word": "struggle",
+      "meaning": "고생하다, 어려움을 겪다",
+      "pronunciation": "ˈstrʌɡəl",
+      "type": "verb",
+      "example": "Many professionals struggle with balancing tasks.",
+      "synonyms": ["fight", "battle", "have difficulty"],
+      "level": "intermediate"
+    },
+    {
+      "word": "balancing",
+      "meaning": "균형잡기, 조화",
+      "pronunciation": "ˈbælənsɪŋ",
+      "type": "verb",
+      "example": "Balancing multiple tasks is challenging.",
+      "synonyms": ["managing", "coordinating", "harmonizing"],
+      "level": "intermediate"
+    },
+    {
+      "word": "deadlines",
+      "meaning": "마감일, 기한",
+      "pronunciation": "ˈdedlaɪnz",
+      "type": "noun",
+      "example": "Meeting deadlines is important.",
+      "synonyms": ["due dates", "time limits", "cutoffs"],
+      "level": "intermediate"
+    },
+    {
+      "word": "implementing",
+      "meaning": "구현하다, 실행하다",
+      "pronunciation": "ˈɪmplɪmentɪŋ",
+      "type": "verb",
+      "example": "By implementing a few key strategies.",
+      "synonyms": ["executing", "applying", "carrying out"],
+      "level": "intermediate"
+    },
+    {
+      "word": "strategies",
+      "meaning": "전략들",
+      "pronunciation": "ˈstrætədʒiz",
+      "type": "noun",
+      "example": "A few key strategies can improve productivity.",
+      "synonyms": ["plans", "approaches", "methods"],
+      "level": "intermediate"
+    },
+    {
+      "word": "significantly",
+      "meaning": "상당히, 크게",
+      "pronunciation": "sɪɡˈnɪfɪkəntli",
+      "type": "adverb",
+      "example": "You can significantly improve your productivity.",
+      "synonyms": ["considerably", "substantially", "greatly"],
+      "level": "intermediate"
+    },
+    {
+      "word": "productivity",
+      "meaning": "생산성",
+      "pronunciation": "ˌprɑːdʌkˈtɪvɪti",
+      "type": "noun",
+      "example": "Improve your productivity and reduce stress.",
+      "synonyms": ["efficiency", "output", "performance"],
+      "level": "intermediate"
+    },
+    {
+      "word": "prioritize",
+      "meaning": "우선순위를 정하다",
+      "pronunciation": "praɪˈɔːrɪtaɪz",
+      "type": "verb",
+      "example": "Prioritize your tasks based on urgency.",
+      "synonyms": ["rank", "order", "focus on"],
+      "level": "intermediate"
+    },
+    {
+      "word": "urgency",
+      "meaning": "긴급함",
+      "pronunciation": "ˈɜːrdʒənsi",
+      "type": "noun",
+      "example": "Tasks based on urgency and importance.",
+      "synonyms": ["emergency", "priority", "immediacy"],
+      "level": "intermediate"
+    },
+    {
+      "word": "importance",
+      "meaning": "중요성",
+      "pronunciation": "ɪmˈpɔːrtəns",
+      "type": "noun",
+      "example": "Urgency and importance determine priority.",
+      "synonyms": ["significance", "value", "relevance"],
+      "level": "intermediate"
+    },
+    {
+      "word": "categorizes",
+      "meaning": "분류하다",
+      "pronunciation": "ˈkætəɡəraɪzɪz",
+      "type": "verb",
+      "example": "The Eisenhower Matrix categorizes tasks.",
+      "synonyms": ["classifies", "groups", "organizes"],
+      "level": "intermediate"
+    },
+    {
+      "word": "quadrants",
+      "meaning": "사분면",
+      "pronunciation": "ˈkwɑːdrənts",
+      "type": "noun",
+      "example": "Tasks into four quadrants.",
+      "synonyms": ["sections", "areas", "divisions"],
+      "level": "intermediate"
+    },
+    {
+      "word": "urgent",
+      "meaning": "긴급한",
+      "pronunciation": "ˈɜːrdʒənt",
+      "type": "adjective",
+      "example": "Urgent and important tasks.",
+      "synonyms": ["critical", "pressing", "immediate"],
+      "level": "intermediate"
+    },
+    {
+      "word": "critical",
+      "meaning": "중요한, 비판적인",
+      "pronunciation": "ˈkrɪtɪkəl",
+      "type": "adjective",
+      "example": "Less critical items.",
+      "synonyms": ["crucial", "essential", "vital"],
+      "level": "intermediate"
+    },
+    {
+      "word": "eliminate",
+      "meaning": "제거하다",
+      "pronunciation": "ɪˈlɪmɪneɪt",
+      "type": "verb",
+      "example": "Eliminate distractions during focused work.",
+      "synonyms": ["remove", "get rid of", "eradicate"],
+      "level": "intermediate"
+    },
+    {
+      "word": "distractions",
+      "meaning": "방해 요소들",
+      "pronunciation": "dɪˈstrækʃənz",
+      "type": "noun",
+      "example": "Eliminate distractions during focused work periods.",
+      "synonyms": ["interruptions", "disruptions", "diversions"],
+      "level": "intermediate"
+    },
+    {
+      "word": "focused",
+      "meaning": "집중된",
+      "pronunciation": "ˈfoʊkəst",
+      "type": "adjective",
+      "example": "Focused work periods.",
+      "synonyms": ["concentrated", "attentive", "directed"],
+      "level": "intermediate"
+    },
+    {
+      "word": "periods",
+      "meaning": "기간들",
+      "pronunciation": "ˈpɪriədz",
+      "type": "noun",
+      "example": "Focused work periods.",
+      "synonyms": ["times", "intervals", "sessions"],
+      "level": "intermediate"
+    },
+    {
+      "word": "unnecessary",
+      "meaning": "불필요한",
+      "pronunciation": "ʌnˈnesəseri",
+      "type": "adjective",
+      "example": "Turn off unnecessary notifications.",
+      "synonyms": ["unneeded", "redundant", "superfluous"],
+      "level": "intermediate"
+    },
+    {
+      "word": "notifications",
+      "meaning": "알림들",
+      "pronunciation": "ˌnoʊtɪfɪˈkeɪʃənz",
+      "type": "noun",
+      "example": "Turn off unnecessary notifications.",
+      "synonyms": ["alerts", "messages", "announcements"],
+      "level": "intermediate"
+    },
+    {
+      "word": "irrelevant",
+      "meaning": "관련 없는",
+      "pronunciation": "ɪˈreləvənt",
+      "type": "adjective",
+      "example": "Close irrelevant browser tabs.",
+      "synonyms": ["unrelated", "unconnected", "inapplicable"],
+      "level": "intermediate"
+    },
+    {
+      "word": "dedicated",
+      "meaning": "전용의, 헌신적인",
+      "pronunciation": "ˈdedɪkeɪtɪd",
+      "type": "adjective",
+      "example": "Create a dedicated workspace.",
+      "synonyms": ["devoted", "committed", "specialized"],
+      "level": "intermediate"
+    },
+    {
+      "word": "workspace",
+      "meaning": "작업 공간",
+      "pronunciation": "ˈwɜːrkspeɪs",
+      "type": "noun",
+      "example": "Create a dedicated workspace free from interruptions.",
+      "synonyms": ["work area", "office space", "desk"],
+      "level": "intermediate"
+    },
+    {
+      "word": "interruptions",
+      "meaning": "방해, 중단",
+      "pronunciation": "ˌɪntəˈrʌpʃənz",
+      "type": "noun",
+      "example": "Workspace free from interruptions.",
+      "synonyms": ["disturbances", "disruptions", "breaks"],
+      "level": "intermediate"
+    },
+    {
+      "word": "refocus",
+      "meaning": "재집중하다",
+      "pronunciation": "riːˈfoʊkəs",
+      "type": "verb",
+      "example": "It takes 23 minutes to refocus after being distracted.",
+      "synonyms": ["reconcentrate", "regain focus", "recenter"],
+      "level": "intermediate"
+    },
+    {
+      "word": "distracted",
+      "meaning": "산만한, 방해받은",
+      "pronunciation": "dɪˈstræktɪd",
+      "type": "adjective",
+      "example": "After being distracted.",
+      "synonyms": ["unfocused", "preoccupied", "diverted"],
+      "level": "intermediate"
+    },
+    {
+      "word": "protecting",
+      "meaning": "보호하는",
+      "pronunciation": "prəˈtektɪŋ",
+      "type": "verb",
+      "example": "Protecting your concentration time is essential.",
+      "synonyms": ["guarding", "preserving", "safeguarding"],
+      "level": "intermediate"
+    },
+    {
+      "word": "concentration",
+      "meaning": "집중",
+      "pronunciation": "ˌkɑːnsənˈtreɪʃən",
+      "type": "noun",
+      "example": "Protecting your concentration time.",
+      "synonyms": ["focus", "attention", "absorption"],
+      "level": "intermediate"
+    },
+    {
+      "word": "essential",
+      "meaning": "필수적인",
+      "pronunciation": "ɪˈsenʃəl",
+      "type": "adjective",
+      "example": "Protecting your concentration time is essential.",
+      "synonyms": ["necessary", "crucial", "vital"],
+      "level": "intermediate"
+    },
+    {
+      "word": "blocking",
+      "meaning": "차단하는, 시간 블록",
+      "pronunciation": "ˈblɑːkɪŋ",
+      "type": "verb",
+      "example": "Use time-blocking techniques.",
+      "synonyms": ["scheduling", "allocating", "reserving"],
+      "level": "intermediate"
+    },
+    {
+      "word": "techniques",
+      "meaning": "기법들",
+      "pronunciation": "tekˈniːks",
+      "type": "noun",
+      "example": "Time-blocking techniques.",
+      "synonyms": ["methods", "approaches", "strategies"],
+      "level": "intermediate"
+    },
+    {
+      "word": "schedule",
+      "meaning": "일정을 잡다",
+      "pronunciation": "ˈskedʒuːl",
+      "type": "verb",
+      "example": "Schedule specific periods for different types of work.",
+      "synonyms": ["plan", "arrange", "organize"],
+      "level": "intermediate"
+    },
+    {
+      "word": "specific",
+      "meaning": "구체적인",
+      "pronunciation": "spəˈsɪfɪk",
+      "type": "adjective",
+      "example": "Schedule specific periods.",
+      "synonyms": ["particular", "exact", "precise"],
+      "level": "intermediate"
+    },
+    {
+      "word": "allocate",
+      "meaning": "할당하다",
+      "pronunciation": "ˈæləkeɪt",
+      "type": "verb",
+      "example": "Allocate blocks of time for deep work.",
+      "synonyms": ["assign", "distribute", "apportion"],
+      "level": "intermediate"
+    },
+    {
+      "word": "blocks",
+      "meaning": "블록들, 구간들",
+      "pronunciation": "blɑːks",
+      "type": "noun",
+      "example": "Allocate blocks of time.",
+      "synonyms": ["periods", "sessions", "chunks"],
+      "level": "intermediate"
+    },
+    {
+      "word": "deep",
+      "meaning": "깊은, 집중적인",
+      "pronunciation": "diːp",
+      "type": "adjective",
+      "example": "Blocks of time for deep work.",
+      "synonyms": ["intensive", "focused", "concentrated"],
+      "level": "intermediate"
+    },
+    {
+      "word": "maintain",
+      "meaning": "유지하다",
+      "pronunciation": "meɪnˈteɪn",
+      "type": "verb",
+      "example": "This approach helps you maintain momentum.",
+      "synonyms": ["keep", "preserve", "sustain"],
+      "level": "intermediate"
+    },
+    {
+      "word": "momentum",
+      "meaning": "추진력, 모멘텀",
+      "pronunciation": "moʊˈmentəm",
+      "type": "noun",
+      "example": "Maintain momentum.",
+      "synonyms": ["drive", "force", "impetus"],
+      "level": "intermediate"
+    },
+    {
+      "word": "prevents",
+      "meaning": "방지하다",
+      "pronunciation": "prɪˈvents",
+      "type": "verb",
+      "example": "Prevents tasks from expanding.",
+      "synonyms": ["stops", "hinders", "blocks"],
+      "level": "intermediate"
+    },
+    {
+      "word": "expanding",
+      "meaning": "확장하는",
+      "pronunciation": "ɪkˈspændɪŋ",
+      "type": "verb",
+      "example": "Tasks from expanding to fill available time.",
+      "synonyms": ["growing", "increasing", "extending"],
+      "level": "intermediate"
+    },
+    {
+      "word": "overcommitting",
+      "meaning": "과도하게 약속하는",
+      "pronunciation": "ˌoʊvərkəˈmɪtɪŋ",
+      "type": "verb",
+      "example": "Overcommitting leads to burnout.",
+      "synonyms": ["overpromising", "overextending", "overloading"],
+      "level": "intermediate"
+    },
+    {
+      "word": "burnout",
+      "meaning": "번아웃, 탈진",
+      "pronunciation": "ˈbɜːrnaʊt",
+      "type": "noun",
+      "example": "Overcommitting leads to burnout.",
+      "synonyms": ["exhaustion", "fatigue", "stress"],
+      "level": "intermediate"
+    },
+    {
+      "word": "evaluate",
+      "meaning": "평가하다",
+      "pronunciation": "ɪˈvæljueɪt",
+      "type": "verb",
+      "example": "Evaluate each request against your priorities.",
+      "synonyms": ["assess", "judge", "analyze"],
+      "level": "intermediate"
+    },
+    {
+      "word": "priorities",
+      "meaning": "우선순위들",
+      "pronunciation": "praɪˈɔːrɪtiz",
+      "type": "noun",
+      "example": "Against your current priorities.",
+      "synonyms": ["goals", "objectives", "concerns"],
+      "level": "intermediate"
+    },
+    {
+      "word": "consistently",
+      "meaning": "일관되게",
+      "pronunciation": "kənˈsɪstəntli",
+      "type": "adverb",
+      "example": "By consistently applying these strategies.",
+      "synonyms": ["regularly", "steadily", "uniformly"],
+      "level": "intermediate"
+    },
+    {
+      "word": "applying",
+      "meaning": "적용하는",
+      "pronunciation": "əˈplaɪɪŋ",
+      "type": "verb",
+      "example": "Consistently applying these strategies.",
+      "synonyms": ["using", "implementing", "employing"],
+      "level": "intermediate"
+    },
+    {
+      "word": "transform",
+      "meaning": "변화시키다",
+      "pronunciation": "trænsˈfɔːrm",
+      "type": "verb",
+      "example": "Transform your workday.",
+      "synonyms": ["change", "convert", "alter"],
+      "level": "intermediate"
+    },
+    {
+      "word": "workday",
+      "meaning": "근무일",
+      "pronunciation": "ˈwɜːrkdeɪ",
+      "type": "noun",
+      "example": "Transform your workday.",
+      "synonyms": ["working day", "business day", "office hours"],
+      "level": "intermediate"
+    },
+    {
+      "word": "achieve",
+      "meaning": "달성하다",
+      "pronunciation": "əˈtʃiːv",
+      "type": "verb",
+      "example": "Achieve better results with less stress.",
+      "synonyms": ["accomplish", "attain", "reach"],
+      "level": "intermediate"
+    },
+    {
+      "word": "required",
+      "meaning": "필요한, 요구되는",
+      "pronunciation": "rɪˈkwaɪərd",
+      "type": "adjective",
+      "example": "All employees are required to attend.",
+      "synonyms": ["necessary", "mandatory", "obligatory"],
+      "level": "intermediate"
+    },
+    {
+      "word": "includes",
+      "meaning": "포함하다",
+      "pronunciation": "ɪnˈkluːdz",
+      "type": "verb",
+      "example": "The event includes team-building activities.",
+      "synonyms": ["contains", "involves", "comprises"],
+      "level": "intermediate"
+    },
+    {
+      "word": "opportunities",
+      "meaning": "기회들",
+      "pronunciation": "ˌɑːpərˈtuːnɪtiz",
+      "type": "noun",
+      "example": "Networking opportunities are available.",
+      "synonyms": ["chances", "prospects", "openings"],
+      "level": "intermediate"
+    },
+    {
+      "word": "prefer",
+      "meaning": "선호하다",
+      "pronunciation": "prɪˈfɜːr",
+      "type": "verb",
+      "example": "Employees who prefer to drive.",
+      "synonyms": ["like better", "choose", "favor"],
+      "level": "intermediate"
+    },
+    {
+      "word": "vehicles",
+      "meaning": "차량들",
+      "pronunciation": "ˈviːɪkəlz",
+      "type": "noun",
+      "example": "Drive their own vehicles.",
+      "synonyms": ["cars", "automobiles", "transport"],
+      "level": "intermediate"
+    },
+    {
+      "word": "fitness",
+      "meaning": "건강, 체력",
+      "pronunciation": "ˈfɪtnəs",
+      "type": "noun",
+      "example": "A fitness center is available.",
+      "synonyms": ["health", "strength", "condition"],
+      "level": "intermediate"
+    },
+    {
+      "word": "multiple",
+      "meaning": "여러 개의",
+      "pronunciation": "ˈmʌltɪpəl",
+      "type": "adjective",
+      "example": "Multiple dining options.",
+      "synonyms": ["many", "various", "several"],
+      "level": "intermediate"
+    },
+    {
+      "word": "occupancy",
+      "meaning": "점유, 수용",
+      "pronunciation": "ˈɑːkjəpənsi",
+      "type": "noun",
+      "example": "Double-occupancy rooms.",
+      "synonyms": ["occupation", "tenancy", "residence"],
+      "level": "intermediate"
+    },
+    {
+      "word": "requested",
+      "meaning": "요청된",
+      "pronunciation": "rɪˈkwestɪd",
+      "type": "verb",
+      "example": "Single rooms can be requested.",
+      "synonyms": ["asked for", "sought", "applied for"],
+      "level": "intermediate"
+    },
+    {
+      "word": "topics",
+      "meaning": "주제들",
+      "pronunciation": "ˈtɑːpɪks",
+      "type": "noun",
+      "example": "Workshops covering topics such as communication.",
+      "synonyms": ["subjects", "themes", "issues"],
+      "level": "intermediate"
+    },
+    {
+      "word": "customer",
+      "meaning": "고객",
+      "pronunciation": "ˈkʌstəmər",
+      "type": "noun",
+      "example": "Customer service excellence.",
+      "synonyms": ["client", "buyer", "consumer"],
+      "level": "intermediate"
+    },
+    {
+      "word": "hiking",
+      "meaning": "등산, 하이킹",
+      "pronunciation": "ˈhaɪkɪŋ",
+      "type": "noun",
+      "example": "Recreational activities including hiking.",
+      "synonyms": ["trekking", "walking", "climbing"],
+      "level": "intermediate"
+    },
+    {
+      "word": "sports",
+      "meaning": "스포츠",
+      "pronunciation": "spɔːrts",
+      "type": "noun",
+      "example": "Team sports and evening entertainment.",
+      "synonyms": ["athletics", "games", "competitions"],
+      "level": "intermediate"
+    },
+    {
+      "word": "special",
+      "meaning": "특별한",
+      "pronunciation": "ˈspeʃəl",
+      "type": "adjective",
+      "example": "Special accommodations needed.",
+      "synonyms": ["particular", "unique", "exceptional"],
+      "level": "intermediate"
+    },
+    {
+      "word": "information",
+      "meaning": "정보",
+      "pronunciation": "ˌɪnfərˈmeɪʃən",
+      "type": "noun",
+      "example": "For more information, contact us.",
+      "synonyms": ["data", "details", "facts"],
+      "level": "intermediate"
+    },
+    {
+      "word": "contact",
+      "meaning": "연락하다",
+      "pronunciation": "ˈkɑːntækt",
+      "type": "verb",
+      "example": "Contact Sarah Johnson for more information.",
+      "synonyms": ["reach", "get in touch", "communicate"],
+      "level": "intermediate"
+    },
+    {
+      "word": "environment",
+      "meaning": "환경",
+      "pronunciation": "ɪnˈvaɪrənmənt",
+      "type": "noun",
+      "example": "Today's fast-paced business environment.",
+      "synonyms": ["surroundings", "atmosphere", "setting"],
+      "level": "intermediate"
+    },
+    {
+      "word": "professionals",
+      "meaning": "전문가들",
+      "pronunciation": "prəˈfeʃənəlz",
+      "type": "noun",
+      "example": "Many professionals struggle with balancing tasks.",
+      "synonyms": ["experts", "specialists", "practitioners"],
+      "level": "intermediate"
+    },
+    {
+      "word": "tasks",
+      "meaning": "업무들",
+      "pronunciation": "tæsks",
+      "type": "noun",
+      "example": "Balancing multiple tasks.",
+      "synonyms": ["jobs", "assignments", "duties"],
+      "level": "intermediate"
+    },
+    {
+      "word": "meeting",
+      "meaning": "만나다, 회의",
+      "pronunciation": "ˈmiːtɪŋ",
+      "type": "verb/noun",
+      "example": "Meeting deadlines is important.",
+      "synonyms": ["encountering", "fulfilling", "conference"],
+      "level": "intermediate"
+    },
+    {
+      "word": "however",
+      "meaning": "그러나",
+      "pronunciation": "haʊˈevər",
+      "type": "adverb",
+      "example": "However, by implementing strategies.",
+      "synonyms": ["nevertheless", "but", "yet"],
+      "level": "intermediate"
+    },
+    {
+      "word": "improve",
+      "meaning": "개선하다",
+      "pronunciation": "ɪmˈpruːv",
+      "type": "verb",
+      "example": "Improve your productivity.",
+      "synonyms": ["enhance", "better", "upgrade"],
+      "level": "intermediate"
+    },
+    {
+      "word": "reduce",
+      "meaning": "줄이다",
+      "pronunciation": "rɪˈduːs",
+      "type": "verb",
+      "example": "Reduce stress.",
+      "synonyms": ["decrease", "lower", "minimize"],
+      "level": "intermediate"
+    },
+    {
+      "word": "stress",
+      "meaning": "스트레스",
+      "pronunciation": "stres",
+      "type": "noun",
+      "example": "Reduce stress.",
+      "synonyms": ["pressure", "tension", "anxiety"],
+      "level": "intermediate"
+    },
+    {
+      "word": "useful",
+      "meaning": "유용한",
+      "pronunciation": "ˈjuːsfəl",
+      "type": "adjective",
+      "example": "A useful tool.",
+      "synonyms": ["helpful", "beneficial", "practical"],
+      "level": "intermediate"
+    },
+    {
+      "word": "tool",
+      "meaning": "도구",
+      "pronunciation": "tuːl",
+      "type": "noun",
+      "example": "The Eisenhower Matrix is a useful tool.",
+      "synonyms": ["instrument", "device", "method"],
+      "level": "intermediate"
+    },
+    {
+      "word": "focus",
+      "meaning": "집중하다",
+      "pronunciation": "ˈfoʊkəs",
+      "type": "verb",
+      "example": "Focus on completing tasks.",
+      "synonyms": ["concentrate", "center", "direct"],
+      "level": "intermediate"
+    },
+    {
+      "word": "completing",
+      "meaning": "완료하는",
+      "pronunciation": "kəmˈpliːtɪŋ",
+      "type": "verb",
+      "example": "Completing tasks in the first two categories.",
+      "synonyms": ["finishing", "accomplishing", "ending"],
+      "level": "intermediate"
+    },
+    {
+      "word": "categories",
+      "meaning": "범주들",
+      "pronunciation": "ˈkætəɡɔːriz",
+      "type": "noun",
+      "example": "Tasks in the first two categories.",
+      "synonyms": ["groups", "classes", "types"],
+      "level": "intermediate"
+    },
+    {
+      "word": "moving",
+      "meaning": "이동하는",
+      "pronunciation": "ˈmuːvɪŋ",
+      "type": "verb",
+      "example": "Before moving to less critical items.",
+      "synonyms": ["shifting", "transferring", "proceeding"],
+      "level": "intermediate"
+    },
+    {
+      "word": "items",
+      "meaning": "항목들",
+      "pronunciation": "ˈaɪtəmz",
+      "type": "noun",
+      "example": "Less critical items.",
+      "synonyms": ["things", "objects", "elements"],
+      "level": "intermediate"
+    },
+    {
+      "word": "work",
+      "meaning": "일, 작업",
+      "pronunciation": "wɜːrk",
+      "type": "noun",
+      "example": "Focused work periods.",
+      "synonyms": ["labor", "job", "task"],
+      "level": "intermediate"
+    },
+    {
+      "word": "close",
+      "meaning": "닫다",
+      "pronunciation": "kloʊz",
+      "type": "verb",
+      "example": "Close irrelevant browser tabs.",
+      "synonyms": ["shut", "seal", "end"],
+      "level": "intermediate"
+    },
+    {
+      "word": "browser",
+      "meaning": "브라우저",
+      "pronunciation": "ˈbraʊzər",
+      "type": "noun",
+      "example": "Close irrelevant browser tabs.",
+      "synonyms": ["web browser", "internet browser", "navigator"],
+      "level": "intermediate"
+    },
+    {
+      "word": "tabs",
+      "meaning": "탭들",
+      "pronunciation": "tæbz",
+      "type": "noun",
+      "example": "Close irrelevant browser tabs.",
+      "synonyms": ["windows", "panels", "sections"],
+      "level": "intermediate"
+    },
+    {
+      "word": "create",
+      "meaning": "만들다",
+      "pronunciation": "kriˈeɪt",
+      "type": "verb",
+      "example": "Create a dedicated workspace.",
+      "synonyms": ["make", "build", "establish"],
+      "level": "intermediate"
+    },
+    {
+      "word": "free",
+      "meaning": "자유로운, 무료의",
+      "pronunciation": "friː",
+      "type": "adjective",
+      "example": "Workspace free from interruptions.",
+      "synonyms": ["unrestricted", "available", "unoccupied"],
+      "level": "intermediate"
+    },
+    {
+      "word": "research",
+      "meaning": "연구",
+      "pronunciation": "rɪˈsɜːrtʃ",
+      "type": "noun",
+      "example": "Research shows that it takes 23 minutes.",
+      "synonyms": ["study", "investigation", "inquiry"],
+      "level": "intermediate"
+    },
+    {
+      "word": "shows",
+      "meaning": "보여주다",
+      "pronunciation": "ʃoʊz",
+      "type": "verb",
+      "example": "Research shows that it takes 23 minutes.",
+      "synonyms": ["demonstrates", "indicates", "reveals"],
+      "level": "intermediate"
+    },
+    {
+      "word": "takes",
+      "meaning": "걸리다",
+      "pronunciation": "teɪks",
+      "type": "verb",
+      "example": "It takes 23 minutes to refocus.",
+      "synonyms": ["requires", "needs", "demands"],
+      "level": "intermediate"
+    },
+    {
+      "word": "average",
+      "meaning": "평균의",
+      "pronunciation": "ˈævərɪdʒ",
+      "type": "adjective",
+      "example": "An average of 23 minutes.",
+      "synonyms": ["typical", "normal", "mean"],
+      "level": "intermediate"
+    },
+    {
+      "word": "minutes",
+      "meaning": "분들",
+      "pronunciation": "ˈmɪnɪts",
+      "type": "noun",
+      "example": "23 minutes to refocus.",
+      "synonyms": ["moments", "time", "periods"],
+      "level": "intermediate"
+    },
+    {
+      "word": "after",
+      "meaning": "이후에",
+      "pronunciation": "ˈæftər",
+      "type": "preposition",
+      "example": "After being distracted.",
+      "synonyms": ["following", "subsequent to", "later"],
+      "level": "intermediate"
+    },
+    {
+      "word": "being",
+      "meaning": "존재, 상태",
+      "pronunciation": "ˈbiːɪŋ",
+      "type": "noun",
+      "example": "After being distracted.",
+      "synonyms": ["existence", "presence", "state"],
+      "level": "intermediate"
+    },
+    {
+      "word": "use",
+      "meaning": "사용하다",
+      "pronunciation": "juːz",
+      "type": "verb",
+      "example": "Use time-blocking techniques.",
+      "synonyms": ["utilize", "employ", "apply"],
+      "level": "intermediate"
+    },
+    {
+      "word": "different",
+      "meaning": "다른",
+      "pronunciation": "ˈdɪfərənt",
+      "type": "adjective",
+      "example": "Different types of work.",
+      "synonyms": ["distinct", "various", "separate"],
+      "level": "intermediate"
+    },
+    {
+      "word": "types",
+      "meaning": "유형들",
+      "pronunciation": "taɪps",
+      "type": "noun",
+      "example": "Different types of work.",
+      "synonyms": ["kinds", "categories", "varieties"],
+      "level": "intermediate"
+    },
+    {
+      "word": "meetings",
+      "meaning": "회의들",
+      "pronunciation": "ˈmiːtɪŋz",
+      "type": "noun",
+      "example": "Allocate blocks of time for meetings.",
+      "synonyms": ["conferences", "sessions", "gatherings"],
+      "level": "intermediate"
+    },
+    {
+      "word": "responses",
+      "meaning": "응답들",
+      "pronunciation": "rɪˈspɑːnsɪz",
+      "type": "noun",
+      "example": "Email responses.",
+      "synonyms": ["replies", "answers", "reactions"],
+      "level": "intermediate"
+    },
+    {
+      "word": "breaks",
+      "meaning": "휴식들",
+      "pronunciation": "breɪks",
+      "type": "noun",
+      "example": "Allocate blocks of time for breaks.",
+      "synonyms": ["rests", "pauses", "intermissions"],
+      "level": "intermediate"
+    },
+    {
+      "word": "helps",
+      "meaning": "도와주다",
+      "pronunciation": "helps",
+      "type": "verb",
+      "example": "This approach helps you maintain momentum.",
+      "synonyms": ["assists", "aids", "supports"],
+      "level": "intermediate"
+    },
+    {
+      "word": "fill",
+      "meaning": "채우다",
+      "pronunciation": "fɪl",
+      "type": "verb",
+      "example": "Tasks from expanding to fill available time.",
+      "synonyms": ["occupy", "complete", "satisfy"],
+      "level": "intermediate"
+    },
+    {
+      "word": "finally",
+      "meaning": "마지막으로",
+      "pronunciation": "ˈfaɪnəli",
+      "type": "adverb",
+      "example": "Finally, learn to say no.",
+      "synonyms": ["lastly", "ultimately", "in conclusion"],
+      "level": "intermediate"
+    },
+    {
+      "word": "learn",
+      "meaning": "배우다",
+      "pronunciation": "lɜːrn",
+      "type": "verb",
+      "example": "Learn to say no.",
+      "synonyms": ["study", "acquire", "master"],
+      "level": "intermediate"
+    },
+    {
+      "word": "say",
+      "meaning": "말하다",
+      "pronunciation": "seɪ",
+      "type": "verb",
+      "example": "Learn to say no.",
+      "synonyms": ["speak", "tell", "express"],
+      "level": "intermediate"
+    },
+    {
+      "word": "requests",
+      "meaning": "요청들",
+      "pronunciation": "rɪˈkwests",
+      "type": "noun",
+      "example": "Non-essential requests.",
+      "synonyms": ["asks", "appeals", "petitions"],
+      "level": "intermediate"
+    },
+    {
+      "word": "while",
+      "meaning": "동안",
+      "pronunciation": "waɪl",
+      "type": "conjunction",
+      "example": "While being helpful is valuable.",
+      "synonyms": ["during", "as", "whereas"],
+      "level": "intermediate"
+    },
+    {
+      "word": "helpful",
+      "meaning": "도움이 되는",
+      "pronunciation": "ˈhelpfəl",
+      "type": "adjective",
+      "example": "Being helpful is valuable.",
+      "synonyms": ["useful", "beneficial", "assisting"],
+      "level": "intermediate"
+    },
+    {
+      "word": "valuable",
+      "meaning": "가치 있는",
+      "pronunciation": "ˈvæljuəbəl",
+      "type": "adjective",
+      "example": "Being helpful is valuable.",
+      "synonyms": ["precious", "important", "worthwhile"],
+      "level": "intermediate"
+    },
+    {
+      "word": "leads",
+      "meaning": "이끌다, 초래하다",
+      "pronunciation": "liːdz",
+      "type": "verb",
+      "example": "Overcommitting leads to burnout.",
+      "synonyms": ["results in", "causes", "brings about"],
+      "level": "intermediate"
+    },
+    {
+      "word": "poor",
+      "meaning": "나쁜, 가난한",
+      "pronunciation": "pʊr",
+      "type": "adjective",
+      "example": "Poor quality work.",
+      "synonyms": ["bad", "inferior", "substandard"],
+      "level": "intermediate"
+    },
+    {
+      "word": "quality",
+      "meaning": "품질",
+      "pronunciation": "ˈkwɑːlɪti",
+      "type": "noun",
+      "example": "Poor quality work.",
+      "synonyms": ["standard", "excellence", "grade"],
+      "level": "intermediate"
+    },
+    {
+      "word": "each",
+      "meaning": "각각의",
+      "pronunciation": "iːtʃ",
+      "type": "determiner",
+      "example": "Evaluate each request.",
+      "synonyms": ["every", "individual", "per"],
+      "level": "intermediate"
+    },
+    {
+      "word": "request",
+      "meaning": "요청",
+      "pronunciation": "rɪˈkwest",
+      "type": "noun",
+      "example": "Evaluate each request.",
+      "synonyms": ["appeal", "ask", "petition"],
+      "level": "intermediate"
+    },
+    {
+      "word": "against",
+      "meaning": "반대하여",
+      "pronunciation": "əˈɡenst",
+      "type": "preposition",
+      "example": "Against your current priorities.",
+      "synonyms": ["versus", "opposed to", "contrary to"],
+      "level": "intermediate"
+    },
+    {
+      "word": "current",
+      "meaning": "현재의",
+      "pronunciation": "ˈkɜːrənt",
+      "type": "adjective",
+      "example": "Your current priorities.",
+      "synonyms": ["present", "ongoing", "existing"],
+      "level": "intermediate"
+    },
+    {
+      "word": "only",
+      "meaning": "오직",
+      "pronunciation": "ˈoʊnli",
+      "type": "adverb",
+      "example": "Only accept those that align.",
+      "synonyms": ["solely", "exclusively", "merely"],
+      "level": "intermediate"
+    },
+    {
+      "word": "accept",
+      "meaning": "받아들이다",
+      "pronunciation": "ækˈsept",
+      "type": "verb",
+      "example": "Only accept those that align.",
+      "synonyms": ["take", "receive", "agree to"],
+      "level": "intermediate"
+    },
+    {
+      "word": "those",
+      "meaning": "그것들",
+      "pronunciation": "ðoʊz",
+      "type": "pronoun",
+      "example": "Only accept those that align.",
+      "synonyms": ["these", "them", "ones"],
+      "level": "intermediate"
+    },
+    {
+      "word": "these",
+      "meaning": "이것들",
+      "pronunciation": "ðiːz",
+      "type": "pronoun",
+      "example": "By consistently applying these strategies.",
+      "synonyms": ["those", "them", "ones"],
+      "level": "intermediate"
+    },
+    {
+      "word": "better",
+      "meaning": "더 나은",
+      "pronunciation": "ˈbetər",
+      "type": "adjective",
+      "example": "Achieve better results.",
+      "synonyms": ["superior", "improved", "preferable"],
+      "level": "intermediate"
+    },
+    {
+      "word": "results",
+      "meaning": "결과들",
+      "pronunciation": "rɪˈzʌlts",
+      "type": "noun",
+      "example": "Achieve better results.",
+      "synonyms": ["outcomes", "consequences", "findings"],
+      "level": "intermediate"
+    }
+  ]
+}
+
