@@ -1,0 +1,687 @@
+{
+  "words": [
+    {
+      "word": "若者",
+      "meaning": "젊은이",
+      "pronunciation": "わかもの",
+      "hiragana": "わかもの",
+      "type": "word",
+      "kanjiComponents": [
+        "若",
+        "者"
+      ]
+    },
+    {
+      "word": "志向",
+      "meaning": "지향",
+      "pronunciation": "しこう",
+      "hiragana": "しこう",
+      "type": "word",
+      "kanjiComponents": [
+        "志",
+        "向"
+      ]
+    },
+    {
+      "word": "所有物",
+      "meaning": "소유물",
+      "pronunciation": "しょゆうぶつ",
+      "hiragana": "しょゆうぶつ",
+      "type": "word",
+      "kanjiComponents": [
+        "所",
+        "有",
+        "物"
+      ]
+    },
+    {
+      "word": "象徴",
+      "meaning": "상징",
+      "pronunciation": "しょうちょう",
+      "hiragana": "しょうちょう",
+      "type": "word",
+      "kanjiComponents": [
+        "象",
+        "徴"
+      ]
+    },
+    {
+      "word": "必要",
+      "meaning": "필요",
+      "pronunciation": "ひつよう",
+      "hiragana": "ひつよう",
+      "type": "word",
+      "kanjiComponents": [
+        "必",
+        "要"
+      ]
+    },
+    {
+      "word": "最低限",
+      "meaning": "최저한",
+      "pronunciation": "さいていげん",
+      "hiragana": "さいていげん",
+      "type": "word",
+      "kanjiComponents": [
+        "最",
+        "低",
+        "限"
+      ]
+    },
+    {
+      "word": "精神的",
+      "meaning": "정신적",
+      "pronunciation": "せいしんてき",
+      "hiragana": "せいしんてき",
+      "type": "word",
+      "kanjiComponents": [
+        "精",
+        "神",
+        "的"
+      ]
+    },
+    {
+      "word": "余裕",
+      "meaning": "여유",
+      "pronunciation": "よゆう",
+      "hiragana": "よゆう",
+      "type": "word",
+      "kanjiComponents": [
+        "余",
+        "裕"
+      ]
+    },
+    {
+      "word": "重視",
+      "meaning": "중시",
+      "pronunciation": "じゅうし",
+      "hiragana": "じゅうし",
+      "type": "word",
+      "kanjiComponents": [
+        "重",
+        "視"
+      ]
+    },
+    {
+      "word": "価値観",
+      "meaning": "가치관",
+      "pronunciation": "かちかん",
+      "hiragana": "かちかん",
+      "type": "word",
+      "kanjiComponents": [
+        "価",
+        "値",
+        "観"
+      ]
+    },
+    {
+      "word": "注目",
+      "meaning": "주목",
+      "pronunciation": "ちゅうもく",
+      "hiragana": "ちゅうもく",
+      "type": "word",
+      "kanjiComponents": [
+        "注",
+        "目"
+      ]
+    },
+    {
+      "word": "傾向",
+      "meaning": "경향",
+      "pronunciation": "けいこう",
+      "hiragana": "けいこう",
+      "type": "word",
+      "kanjiComponents": [
+        "傾",
+        "向"
+      ]
+    },
+    {
+      "word": "流行",
+      "meaning": "유행",
+      "pronunciation": "りゅうこう",
+      "hiragana": "りゅうこう",
+      "type": "word",
+      "kanjiComponents": [
+        "流",
+        "行"
+      ]
+    },
+    {
+      "word": "背景",
+      "meaning": "배경",
+      "pronunciation": "はいけい",
+      "hiragana": "はいけい",
+      "type": "word",
+      "kanjiComponents": [
+        "背",
+        "景"
+      ]
+    },
+    {
+      "word": "進展",
+      "meaning": "진전",
+      "pronunciation": "しんてん",
+      "hiragana": "しんてん",
+      "type": "word",
+      "kanjiComponents": [
+        "進",
+        "展"
+      ]
+    },
+    {
+      "word": "将来",
+      "meaning": "장래",
+      "pronunciation": "しょうらい",
+      "hiragana": "しょうらい",
+      "type": "word",
+      "kanjiComponents": [
+        "将",
+        "来"
+      ]
+    },
+    {
+      "word": "不安",
+      "meaning": "불안",
+      "pronunciation": "ふあん",
+      "hiragana": "ふあん",
+      "type": "word",
+      "kanjiComponents": [
+        "不",
+        "安"
+      ]
+    },
+    {
+      "word": "複雑",
+      "meaning": "복잡",
+      "pronunciation": "ふくざつ",
+      "hiragana": "ふくざつ",
+      "type": "word",
+      "kanjiComponents": [
+        "複",
+        "雑"
+      ]
+    },
+    {
+      "word": "技術",
+      "meaning": "기술",
+      "pronunciation": "ぎじゅつ",
+      "hiragana": "ぎじゅつ",
+      "type": "word",
+      "kanjiComponents": [
+        "技",
+        "術"
+      ]
+    },
+    {
+      "word": "普及",
+      "meaning": "보급",
+      "pronunciation": "ふきゅう",
+      "hiragana": "ふきゅう",
+      "type": "word",
+      "kanjiComponents": [
+        "普",
+        "及"
+      ]
+    },
+    {
+      "word": "物質的",
+      "meaning": "물질적",
+      "pronunciation": "ぶっしつてき",
+      "hiragana": "ぶっしつてき",
+      "type": "word",
+      "kanjiComponents": [
+        "物",
+        "質",
+        "的"
+      ]
+    },
+    {
+      "word": "所有",
+      "meaning": "소유",
+      "pronunciation": "しょゆう",
+      "hiragana": "しょゆう",
+      "type": "word",
+      "kanjiComponents": [
+        "所",
+        "有"
+      ]
+    },
+    {
+      "word": "必要性",
+      "meaning": "필요성",
+      "pronunciation": "ひつようせい",
+      "hiragana": "ひつようせい",
+      "type": "word",
+      "kanjiComponents": [
+        "必",
+        "要",
+        "性"
+      ]
+    },
+    {
+      "word": "減少",
+      "meaning": "감소",
+      "pronunciation": "げんしょう",
+      "hiragana": "げんしょう",
+      "type": "word",
+      "kanjiComponents": [
+        "減",
+        "少"
+      ]
+    },
+    {
+      "word": "保存",
+      "meaning": "보존",
+      "pronunciation": "ほぞん",
+      "hiragana": "ほぞん",
+      "type": "word",
+      "kanjiComponents": [
+        "保",
+        "存"
+      ]
+    },
+    {
+      "word": "管理",
+      "meaning": "관리",
+      "pronunciation": "かんり",
+      "hiragana": "かんり",
+      "type": "word",
+      "kanjiComponents": [
+        "管",
+        "理"
+      ]
+    },
+    {
+      "word": "決済",
+      "meaning": "결제",
+      "pronunciation": "けっさい",
+      "hiragana": "けっさい",
+      "type": "word",
+      "kanjiComponents": [
+        "決",
+        "済"
+      ]
+    },
+    {
+      "word": "生活空間",
+      "meaning": "생활 공간",
+      "pronunciation": "せいかつくうかん",
+      "hiragana": "せいかつくうかん",
+      "type": "word",
+      "kanjiComponents": [
+        "生",
+        "活",
+        "空",
+        "間"
+      ]
+    },
+    {
+      "word": "物理的",
+      "meaning": "물리적",
+      "pronunciation": "ぶつりてき",
+      "hiragana": "ぶつりてき",
+      "type": "word",
+      "kanjiComponents": [
+        "物",
+        "理",
+        "的"
+      ]
+    },
+    {
+      "word": "負担",
+      "meaning": "부담",
+      "pronunciation": "ふたん",
+      "hiragana": "ふたん",
+      "type": "word",
+      "kanjiComponents": [
+        "負",
+        "担"
+      ]
+    },
+    {
+      "word": "大幅",
+      "meaning": "대폭",
+      "pronunciation": "おおはば",
+      "hiragana": "おおはば",
+      "type": "word",
+      "kanjiComponents": [
+        "大",
+        "幅"
+      ]
+    },
+    {
+      "word": "軽減",
+      "meaning": "경감",
+      "pronunciation": "けいげん",
+      "hiragana": "けいげん",
+      "type": "word",
+      "kanjiComponents": [
+        "軽",
+        "減"
+      ]
+    },
+    {
+      "word": "情報量",
+      "meaning": "정보량",
+      "pronunciation": "じょうほうりょう",
+      "hiragana": "じょうほうりょう",
+      "type": "word",
+      "kanjiComponents": [
+        "情",
+        "報",
+        "量"
+      ]
+    },
+    {
+      "word": "増加",
+      "meaning": "증가",
+      "pronunciation": "ぞうか",
+      "hiragana": "ぞうか",
+      "type": "word",
+      "kanjiComponents": [
+        "増",
+        "加"
+      ]
+    },
+    {
+      "word": "負荷",
+      "meaning": "부하",
+      "pronunciation": "ふか",
+      "hiragana": "ふか",
+      "type": "word",
+      "kanjiComponents": [
+        "負",
+        "荷"
+      ]
+    },
+    {
+      "word": "更新",
+      "meaning": "갱신",
+      "pronunciation": "こうしん",
+      "hiragana": "こうしん",
+      "type": "word",
+      "kanjiComponents": [
+        "更",
+        "新"
+      ]
+    },
+    {
+      "word": "選択",
+      "meaning": "선택",
+      "pronunciation": "せんたく",
+      "hiragana": "せんたく",
+      "type": "word",
+      "kanjiComponents": [
+        "選",
+        "択"
+      ]
+    },
+    {
+      "word": "平穏",
+      "meaning": "평온",
+      "pronunciation": "へいおん",
+      "hiragana": "へいおん",
+      "type": "word",
+      "kanjiComponents": [
+        "平",
+        "穏"
+      ]
+    },
+    {
+      "word": "手段",
+      "meaning": "수단",
+      "pronunciation": "しゅだん",
+      "hiragana": "しゅだん",
+      "type": "word",
+      "kanjiComponents": [
+        "手",
+        "段"
+      ]
+    },
+    {
+      "word": "評価",
+      "meaning": "평가",
+      "pronunciation": "ひょうか",
+      "hiragana": "ひょうか",
+      "type": "word",
+      "kanjiComponents": [
+        "評",
+        "価"
+      ]
+    },
+    {
+      "word": "不透明感",
+      "meaning": "불투명감",
+      "pronunciation": "ふとうめいかん",
+      "hiragana": "ふとうめいかん",
+      "type": "word",
+      "kanjiComponents": [
+        "不",
+        "透",
+        "明",
+        "感"
+      ]
+    },
+    {
+      "word": "雇用状況",
+      "meaning": "고용 상황",
+      "pronunciation": "こようじょうきょう",
+      "hiragana": "こようじょうきょう",
+      "type": "word",
+      "kanjiComponents": [
+        "雇",
+        "用",
+        "状",
+        "況"
+      ]
+    },
+    {
+      "word": "急速",
+      "meaning": "급속",
+      "pronunciation": "きゅうそく",
+      "hiragana": "きゅうそく",
+      "type": "word",
+      "kanjiComponents": [
+        "急",
+        "速"
+      ]
+    },
+    {
+      "word": "変化",
+      "meaning": "변화",
+      "pronunciation": "へんか",
+      "hiragana": "へんか",
+      "type": "word",
+      "kanjiComponents": [
+        "変",
+        "化"
+      ]
+    },
+    {
+      "word": "社会環境",
+      "meaning": "사회 환경",
+      "pronunciation": "しゃかいかんきょう",
+      "hiragana": "しゃかいかんきょう",
+      "type": "word",
+      "kanjiComponents": [
+        "社",
+        "会",
+        "環",
+        "境"
+      ]
+    },
+    {
+      "word": "長期的",
+      "meaning": "장기적",
+      "pronunciation": "ちょうきてき",
+      "hiragana": "ちょうきてき",
+      "type": "word",
+      "kanjiComponents": [
+        "長",
+        "期",
+        "的"
+      ]
+    },
+    {
+      "word": "資産形成",
+      "meaning": "자산 형성",
+      "pronunciation": "しさんけいせい",
+      "hiragana": "しさんけいせい",
+      "type": "word",
+      "kanjiComponents": [
+        "資",
+        "産",
+        "形",
+        "成"
+      ]
+    },
+    {
+      "word": "柔軟",
+      "meaning": "유연",
+      "pronunciation": "じゅうなん",
+      "hiragana": "じゅうなん",
+      "type": "word",
+      "kanjiComponents": [
+        "柔",
+        "軟"
+      ]
+    },
+    {
+      "word": "対応",
+      "meaning": "대응",
+      "pronunciation": "たいおう",
+      "hiragana": "たいおう",
+      "type": "word",
+      "kanjiComponents": [
+        "対",
+        "応"
+      ]
+    },
+    {
+      "word": "行為",
+      "meaning": "행위",
+      "pronunciation": "こうい",
+      "hiragana": "こうい",
+      "type": "word",
+      "kanjiComponents": [
+        "行",
+        "為"
+      ]
+    },
+    {
+      "word": "再定義",
+      "meaning": "재정의",
+      "pronunciation": "さいていぎ",
+      "hiragana": "さいていぎ",
+      "type": "word",
+      "kanjiComponents": [
+        "再",
+        "定",
+        "義"
+      ]
+    },
+    {
+      "word": "主体的",
+      "meaning": "주체적",
+      "pronunciation": "しゅたいてき",
+      "hiragana": "しゅたいてき",
+      "type": "word",
+      "kanjiComponents": [
+        "主",
+        "体",
+        "的"
+      ]
+    },
+    {
+      "word": "姿勢",
+      "meaning": "자세",
+      "pronunciation": "しせい",
+      "hiragana": "しせい",
+      "type": "word",
+      "kanjiComponents": [
+        "姿",
+        "勢"
+      ]
+    },
+    {
+      "word": "批判",
+      "meaning": "비판",
+      "pronunciation": "ひはん",
+      "hiragana": "ひはん",
+      "type": "word",
+      "kanjiComponents": [
+        "批",
+        "判"
+      ]
+    },
+    {
+      "word": "極端",
+      "meaning": "극단",
+      "pronunciation": "きょくたん",
+      "hiragana": "きょくたん",
+      "type": "word",
+      "kanjiComponents": [
+        "極",
+        "端"
+      ]
+    },
+    {
+      "word": "指摘",
+      "meaning": "지적",
+      "pronunciation": "してき",
+      "hiragana": "してき",
+      "type": "word",
+      "kanjiComponents": [
+        "指",
+        "摘"
+      ]
+    },
+    {
+      "word": "一般化",
+      "meaning": "일반화",
+      "pronunciation": "いっぱんか",
+      "hiragana": "いっぱんか",
+      "type": "word",
+      "kanjiComponents": [
+        "一",
+        "般",
+        "化"
+      ]
+    },
+    {
+      "word": "危険性",
+      "meaning": "위험성",
+      "pronunciation": "きけんせい",
+      "hiragana": "きけんせい",
+      "type": "word",
+      "kanjiComponents": [
+        "危",
+        "険",
+        "性"
+      ]
+    },
+    {
+      "word": "無視",
+      "meaning": "무시",
+      "pronunciation": "むし",
+      "hiragana": "むし",
+      "type": "word",
+      "kanjiComponents": [
+        "無",
+        "視"
+      ]
+    },
+    {
+      "word": "議論",
+      "meaning": "논의",
+      "pronunciation": "ぎろん",
+      "hiragana": "ぎろん",
+      "type": "word",
+      "kanjiComponents": [
+        "議",
+        "論"
+      ]
+    }
+  ]
+}

@@ -92,3 +92,5 @@ async function searchNaverJapaneseDictionaryDirect(word) {
 - 프로덕션 환경에서는 백엔드 서버를 통해 크롤링하는 것을 권장합니다
 
 
+
+

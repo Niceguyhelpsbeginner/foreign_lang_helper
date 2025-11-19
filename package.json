@@ -1,0 +1,22 @@
+{
+  "name": "foreign_lang_helper",
+  "version": "1.0.0",
+  "description": "learn foreign language quickly",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Niceguyhelpsbeginner/foreign_lang_helper.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Niceguyhelpsbeginner/foreign_lang_helper/issues"
+  },
+  "homepage": "https://github.com/Niceguyhelpsbeginner/foreign_lang_helper#readme"
+}

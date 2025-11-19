@@ -11,6 +11,10 @@
         <header>
             <h1>🌍 외국어 학습 도우미</h1>
             <div class="header-actions">
+                <span id="userInfo" style="display: none; margin-right: 1rem; color: var(--text-primary); font-weight: 600;"></span>
+                <button class="btn-icon" id="loginBtn" title="로그인" style="display: none;">🔐</button>
+                <button class="btn-icon" id="logoutBtn" title="로그아웃" style="display: none;">🚪</button>
+                <button class="btn-icon" id="accountBtn" title="계정 관리" style="display: none;">👤</button>
                 <button class="btn-icon" id="settingsBtn" title="설정">⚙️</button>
             </div>
         </header>
@@ -76,6 +80,22 @@
                     </div>
                 </div>
                 <div class="flashcard-container">
+                    <!-- 일본어 플래시카드 퀴즈 -->
+                    <div id="flashcardQuiz" style="display: none;">
+                        <div class="flashcard-quiz-card">
+                            <div class="quiz-word-section">
+                                <div class="word-display" id="flashcardWord">단어</div>
+                                <div class="word-hiragana" id="flashcardHiragana" style="display: none;"></div>
+                            </div>
+                            <div class="quiz-question-text">이 단어의 뜻은?</div>
+                            <div class="flashcard-options-container" id="flashcardOptions">
+                                <!-- 선택지가 여기에 동적으로 추가됩니다 -->
+                            </div>
+                            <div id="flashcardFeedback" style="display: none; margin-top: 1rem;"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- 기존 플래시카드 (다른 언어용) -->
                     <div class="flashcard" id="flashcard">
                         <div class="flashcard-front">
                             <div class="word-display" id="wordDisplay">단어를 추가해주세요</div>
@@ -94,7 +114,7 @@
                     </div>
                     <button class="btn" id="nextBtn">다음 ▶</button>
                 </div>
-                <div class="learn-actions">
+                <div class="learn-actions" id="learnActions" style="display: none;">
                     <button class="btn btn-success" id="knowBtn">알고 있음 ✓</button>
                     <button class="btn btn-danger" id="dontKnowBtn">모름 ✗</button>
                 </div>
@@ -184,8 +204,7 @@
                     </div>
                     <div class="api-key-info">
                         <small style="color: var(--text-secondary);">
-                            💡 네이버 검색 API 사용 (한국어, 일본어 모두 지원)<br>
-                            설정에서 네이버 API 키를 입력하세요
+                            💡 로컬 사전 사용 (vocabulary/dictionary.json)
                         </small>
                     </div>
                 </div>
@@ -331,6 +350,112 @@
             </div>
         </div>
 
+        <!-- 로그인 모달 -->
+        <div class="modal" id="loginModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>로그인</h3>
+                    <button class="modal-close" onclick="closeModal('loginModal')">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="loginEmail">이메일 또는 사용자명:</label>
+                        <input type="text" id="loginEmail" placeholder="이메일 또는 사용자명 입력">
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">비밀번호:</label>
+                        <input type="password" id="loginPassword" placeholder="비밀번호 입력">
+                    </div>
+                    <div id="loginError" style="color: var(--danger-color); margin-top: 0.5rem; display: none;"></div>
+                    <div class="modal-actions">
+                        <button class="btn btn-primary" onclick="handleLogin()">로그인</button>
+                        <button class="btn btn-secondary" onclick="showSignupModal()">회원가입</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 회원가입 모달 -->
+        <div class="modal" id="signupModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>회원가입</h3>
+                    <button class="modal-close" onclick="closeModal('signupModal')">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="signupUsername">사용자명:</label>
+                        <input type="text" id="signupUsername" placeholder="사용자명 입력">
+                    </div>
+                    <div class="form-group">
+                        <label for="signupEmail">이메일:</label>
+                        <input type="email" id="signupEmail" placeholder="이메일 입력">
+                    </div>
+                    <div class="form-group">
+                        <label for="signupPassword">비밀번호:</label>
+                        <input type="password" id="signupPassword" placeholder="비밀번호 입력">
+                    </div>
+                    <div class="form-group">
+                        <label for="signupPasswordConfirm">비밀번호 확인:</label>
+                        <input type="password" id="signupPasswordConfirm" placeholder="비밀번호 다시 입력">
+                    </div>
+                    <div id="signupError" style="color: var(--danger-color); margin-top: 0.5rem; display: none;"></div>
+                    <div class="modal-actions">
+                        <button class="btn btn-primary" onclick="handleSignup()">회원가입</button>
+                        <button class="btn btn-secondary" onclick="showLoginModal()">로그인</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 계정 관리 모달 -->
+        <div class="modal" id="accountModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>계정 관리</h3>
+                    <button class="modal-close" onclick="closeModal('accountModal')">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div id="accountInfo" style="margin-bottom: 1.5rem;">
+                        <p><strong>사용자명:</strong> <span id="accountUsername"></span></p>
+                        <p><strong>이메일:</strong> <span id="accountEmail"></span></p>
+                    </div>
+                    
+                    <div class="account-section">
+                        <h4>비밀번호 변경</h4>
+                        <div class="form-group">
+                            <label for="currentPassword">현재 비밀번호:</label>
+                            <input type="password" id="currentPassword" placeholder="현재 비밀번호 입력">
+                        </div>
+                        <div class="form-group">
+                            <label for="newPassword">새 비밀번호:</label>
+                            <input type="password" id="newPassword" placeholder="새 비밀번호 입력">
+                        </div>
+                        <div class="form-group">
+                            <label for="newPasswordConfirm">새 비밀번호 확인:</label>
+                            <input type="password" id="newPasswordConfirm" placeholder="새 비밀번호 다시 입력">
+                        </div>
+                        <div id="passwordChangeError" style="color: var(--danger-color); margin-top: 0.5rem; display: none;"></div>
+                        <div id="passwordChangeSuccess" style="color: var(--success-color); margin-top: 0.5rem; display: none;"></div>
+                        <button class="btn btn-primary" onclick="handlePasswordChange()">비밀번호 변경</button>
+                    </div>
+
+                    <div class="account-section" style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border-color);">
+                        <h4 style="color: var(--danger-color);">위험한 작업</h4>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">
+                            회원 탈퇴 시 모든 데이터가 삭제되며 복구할 수 없습니다.
+                        </p>
+                        <div class="form-group">
+                            <label for="deletePasswordConfirm">비밀번호 확인:</label>
+                            <input type="password" id="deletePasswordConfirm" placeholder="탈퇴를 위해 비밀번호 입력">
+                        </div>
+                        <div id="deleteError" style="color: var(--danger-color); margin-top: 0.5rem; display: none;"></div>
+                        <button class="btn btn-danger" onclick="handleAccountDeletion()">회원 탈퇴</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- 설정 모달 -->
         <div class="modal" id="settingsModal">
             <div class="modal-content">
@@ -367,22 +492,11 @@
                             <option value="zh">중국어</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label>네이버 API 클라이언트 ID</label>
-                        <input type="text" id="naverClientId" placeholder="네이버 개발자 센터에서 발급받은 Client ID">
-                        <small style="color: var(--text-secondary); display: block; margin-top: 0.25rem;">
-                            <a href="https://developers.naver.com/apps/#/register" target="_blank">네이버 개발자 센터</a>에서 API 키 발급
-                        </small>
-                    </div>
-                    <div class="form-group">
-                        <label>네이버 API 클라이언트 Secret</label>
-                        <input type="password" id="naverClientSecret" placeholder="네이버 개발자 센터에서 발급받은 Client Secret">
-                    </div>
                     <div class="form-group" style="padding: 1rem; background: #e0f2fe; border-radius: 8px; margin-top: 1rem;">
                         <strong style="color: #0369a1;">✅ 일본어 사전 기능</strong>
                         <p style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.9rem;">
-                            네이버 검색 API를 사용하여 일본어 단어를 검색합니다.<br>
-                            한국어와 일본어 모두 검색 가능합니다.
+                            로컬 사전 파일(vocabulary/dictionary.json)을 사용합니다.<br>
+                            독해 문제를 풀고 나면 지문의 단어에 마우스를 올려 뜻을 확인할 수 있습니다.
                         </p>
                     </div>
                 </div>

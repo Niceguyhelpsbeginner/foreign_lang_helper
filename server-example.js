@@ -80,3 +80,5 @@ app.listen(PORT, () => {
 // 3. 프론트엔드에서 http://localhost:3000/api/japanese-dict/단어 로 요청
 
 
+
+

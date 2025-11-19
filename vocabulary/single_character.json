@@ -1,0 +1,1832 @@
+{
+  "words": [
+    {
+      "word": "学",
+      "meaning": "배울 학",
+      "pronunciation": "がく",
+      "hiragana": "がく",
+      "type": "kanji",
+      "onYomi": [
+        "がく"
+      ],
+      "kunYomi": [
+        "まな.ぶ"
+      ],
+      "kanjiMeaning": "배울 학"
+    },
+    {
+      "word": "間",
+      "meaning": "사이 간",
+      "pronunciation": "あいだ",
+      "hiragana": "あいだ",
+      "type": "kanji",
+      "onYomi": [
+        "かん",
+        "けん"
+      ],
+      "kunYomi": [
+        "あいだ",
+        "ま"
+      ],
+      "kanjiMeaning": "사이 간"
+    },
+    {
+      "word": "若",
+      "meaning": "젊을 약",
+      "pronunciation": "じゃく",
+      "hiragana": "じゃく",
+      "type": "kanji",
+      "onYomi": [
+        "じゃく",
+        "にゃく"
+      ],
+      "kunYomi": [
+        "わか.い",
+        "も.しくは"
+      ],
+      "kanjiMeaning": "젊을 약"
+    },
+    {
+      "word": "者",
+      "meaning": "사람 자",
+      "pronunciation": "しゃ",
+      "hiragana": "しゃ",
+      "type": "kanji",
+      "onYomi": [
+        "しゃ"
+      ],
+      "kunYomi": [
+        "もの"
+      ],
+      "kanjiMeaning": "사람 자"
+    },
+    {
+      "word": "志",
+      "meaning": "뜻 지",
+      "pronunciation": "し",
+      "hiragana": "し",
+      "type": "kanji",
+      "onYomi": [
+        "し"
+      ],
+      "kunYomi": [
+        "こころざ.す",
+        "こころざし"
+      ],
+      "kanjiMeaning": "뜻 지"
+    },
+    {
+      "word": "向",
+      "meaning": "향할 향",
+      "pronunciation": "こう",
+      "hiragana": "こう",
+      "type": "kanji",
+      "onYomi": [
+        "こう",
+        "きょう"
+      ],
+      "kunYomi": [
+        "む.く",
+        "む.かう",
+        "む.ける"
+      ],
+      "kanjiMeaning": "향할 향"
+    },
+    {
+      "word": "所",
+      "meaning": "곳 소",
+      "pronunciation": "しょ",
+      "hiragana": "しょ",
+      "type": "kanji",
+      "onYomi": [
+        "しょ"
+      ],
+      "kunYomi": [
+        "ところ",
+        "どころ"
+      ],
+      "kanjiMeaning": "곳 소"
+    },
+    {
+      "word": "有",
+      "meaning": "있을 유",
+      "pronunciation": "ゆう",
+      "hiragana": "ゆう",
+      "type": "kanji",
+      "onYomi": [
+        "ゆう",
+        "う"
+      ],
+      "kunYomi": [
+        "あ.る"
+      ],
+      "kanjiMeaning": "있을 유"
+    },
+    {
+      "word": "物",
+      "meaning": "물건 물",
+      "pronunciation": "ぶつ",
+      "hiragana": "ぶつ",
+      "type": "kanji",
+      "onYomi": [
+        "ぶつ",
+        "もつ"
+      ],
+      "kunYomi": [
+        "もの"
+      ],
+      "kanjiMeaning": "물건 물"
+    },
+    {
+      "word": "象",
+      "meaning": "코끼리 상",
+      "pronunciation": "しょう",
+      "hiragana": "しょう",
+      "type": "kanji",
+      "onYomi": [
+        "しょう",
+        "ぞう"
+      ],
+      "kunYomi": [
+        "かたど.る"
+      ],
+      "kanjiMeaning": "코끼리 상"
+    },
+    {
+      "word": "徴",
+      "meaning": "징표 징",
+      "pronunciation": "ちょう",
+      "hiragana": "ちょう",
+      "type": "kanji",
+      "onYomi": [
+        "ちょう"
+      ],
+      "kunYomi": [
+        "しるし"
+      ],
+      "kanjiMeaning": "징표 징"
+    },
+    {
+      "word": "必",
+      "meaning": "반드시 필",
+      "pronunciation": "ひつ",
+      "hiragana": "ひつ",
+      "type": "kanji",
+      "onYomi": [
+        "ひつ"
+      ],
+      "kunYomi": [
+        "かなら.ず"
+      ],
+      "kanjiMeaning": "반드시 필"
+    },
+    {
+      "word": "要",
+      "meaning": "요할 요",
+      "pronunciation": "よう",
+      "hiragana": "よう",
+      "type": "kanji",
+      "onYomi": [
+        "よう"
+      ],
+      "kunYomi": [
+        "い.る",
+        "かなめ"
+      ],
+      "kanjiMeaning": "요할 요"
+    },
+    {
+      "word": "最",
+      "meaning": "가장 최",
+      "pronunciation": "さい",
+      "hiragana": "さい",
+      "type": "kanji",
+      "onYomi": [
+        "さい"
+      ],
+      "kunYomi": [
+        "もっと.も"
+      ],
+      "kanjiMeaning": "가장 최"
+    },
+    {
+      "word": "低",
+      "meaning": "낮을 저",
+      "pronunciation": "てい",
+      "hiragana": "てい",
+      "type": "kanji",
+      "onYomi": [
+        "てい"
+      ],
+      "kunYomi": [
+        "ひく.い",
+        "ひく.める"
+      ],
+      "kanjiMeaning": "낮을 저"
+    },
+    {
+      "word": "限",
+      "meaning": "한계 한",
+      "pronunciation": "げん",
+      "hiragana": "げん",
+      "type": "kanji",
+      "onYomi": [
+        "げん"
+      ],
+      "kunYomi": [
+        "かぎ.る",
+        "かぎ.り"
+      ],
+      "kanjiMeaning": "한계 한"
+    },
+    {
+      "word": "精",
+      "meaning": "정할 정",
+      "pronunciation": "せい",
+      "hiragana": "せい",
+      "type": "kanji",
+      "onYomi": [
+        "せい",
+        "しょう"
+      ],
+      "kunYomi": [
+        "しら.げる"
+      ],
+      "kanjiMeaning": "정할 정"
+    },
+    {
+      "word": "神",
+      "meaning": "신 신",
+      "pronunciation": "しん",
+      "hiragana": "しん",
+      "type": "kanji",
+      "onYomi": [
+        "しん",
+        "じん"
+      ],
+      "kunYomi": [
+        "かみ"
+      ],
+      "kanjiMeaning": "신 신"
+    },
+    {
+      "word": "的",
+      "meaning": "과녁 적",
+      "pronunciation": "てき",
+      "hiragana": "てき",
+      "type": "kanji",
+      "onYomi": [
+        "てき"
+      ],
+      "kunYomi": [
+        "まと"
+      ],
+      "kanjiMeaning": "과녁 적"
+    },
+    {
+      "word": "余",
+      "meaning": "남을 여",
+      "pronunciation": "よ",
+      "hiragana": "よ",
+      "type": "kanji",
+      "onYomi": [
+        "よ"
+      ],
+      "kunYomi": [
+        "あま.る",
+        "あま.り"
+      ],
+      "kanjiMeaning": "남을 여"
+    },
+    {
+      "word": "裕",
+      "meaning": "넉넉할 유",
+      "pronunciation": "ゆう",
+      "hiragana": "ゆう",
+      "type": "kanji",
+      "onYomi": [
+        "ゆう"
+      ],
+      "kunYomi": [
+        "ゆた.か"
+      ],
+      "kanjiMeaning": "넉넉할 유"
+    },
+    {
+      "word": "重",
+      "meaning": "무거울 중",
+      "pronunciation": "じゅう",
+      "hiragana": "じゅう",
+      "type": "kanji",
+      "onYomi": [
+        "じゅう",
+        "ちょう"
+      ],
+      "kunYomi": [
+        "おも.い",
+        "かさ.なる"
+      ],
+      "kanjiMeaning": "무거울 중"
+    },
+    {
+      "word": "視",
+      "meaning": "볼 시",
+      "pronunciation": "し",
+      "hiragana": "し",
+      "type": "kanji",
+      "onYomi": [
+        "し"
+      ],
+      "kunYomi": [
+        "み.る"
+      ],
+      "kanjiMeaning": "볼 시"
+    },
+    {
+      "word": "価",
+      "meaning": "값 가",
+      "pronunciation": "か",
+      "hiragana": "か",
+      "type": "kanji",
+      "onYomi": [
+        "か",
+        "け"
+      ],
+      "kunYomi": [
+        "あたい"
+      ],
+      "kanjiMeaning": "값 가"
+    },
+    {
+      "word": "値",
+      "meaning": "값 치",
+      "pronunciation": "ち",
+      "hiragana": "ち",
+      "type": "kanji",
+      "onYomi": [
+        "ち"
+      ],
+      "kunYomi": [
+        "あたい",
+        "ね"
+      ],
+      "kanjiMeaning": "값 치"
+    },
+    {
+      "word": "観",
+      "meaning": "볼 관",
+      "pronunciation": "かん",
+      "hiragana": "かん",
+      "type": "kanji",
+      "onYomi": [
+        "かん"
+      ],
+      "kunYomi": [
+        "み.る"
+      ],
+      "kanjiMeaning": "볼 관"
+    },
+    {
+      "word": "注",
+      "meaning": "부을 주",
+      "pronunciation": "ちゅう",
+      "hiragana": "ちゅう",
+      "type": "kanji",
+      "onYomi": [
+        "ちゅう"
+      ],
+      "kunYomi": [
+        "そそ.ぐ"
+      ],
+      "kanjiMeaning": "부을 주"
+    },
+    {
+      "word": "目",
+      "meaning": "눈 목",
+      "pronunciation": "もく",
+      "hiragana": "もく",
+      "type": "kanji",
+      "onYomi": [
+        "もく",
+        "ぼく"
+      ],
+      "kunYomi": [
+        "め",
+        "ま"
+      ],
+      "kanjiMeaning": "눈 목"
+    },
+    {
+      "word": "傾",
+      "meaning": "기울 경",
+      "pronunciation": "けい",
+      "hiragana": "けい",
+      "type": "kanji",
+      "onYomi": [
+        "けい"
+      ],
+      "kunYomi": [
+        "かたむ.く",
+        "かたむ.ける"
+      ],
+      "kanjiMeaning": "기울 경"
+    },
+    {
+      "word": "流",
+      "meaning": "흐를 류",
+      "pronunciation": "りゅう",
+      "hiragana": "りゅう",
+      "type": "kanji",
+      "onYomi": [
+        "りゅう",
+        "る"
+      ],
+      "kunYomi": [
+        "なが.れる",
+        "なが.す"
+      ],
+      "kanjiMeaning": "흐를 류"
+    },
+    {
+      "word": "行",
+      "meaning": "갈 행",
+      "pronunciation": "こう",
+      "hiragana": "こう",
+      "type": "kanji",
+      "onYomi": [
+        "こう",
+        "ぎょう",
+        "あん"
+      ],
+      "kunYomi": [
+        "い.く",
+        "ゆ.く",
+        "おこな.う"
+      ],
+      "kanjiMeaning": "갈 행"
+    },
+    {
+      "word": "背",
+      "meaning": "등 배",
+      "pronunciation": "はい",
+      "hiragana": "はい",
+      "type": "kanji",
+      "onYomi": [
+        "はい"
+      ],
+      "kunYomi": [
+        "せ",
+        "せい"
+      ],
+      "kanjiMeaning": "등 배"
+    },
+    {
+      "word": "景",
+      "meaning": "경치 경",
+      "pronunciation": "けい",
+      "hiragana": "けい",
+      "type": "kanji",
+      "onYomi": [
+        "けい"
+      ],
+      "kunYomi": [],
+      "kanjiMeaning": "경치 경"
+    },
+    {
+      "word": "進",
+      "meaning": "나아갈 진",
+      "pronunciation": "しん",
+      "hiragana": "しん",
+      "type": "kanji",
+      "onYomi": [
+        "しん"
+      ],
+      "kunYomi": [
+        "すす.む",
+        "すす.める"
+      ],
+      "kanjiMeaning": "나아갈 진"
+    },
+    {
+      "word": "展",
+      "meaning": "펼 전",
+      "pronunciation": "てん",
+      "hiragana": "てん",
+      "type": "kanji",
+      "onYomi": [
+        "てん"
+      ],
+      "kunYomi": [
+        "のべ.る",
+        "のび.る"
+      ],
+      "kanjiMeaning": "펼 전"
+    },
+    {
+      "word": "将",
+      "meaning": "장수 장",
+      "pronunciation": "しょう",
+      "hiragana": "しょう",
+      "type": "kanji",
+      "onYomi": [
+        "しょう"
+      ],
+      "kunYomi": [
+        "まさ.に",
+        "はた"
+      ],
+      "kanjiMeaning": "장수 장"
+    },
+    {
+      "word": "来",
+      "meaning": "올 래",
+      "pronunciation": "らい",
+      "hiragana": "らい",
+      "type": "kanji",
+      "onYomi": [
+        "らい"
+      ],
+      "kunYomi": [
+        "く.る",
+        "きた.る"
+      ],
+      "kanjiMeaning": "올 래"
+    },
+    {
+      "word": "不",
+      "meaning": "아닐 불",
+      "pronunciation": "ふ",
+      "hiragana": "ふ",
+      "type": "kanji",
+      "onYomi": [
+        "ふ",
+        "ぶ"
+      ],
+      "kunYomi": [],
+      "kanjiMeaning": "아닐 불"
+    },
+    {
+      "word": "安",
+      "meaning": "편안할 안",
+      "pronunciation": "あん",
+      "hiragana": "あん",
+      "type": "kanji",
+      "onYomi": [
+        "あん"
+      ],
+      "kunYomi": [
+        "やす.い",
+        "やす.まる"
+      ],
+      "kanjiMeaning": "편안할 안"
+    },
+    {
+      "word": "複",
+      "meaning": "겹칠 복",
+      "pronunciation": "ふく",
+      "hiragana": "ふく",
+      "type": "kanji",
+      "onYomi": [
+        "ふく"
+      ],
+      "kunYomi": [
+        "また"
+      ],
+      "kanjiMeaning": "겹칠 복"
+    },
+    {
+      "word": "雑",
+      "meaning": "섞일 잡",
+      "pronunciation": "ざつ",
+      "hiragana": "ざつ",
+      "type": "kanji",
+      "onYomi": [
+        "ざつ",
+        "ぞう"
+      ],
+      "kunYomi": [
+        "まじ.える"
+      ],
+      "kanjiMeaning": "섞일 잡"
+    },
+    {
+      "word": "技",
+      "meaning": "재주 기",
+      "pronunciation": "ぎ",
+      "hiragana": "ぎ",
+      "type": "kanji",
+      "onYomi": [
+        "ぎ"
+      ],
+      "kunYomi": [
+        "わざ"
+      ],
+      "kanjiMeaning": "재주 기"
+    },
+    {
+      "word": "術",
+      "meaning": "방술 술",
+      "pronunciation": "じゅつ",
+      "hiragana": "じゅつ",
+      "type": "kanji",
+      "onYomi": [
+        "じゅつ"
+      ],
+      "kunYomi": [
+        "すべ"
+      ],
+      "kanjiMeaning": "방술 술"
+    },
+    {
+      "word": "普",
+      "meaning": "두루 보",
+      "pronunciation": "ふ",
+      "hiragana": "ふ",
+      "type": "kanji",
+      "onYomi": [
+        "ふ"
+      ],
+      "kunYomi": [
+        "あまね.く"
+      ],
+      "kanjiMeaning": "두루 보"
+    },
+    {
+      "word": "及",
+      "meaning": "미칠 급",
+      "pronunciation": "きゅう",
+      "hiragana": "きゅう",
+      "type": "kanji",
+      "onYomi": [
+        "きゅう"
+      ],
+      "kunYomi": [
+        "およ.ぶ",
+        "およ.び"
+      ],
+      "kanjiMeaning": "미칠 급"
+    },
+    {
+      "word": "質",
+      "meaning": "바탕 질",
+      "pronunciation": "しつ",
+      "hiragana": "しつ",
+      "type": "kanji",
+      "onYomi": [
+        "しつ",
+        "しち",
+        "ち"
+      ],
+      "kunYomi": [
+        "たち",
+        "ただ.す"
+      ],
+      "kanjiMeaning": "바탕 질"
+    },
+    {
+      "word": "性",
+      "meaning": "성품 성",
+      "pronunciation": "せい",
+      "hiragana": "せい",
+      "type": "kanji",
+      "onYomi": [
+        "せい",
+        "しょう"
+      ],
+      "kunYomi": [
+        "さが"
+      ],
+      "kanjiMeaning": "성품 성"
+    },
+    {
+      "word": "減",
+      "meaning": "덜 감",
+      "pronunciation": "げん",
+      "hiragana": "げん",
+      "type": "kanji",
+      "onYomi": [
+        "げん"
+      ],
+      "kunYomi": [
+        "へ.る",
+        "へ.らす"
+      ],
+      "kanjiMeaning": "덜 감"
+    },
+    {
+      "word": "少",
+      "meaning": "적을 소",
+      "pronunciation": "しょう",
+      "hiragana": "しょう",
+      "type": "kanji",
+      "onYomi": [
+        "しょう"
+      ],
+      "kunYomi": [
+        "すく.ない",
+        "すこ.し"
+      ],
+      "kanjiMeaning": "적을 소"
+    },
+    {
+      "word": "保",
+      "meaning": "지킬 보",
+      "pronunciation": "ほ",
+      "hiragana": "ほ",
+      "type": "kanji",
+      "onYomi": [
+        "ほ"
+      ],
+      "kunYomi": [
+        "たも.つ"
+      ],
+      "kanjiMeaning": "지킬 보"
+    },
+    {
+      "word": "存",
+      "meaning": "있을 존",
+      "pronunciation": "ぞん",
+      "hiragana": "ぞん",
+      "type": "kanji",
+      "onYomi": [
+        "ぞん",
+        "そん"
+      ],
+      "kunYomi": [
+        "あ.る",
+        "たも.つ"
+      ],
+      "kanjiMeaning": "있을 존"
+    },
+    {
+      "word": "管",
+      "meaning": "대롱 관",
+      "pronunciation": "かん",
+      "hiragana": "かん",
+      "type": "kanji",
+      "onYomi": [
+        "かん"
+      ],
+      "kunYomi": [
+        "くだ"
+      ],
+      "kanjiMeaning": "대롱 관"
+    },
+    {
+      "word": "理",
+      "meaning": "다스릴 리",
+      "pronunciation": "り",
+      "hiragana": "り",
+      "type": "kanji",
+      "onYomi": [
+        "り"
+      ],
+      "kunYomi": [
+        "ことわり"
+      ],
+      "kanjiMeaning": "다스릴 리"
+    },
+    {
+      "word": "決",
+      "meaning": "결정할 결",
+      "pronunciation": "けつ",
+      "hiragana": "けつ",
+      "type": "kanji",
+      "onYomi": [
+        "けつ"
+      ],
+      "kunYomi": [
+        "き.める",
+        "き.まる"
+      ],
+      "kanjiMeaning": "결정할 결"
+    },
+    {
+      "word": "済",
+      "meaning": "마칠 제",
+      "pronunciation": "さい",
+      "hiragana": "さい",
+      "type": "kanji",
+      "onYomi": [
+        "さい",
+        "せい"
+      ],
+      "kunYomi": [
+        "す.む",
+        "す.ます"
+      ],
+      "kanjiMeaning": "마칠 제"
+    },
+    {
+      "word": "生",
+      "meaning": "날 생",
+      "pronunciation": "せい",
+      "hiragana": "せい",
+      "type": "kanji",
+      "onYomi": [
+        "せい",
+        "しょう"
+      ],
+      "kunYomi": [
+        "い.きる",
+        "う.まれる",
+        "なま"
+      ],
+      "kanjiMeaning": "날 생"
+    },
+    {
+      "word": "活",
+      "meaning": "살 활",
+      "pronunciation": "かつ",
+      "hiragana": "かつ",
+      "type": "kanji",
+      "onYomi": [
+        "かつ"
+      ],
+      "kunYomi": [
+        "い.きる"
+      ],
+      "kanjiMeaning": "살 활"
+    },
+    {
+      "word": "空",
+      "meaning": "빌 공",
+      "pronunciation": "くう",
+      "hiragana": "くう",
+      "type": "kanji",
+      "onYomi": [
+        "くう"
+      ],
+      "kunYomi": [
+        "そら",
+        "あ.く",
+        "から"
+      ],
+      "kanjiMeaning": "빌 공"
+    },
+    {
+      "word": "負",
+      "meaning": "질 부",
+      "pronunciation": "ふ",
+      "hiragana": "ふ",
+      "type": "kanji",
+      "onYomi": [
+        "ふ"
+      ],
+      "kunYomi": [
+        "ま.ける",
+        "お.う"
+      ],
+      "kanjiMeaning": "질 부"
+    },
+    {
+      "word": "担",
+      "meaning": "멜 담",
+      "pronunciation": "たん",
+      "hiragana": "たん",
+      "type": "kanji",
+      "onYomi": [
+        "たん"
+      ],
+      "kunYomi": [
+        "かつ.ぐ",
+        "にな.う"
+      ],
+      "kanjiMeaning": "멜 담"
+    },
+    {
+      "word": "大",
+      "meaning": "큰 대",
+      "pronunciation": "だい",
+      "hiragana": "だい",
+      "type": "kanji",
+      "onYomi": [
+        "だい",
+        "たい"
+      ],
+      "kunYomi": [
+        "おお.きい",
+        "おお.いに"
+      ],
+      "kanjiMeaning": "큰 대"
+    },
+    {
+      "word": "幅",
+      "meaning": "폭 폭",
+      "pronunciation": "はば",
+      "hiragana": "はば",
+      "type": "kanji",
+      "onYomi": [
+        "ふく"
+      ],
+      "kunYomi": [
+        "はば"
+      ],
+      "kanjiMeaning": "폭 폭"
+    },
+    {
+      "word": "軽",
+      "meaning": "가벼울 경",
+      "pronunciation": "けい",
+      "hiragana": "けい",
+      "type": "kanji",
+      "onYomi": [
+        "けい"
+      ],
+      "kunYomi": [
+        "かる.い",
+        "かろ.やか"
+      ],
+      "kanjiMeaning": "가벼울 경"
+    },
+    {
+      "word": "情",
+      "meaning": "정 정",
+      "pronunciation": "じょう",
+      "hiragana": "じょう",
+      "type": "kanji",
+      "onYomi": [
+        "じょう",
+        "せい"
+      ],
+      "kunYomi": [
+        "なさ.け"
+      ],
+      "kanjiMeaning": "정 정"
+    },
+    {
+      "word": "報",
+      "meaning": "갚을 보",
+      "pronunciation": "ほう",
+      "hiragana": "ほう",
+      "type": "kanji",
+      "onYomi": [
+        "ほう"
+      ],
+      "kunYomi": [
+        "むく.いる"
+      ],
+      "kanjiMeaning": "갚을 보"
+    },
+    {
+      "word": "量",
+      "meaning": "양 양",
+      "pronunciation": "りょう",
+      "hiragana": "りょう",
+      "type": "kanji",
+      "onYomi": [
+        "りょう"
+      ],
+      "kunYomi": [
+        "はか.る"
+      ],
+      "kanjiMeaning": "양 양"
+    },
+    {
+      "word": "増",
+      "meaning": "늘 증가",
+      "pronunciation": "ぞう",
+      "hiragana": "ぞう",
+      "type": "kanji",
+      "onYomi": [
+        "ぞう"
+      ],
+      "kunYomi": [
+        "ふ.える",
+        "ふ.やす",
+        "ま.す"
+      ],
+      "kanjiMeaning": "늘 증가"
+    },
+    {
+      "word": "加",
+      "meaning": "더할 가",
+      "pronunciation": "か",
+      "hiragana": "か",
+      "type": "kanji",
+      "onYomi": [
+        "か"
+      ],
+      "kunYomi": [
+        "くわ.える",
+        "くわ.わる"
+      ],
+      "kanjiMeaning": "더할 가"
+    },
+    {
+      "word": "荷",
+      "meaning": "짐 하",
+      "pronunciation": "か",
+      "hiragana": "か",
+      "type": "kanji",
+      "onYomi": [
+        "か"
+      ],
+      "kunYomi": [
+        "に"
+      ],
+      "kanjiMeaning": "짐 하"
+    },
+    {
+      "word": "更",
+      "meaning": "다시 갱",
+      "pronunciation": "こう",
+      "hiragana": "こう",
+      "type": "kanji",
+      "onYomi": [
+        "こう"
+      ],
+      "kunYomi": [
+        "さら",
+        "ふ.ける",
+        "ふ.かす"
+      ],
+      "kanjiMeaning": "다시 갱"
+    },
+    {
+      "word": "新",
+      "meaning": "새 신",
+      "pronunciation": "しん",
+      "hiragana": "しん",
+      "type": "kanji",
+      "onYomi": [
+        "しん"
+      ],
+      "kunYomi": [
+        "あたら.しい",
+        "あら.た"
+      ],
+      "kanjiMeaning": "새 신"
+    },
+    {
+      "word": "選",
+      "meaning": "가릴 선",
+      "pronunciation": "せん",
+      "hiragana": "せん",
+      "type": "kanji",
+      "onYomi": [
+        "せん"
+      ],
+      "kunYomi": [
+        "えら.ぶ"
+      ],
+      "kanjiMeaning": "가릴 선"
+    },
+    {
+      "word": "択",
+      "meaning": "가릴 택",
+      "pronunciation": "たく",
+      "hiragana": "たく",
+      "type": "kanji",
+      "onYomi": [
+        "たく"
+      ],
+      "kunYomi": [
+        "えら.ぶ"
+      ],
+      "kanjiMeaning": "가릴 택"
+    },
+    {
+      "word": "平",
+      "meaning": "평평할 평",
+      "pronunciation": "へい",
+      "hiragana": "へい",
+      "type": "kanji",
+      "onYomi": [
+        "へい",
+        "びょう",
+        "ひょう"
+      ],
+      "kunYomi": [
+        "たいら",
+        "ひら"
+      ],
+      "kanjiMeaning": "평평할 평"
+    },
+    {
+      "word": "穏",
+      "meaning": "온화할 온",
+      "pronunciation": "おん",
+      "hiragana": "おん",
+      "type": "kanji",
+      "onYomi": [
+        "おん"
+      ],
+      "kunYomi": [
+        "おだ.やか"
+      ],
+      "kanjiMeaning": "온화할 온"
+    },
+    {
+      "word": "手",
+      "meaning": "손 수",
+      "pronunciation": "しゅ",
+      "hiragana": "しゅ",
+      "type": "kanji",
+      "onYomi": [
+        "しゅ",
+        "ず"
+      ],
+      "kunYomi": [
+        "て",
+        "た"
+      ],
+      "kanjiMeaning": "손 수"
+    },
+    {
+      "word": "段",
+      "meaning": "단계 단",
+      "pronunciation": "だん",
+      "hiragana": "だん",
+      "type": "kanji",
+      "onYomi": [
+        "だん"
+      ],
+      "kunYomi": [],
+      "kanjiMeaning": "단계 단"
+    },
+    {
+      "word": "評",
+      "meaning": "평할 평",
+      "pronunciation": "ひょう",
+      "hiragana": "ひょう",
+      "type": "kanji",
+      "onYomi": [
+        "ひょう",
+        "びょう"
+      ],
+      "kunYomi": [],
+      "kanjiMeaning": "평할 평"
+    },
+    {
+      "word": "透",
+      "meaning": "통할 투",
+      "pronunciation": "とう",
+      "hiragana": "とう",
+      "type": "kanji",
+      "onYomi": [
+        "とう"
+      ],
+      "kunYomi": [
+        "す.く",
+        "す.かす"
+      ],
+      "kanjiMeaning": "통할 투"
+    },
+    {
+      "word": "明",
+      "meaning": "밝을 명",
+      "pronunciation": "めい",
+      "hiragana": "めい",
+      "type": "kanji",
+      "onYomi": [
+        "めい",
+        "みょう"
+      ],
+      "kunYomi": [
+        "あ.かり",
+        "あか.るい",
+        "あ.ける"
+      ],
+      "kanjiMeaning": "밝을 명"
+    },
+    {
+      "word": "感",
+      "meaning": "느낄 감",
+      "pronunciation": "かん",
+      "hiragana": "かん",
+      "type": "kanji",
+      "onYomi": [
+        "かん"
+      ],
+      "kunYomi": [],
+      "kanjiMeaning": "느낄 감"
+    },
+    {
+      "word": "雇",
+      "meaning": "고용할 고",
+      "pronunciation": "こ",
+      "hiragana": "こ",
+      "type": "kanji",
+      "onYomi": [
+        "こ"
+      ],
+      "kunYomi": [
+        "やと.う"
+      ],
+      "kanjiMeaning": "고용할 고"
+    },
+    {
+      "word": "用",
+      "meaning": "쓸 용",
+      "pronunciation": "よう",
+      "hiragana": "よう",
+      "type": "kanji",
+      "onYomi": [
+        "よう"
+      ],
+      "kunYomi": [
+        "もち.いる"
+      ],
+      "kanjiMeaning": "쓸 용"
+    },
+    {
+      "word": "状",
+      "meaning": "형상 장",
+      "pronunciation": "じょう",
+      "hiragana": "じょう",
+      "type": "kanji",
+      "onYomi": [
+        "じょう"
+      ],
+      "kunYomi": [],
+      "kanjiMeaning": "형상 장"
+    },
+    {
+      "word": "況",
+      "meaning": "하물며 황",
+      "pronunciation": "きょう",
+      "hiragana": "きょう",
+      "type": "kanji",
+      "onYomi": [
+        "きょう"
+      ],
+      "kunYomi": [
+        "まし.て"
+      ],
+      "kanjiMeaning": "하물며 황"
+    },
+    {
+      "word": "急",
+      "meaning": "급할 급",
+      "pronunciation": "きゅう",
+      "hiragana": "きゅう",
+      "type": "kanji",
+      "onYomi": [
+        "きゅう"
+      ],
+      "kunYomi": [
+        "いそ.ぐ",
+        "いそ.ぎ"
+      ],
+      "kanjiMeaning": "급할 급"
+    },
+    {
+      "word": "速",
+      "meaning": "빠를 속",
+      "pronunciation": "そく",
+      "hiragana": "そく",
+      "type": "kanji",
+      "onYomi": [
+        "そく"
+      ],
+      "kunYomi": [
+        "はや.い",
+        "すみ.やか"
+      ],
+      "kanjiMeaning": "빠를 속"
+    },
+    {
+      "word": "変",
+      "meaning": "변할 변",
+      "pronunciation": "へん",
+      "hiragana": "へん",
+      "type": "kanji",
+      "onYomi": [
+        "へん"
+      ],
+      "kunYomi": [
+        "か.わる",
+        "か.える"
+      ],
+      "kanjiMeaning": "변할 변"
+    },
+    {
+      "word": "化",
+      "meaning": "될 화",
+      "pronunciation": "か",
+      "hiragana": "か",
+      "type": "kanji",
+      "onYomi": [
+        "か",
+        "け"
+      ],
+      "kunYomi": [
+        "ば.ける",
+        "ば.かす"
+      ],
+      "kanjiMeaning": "될 화"
+    },
+    {
+      "word": "社",
+      "meaning": "모일 사",
+      "pronunciation": "しゃ",
+      "hiragana": "しゃ",
+      "type": "kanji",
+      "onYomi": [
+        "しゃ"
+      ],
+      "kunYomi": [
+        "やしろ"
+      ],
+      "kanjiMeaning": "모일 사"
+    },
+    {
+      "word": "会",
+      "meaning": "모일 회",
+      "pronunciation": "かい",
+      "hiragana": "かい",
+      "type": "kanji",
+      "onYomi": [
+        "かい",
+        "え"
+      ],
+      "kunYomi": [
+        "あ.う",
+        "あつ.まる"
+      ],
+      "kanjiMeaning": "모일 회"
+    },
+    {
+      "word": "環",
+      "meaning": "고리 환",
+      "pronunciation": "かん",
+      "hiragana": "かん",
+      "type": "kanji",
+      "onYomi": [
+        "かん"
+      ],
+      "kunYomi": [
+        "わ"
+      ],
+      "kanjiMeaning": "고리 환"
+    },
+    {
+      "word": "境",
+      "meaning": "지경 경",
+      "pronunciation": "きょう",
+      "hiragana": "きょう",
+      "type": "kanji",
+      "onYomi": [
+        "きょう",
+        "けい"
+      ],
+      "kunYomi": [
+        "さかい"
+      ],
+      "kanjiMeaning": "지경 경"
+    },
+    {
+      "word": "長",
+      "meaning": "길 장",
+      "pronunciation": "ちょう",
+      "hiragana": "ちょう",
+      "type": "kanji",
+      "onYomi": [
+        "ちょう"
+      ],
+      "kunYomi": [
+        "なが.い",
+        "おさ"
+      ],
+      "kanjiMeaning": "길 장"
+    },
+    {
+      "word": "期",
+      "meaning": "기약할 기",
+      "pronunciation": "き",
+      "hiragana": "き",
+      "type": "kanji",
+      "onYomi": [
+        "き",
+        "ご"
+      ],
+      "kunYomi": [],
+      "kanjiMeaning": "기약할 기"
+    },
+    {
+      "word": "資",
+      "meaning": "재물 자",
+      "pronunciation": "し",
+      "hiragana": "し",
+      "type": "kanji",
+      "onYomi": [
+        "し"
+      ],
+      "kunYomi": [],
+      "kanjiMeaning": "재물 자"
+    },
+    {
+      "word": "産",
+      "meaning": "낳을 산",
+      "pronunciation": "さん",
+      "hiragana": "さん",
+      "type": "kanji",
+      "onYomi": [
+        "さん"
+      ],
+      "kunYomi": [
+        "う.む",
+        "う.まれる"
+      ],
+      "kanjiMeaning": "낳을 산"
+    },
+    {
+      "word": "形",
+      "meaning": "형상 형",
+      "pronunciation": "けい",
+      "hiragana": "けい",
+      "type": "kanji",
+      "onYomi": [
+        "けい",
+        "ぎょう"
+      ],
+      "kunYomi": [
+        "かた",
+        "かたち"
+      ],
+      "kanjiMeaning": "형상 형"
+    },
+    {
+      "word": "成",
+      "meaning": "이룰 성",
+      "pronunciation": "せい",
+      "hiragana": "せい",
+      "type": "kanji",
+      "onYomi": [
+        "せい",
+        "じょう"
+      ],
+      "kunYomi": [
+        "な.る",
+        "な.す"
+      ],
+      "kanjiMeaning": "이룰 성"
+    },
+    {
+      "word": "柔",
+      "meaning": "부드러울 유",
+      "pronunciation": "じゅう",
+      "hiragana": "じゅう",
+      "type": "kanji",
+      "onYomi": [
+        "じゅう",
+        "にゅう"
+      ],
+      "kunYomi": [
+        "やわ.らか",
+        "やわ.らかい"
+      ],
+      "kanjiMeaning": "부드러울 유"
+    },
+    {
+      "word": "軟",
+      "meaning": "부드러울 연",
+      "pronunciation": "なん",
+      "hiragana": "なん",
+      "type": "kanji",
+      "onYomi": [
+        "なん"
+      ],
+      "kunYomi": [
+        "やわ.らか",
+        "やわ.らかい"
+      ],
+      "kanjiMeaning": "부드러울 연"
+    },
+    {
+      "word": "対",
+      "meaning": "대할 대",
+      "pronunciation": "たい",
+      "hiragana": "たい",
+      "type": "kanji",
+      "onYomi": [
+        "たい",
+        "つい"
+      ],
+      "kunYomi": [
+        "あいて",
+        "こた.える"
+      ],
+      "kanjiMeaning": "대할 대"
+    },
+    {
+      "word": "応",
+      "meaning": "응할 응",
+      "pronunciation": "おう",
+      "hiragana": "おう",
+      "type": "kanji",
+      "onYomi": [
+        "おう"
+      ],
+      "kunYomi": [
+        "こた.える"
+      ],
+      "kanjiMeaning": "응할 응"
+    },
+    {
+      "word": "為",
+      "meaning": "할 위",
+      "pronunciation": "い",
+      "hiragana": "い",
+      "type": "kanji",
+      "onYomi": [
+        "い"
+      ],
+      "kunYomi": [
+        "ため",
+        "な.る",
+        "つく.る"
+      ],
+      "kanjiMeaning": "할 위"
+    },
+    {
+      "word": "再",
+      "meaning": "다시 재",
+      "pronunciation": "さい",
+      "hiragana": "さい",
+      "type": "kanji",
+      "onYomi": [
+        "さい",
+        "さ"
+      ],
+      "kunYomi": [
+        "ふたた.び"
+      ],
+      "kanjiMeaning": "다시 재"
+    },
+    {
+      "word": "定",
+      "meaning": "정할 정",
+      "pronunciation": "てい",
+      "hiragana": "てい",
+      "type": "kanji",
+      "onYomi": [
+        "てい",
+        "じょう"
+      ],
+      "kunYomi": [
+        "さだ.める",
+        "さだ.まる"
+      ],
+      "kanjiMeaning": "정할 정"
+    },
+    {
+      "word": "義",
+      "meaning": "옳을 의",
+      "pronunciation": "ぎ",
+      "hiragana": "ぎ",
+      "type": "kanji",
+      "onYomi": [
+        "ぎ"
+      ],
+      "kunYomi": [],
+      "kanjiMeaning": "옳을 의"
+    },
+    {
+      "word": "主",
+      "meaning": "주인 주",
+      "pronunciation": "しゅ",
+      "hiragana": "しゅ",
+      "type": "kanji",
+      "onYomi": [
+        "しゅ",
+        "す"
+      ],
+      "kunYomi": [
+        "ぬし",
+        "おも"
+      ],
+      "kanjiMeaning": "주인 주"
+    },
+    {
+      "word": "体",
+      "meaning": "몸 체",
+      "pronunciation": "たい",
+      "hiragana": "たい",
+      "type": "kanji",
+      "onYomi": [
+        "たい",
+        "てい"
+      ],
+      "kunYomi": [
+        "からだ",
+        "かたち"
+      ],
+      "kanjiMeaning": "몸 체"
+    },
+    {
+      "word": "姿",
+      "meaning": "모습 자",
+      "pronunciation": "し",
+      "hiragana": "し",
+      "type": "kanji",
+      "onYomi": [
+        "し"
+      ],
+      "kunYomi": [
+        "すがた"
+      ],
+      "kanjiMeaning": "모습 자"
+    },
+    {
+      "word": "勢",
+      "meaning": "기세 세",
+      "pronunciation": "せい",
+      "hiragana": "せい",
+      "type": "kanji",
+      "onYomi": [
+        "せい",
+        "ぜい"
+      ],
+      "kunYomi": [
+        "いきお.い"
+      ],
+      "kanjiMeaning": "기세 세"
+    },
+    {
+      "word": "批",
+      "meaning": "비평할 비",
+      "pronunciation": "ひ",
+      "hiragana": "ひ",
+      "type": "kanji",
+      "onYomi": [
+        "ひ"
+      ],
+      "kunYomi": [],
+      "kanjiMeaning": "비평할 비"
+    },
+    {
+      "word": "判",
+      "meaning": "판단할 판",
+      "pronunciation": "はん",
+      "hiragana": "はん",
+      "type": "kanji",
+      "onYomi": [
+        "はん",
+        "ばん"
+      ],
+      "kunYomi": [
+        "わか.る"
+      ],
+      "kanjiMeaning": "판단할 판"
+    },
+    {
+      "word": "極",
+      "meaning": "지극할 극",
+      "pronunciation": "きょく",
+      "hiragana": "きょく",
+      "type": "kanji",
+      "onYomi": [
+        "きょく",
+        "ごく"
+      ],
+      "kunYomi": [
+        "きわ.める",
+        "きわ.まる"
+      ],
+      "kanjiMeaning": "지극할 극"
+    },
+    {
+      "word": "端",
+      "meaning": "끝 단",
+      "pronunciation": "たん",
+      "hiragana": "たん",
+      "type": "kanji",
+      "onYomi": [
+        "たん"
+      ],
+      "kunYomi": [
+        "はし",
+        "は",
+        "はた"
+      ],
+      "kanjiMeaning": "끝 단"
+    },
+    {
+      "word": "指",
+      "meaning": "손가락 지",
+      "pronunciation": "し",
+      "hiragana": "し",
+      "type": "kanji",
+      "onYomi": [
+        "し"
+      ],
+      "kunYomi": [
+        "ゆび",
+        "さ.す"
+      ],
+      "kanjiMeaning": "손가락 지"
+    },
+    {
+      "word": "摘",
+      "meaning": "딸 적",
+      "pronunciation": "てき",
+      "hiragana": "てき",
+      "type": "kanji",
+      "onYomi": [
+        "てき"
+      ],
+      "kunYomi": [
+        "つ.む"
+      ],
+      "kanjiMeaning": "딸 적"
+    },
+    {
+      "word": "一",
+      "meaning": "하나 일",
+      "pronunciation": "いち",
+      "hiragana": "いち",
+      "type": "kanji",
+      "onYomi": [
+        "いち",
+        "いつ"
+      ],
+      "kunYomi": [
+        "ひと",
+        "ひと.つ"
+      ],
+      "kanjiMeaning": "하나 일"
+    },
+    {
+      "word": "般",
+      "meaning": "두루 반",
+      "pronunciation": "はん",
+      "hiragana": "はん",
+      "type": "kanji",
+      "onYomi": [
+        "はん"
+      ],
+      "kunYomi": [],
+      "kanjiMeaning": "두루 반"
+    },
+    {
+      "word": "危",
+      "meaning": "위태로울 위",
+      "pronunciation": "き",
+      "hiragana": "き",
+      "type": "kanji",
+      "onYomi": [
+        "き"
+      ],
+      "kunYomi": [
+        "あぶ.ない",
+        "あや.うい"
+      ],
+      "kanjiMeaning": "위태로울 위"
+    },
+    {
+      "word": "険",
+      "meaning": "험할 험",
+      "pronunciation": "けん",
+      "hiragana": "けん",
+      "type": "kanji",
+      "onYomi": [
+        "けん"
+      ],
+      "kunYomi": [
+        "けわ.しい"
+      ],
+      "kanjiMeaning": "험할 험"
+    },
+    {
+      "word": "無",
+      "meaning": "없을 무",
+      "pronunciation": "む",
+      "hiragana": "む",
+      "type": "kanji",
+      "onYomi": [
+        "む",
+        "ぶ"
+      ],
+      "kunYomi": [
+        "な.い"
+      ],
+      "kanjiMeaning": "없을 무"
+    },
+    {
+      "word": "議",
+      "meaning": "의논할 의",
+      "pronunciation": "ぎ",
+      "hiragana": "ぎ",
+      "type": "kanji",
+      "onYomi": [
+        "ぎ"
+      ],
+      "kunYomi": [],
+      "kanjiMeaning": "의논할 의"
+    },
+    {
+      "word": "論",
+      "meaning": "논할 론",
+      "pronunciation": "ろん",
+      "hiragana": "ろん",
+      "type": "kanji",
+      "onYomi": [
+        "ろん"
+      ],
+      "kunYomi": [],
+      "kanjiMeaning": "논할 론"
+    }
+  ]
+}
