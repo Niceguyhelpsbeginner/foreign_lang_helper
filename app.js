@@ -2324,7 +2324,7 @@ async function handleImageUpload(e) {
     
     try {
         // Tesseract.js로 텍스트 추출
-        // 일본어와 영어를 모두 인식하도록 설정
+        // 일본어와 영어를 모두 인식하도록 설정 (더 정확한 인식을 위해)
         const { data: { text } } = await Tesseract.recognize(file, 'jpn+eng', {
             logger: (m) => {
                 if (m.status === 'recognizing text') {
@@ -2332,7 +2332,11 @@ async function handleImageUpload(e) {
                     loadingToast.querySelector('.toast-title').textContent = 
                         `텍스트 추출 중... ${progress}%`;
                 }
-            }
+            },
+            // PSM 모드: 단일 블록 텍스트로 인식 (더 정확함)
+            // 6 = Uniform block of vertically aligned text
+            // 11 = Sparse text (일반적인 문서에 적합)
+            tessedit_pageseg_mode: '11'
         });
 
         if (!text || text.trim().length === 0) {
@@ -2341,13 +2345,27 @@ async function handleImageUpload(e) {
             return;
         }
 
+        // 추출된 텍스트 정리 (불필요한 공백 제거)
+        let cleanedText = text
+            .replace(/\s+/g, ' ') // 연속된 공백을 하나로
+            .replace(/\n\s*\n/g, '\n') // 연속된 줄바꿈을 하나로
+            .trim();
+
         // 추출된 텍스트를 독해 지문으로 표시
         loadingToast.remove();
         showToast('텍스트 추출 완료! 단어 정보를 로드하는 중...', 'info', 2000);
+        
+        // OCR 품질 경고 (특수문자나 깨진 문자가 많으면)
+        const specialCharRatio = (cleanedText.match(/[^\w\s\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF\u3000-\u303F]/g) || []).length / cleanedText.length;
+        if (specialCharRatio > 0.3) {
+            setTimeout(() => {
+                showToast('⚠️ OCR 인식 품질이 낮을 수 있습니다. 선명한 이미지를 사용해주세요.', 'error', 5000);
+            }, 2500);
+        }
 
         // 독해 지문 상태 저장
         AppState.currentReadingPassage = {
-            text: text.trim(),
+            text: cleanedText,
             questions: [], // 이미지에서 추출한 텍스트는 문제 없음
             level: null,
             certType: null, // 언어 자동 감지
@@ -2356,14 +2374,27 @@ async function handleImageUpload(e) {
         AppState.readingAnswers = {};
 
         // 텍스트 언어 감지 (일본어 문자 포함 여부로 판단)
-        const hasJapanese = /[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/.test(text);
+        const hasJapanese = /[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/.test(cleanedText);
         const certType = hasJapanese ? 'jlpt' : 'toeic';
 
         // certType 저장
         AppState.currentReadingPassage.certType = certType;
 
         // 지문 표시 (호버 기능 포함)
-        await displayExtractedText(text, certType);
+        await displayExtractedText(cleanedText, certType);
+        
+        // OCR 품질 안내 (특수문자 비율이 높으면)
+        const totalChars = cleanedText.length;
+        const japaneseChars = (cleanedText.match(/[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/g) || []).length;
+        const englishChars = (cleanedText.match(/[a-zA-Z]/g) || []).length;
+        const specialChars = (cleanedText.match(/[^\w\s\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF\u3000-\u303F]/g) || []).length;
+        
+        // 특수문자 비율이 30% 이상이면 경고
+        if (totalChars > 0 && specialChars / totalChars > 0.3) {
+            setTimeout(() => {
+                showToast('⚠️ OCR 인식 품질이 낮을 수 있습니다. 더 선명한 이미지를 사용하거나 텍스트를 직접 입력해주세요.', 'error', 6000);
+            }, 3000);
+        }
 
         // 파일 입력 초기화
         e.target.value = '';
