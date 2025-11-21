@@ -369,7 +369,15 @@ function showPage(pageName) {
     } else if (pageName === 'learn') {
         updateFlashcard();
     } else if (pageName === 'reading') {
-        loadJLPTReadingPassage();
+        // 이미지에서 추출한 텍스트가 있으면 그대로 표시, 없으면 새 지문 로드
+        if (AppState.currentReadingPassage && AppState.currentReadingPassage.isFromImage) {
+            // 이미지에서 추출한 텍스트가 있으면 그대로 표시
+            displayExtractedText(AppState.currentReadingPassage.text, AppState.currentReadingPassage.certType || 'jlpt').catch(err => {
+                console.error('이미지 텍스트 표시 오류:', err);
+            });
+        } else {
+            loadJLPTReadingPassage();
+        }
     }
 }
 
@@ -1738,12 +1746,29 @@ async function loadJLPTReadingPassage() {
 
 // 독해 (기존 함수 - 호환성 유지)
 function loadReadingPassage() {
+    // 이미지에서 추출한 텍스트 초기화
+    AppState.currentReadingPassage = null;
+    AppState.readingAnswers = {};
+    
+    // 문제 영역 다시 표시
+    document.getElementById('readingQuestions').style.display = 'block';
+    
+    // 새 지문 로드
     loadJLPTReadingPassage();
 }
 
 function displayReadingPassage(passage) {
+    // 이미지에서 추출한 텍스트인 경우 별도 처리
+    if (passage.isFromImage) {
+        // displayExtractedText에서 이미 처리됨
+        return;
+    }
+
     // 지문 표시 (줄바꿈 처리 및 단어 호버 기능 추가)
     let formattedText = passage.text.replace(/\n/g, '<br>');
+    
+    // 문제 영역 표시 (이미지에서 추출한 텍스트가 아닌 경우)
+    document.getElementById('readingQuestions').style.display = 'block';
     
     // 모든 문제를 다 풀었는지 확인
     const allQuestionsAnswered = passage.questions && 
@@ -2224,22 +2249,176 @@ function updateReadingScore() {
     }
 }
 
-function handleImageUpload(e) {
+// 토스트 메시지 표시 함수
+function showToast(message, type = 'info', duration = 3000) {
+    // 토스트 컨테이너 생성 (없으면)
+    let container = document.getElementById('toastContainer');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'toastContainer';
+        container.className = 'toast-container';
+        document.body.appendChild(container);
+    }
+
+    // 토스트 요소 생성
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    
+    const icons = {
+        success: '✅',
+        error: '❌',
+        info: 'ℹ️',
+        loading: '⏳'
+    };
+
+    toast.innerHTML = `
+        <span class="toast-icon">${icons[type] || icons.info}</span>
+        <div class="toast-content">
+            <div class="toast-title">${message}</div>
+        </div>
+        <button class="toast-close" onclick="this.parentElement.remove()">×</button>
+    `;
+
+    container.appendChild(toast);
+
+    // 자동 제거
+    if (duration > 0) {
+        setTimeout(() => {
+            toast.classList.add('hiding');
+            setTimeout(() => {
+                toast.remove();
+            }, 300);
+        }, duration);
+    }
+
+    return toast;
+}
+
+// 이미지에서 텍스트 추출 및 독해 지문으로 표시
+async function handleImageUpload(e) {
     const file = e.target.files[0];
     if (!file) return;
 
-    // 실제로는 OCR API를 사용해야 합니다 (예: Tesseract.js, Google Cloud Vision)
-    // 여기서는 시뮬레이션
-    alert('이미지에서 텍스트를 추출하는 기능은 실제 OCR API가 필요합니다.\n예: Tesseract.js 또는 Google Cloud Vision API');
+    // 파일 타입 확인
+    if (!file.type.startsWith('image/')) {
+        showToast('이미지 파일만 업로드할 수 있습니다.', 'error');
+        return;
+    }
+
+    // Tesseract.js가 로드되었는지 확인 (약간의 대기 시간 제공)
+    let retryCount = 0;
+    const maxRetries = 10;
+    while (typeof Tesseract === 'undefined' && retryCount < maxRetries) {
+        await new Promise(resolve => setTimeout(resolve, 100));
+        retryCount++;
+    }
     
-    // Tesseract.js 사용 예시 (주석 처리)
-    /*
-    Tesseract.recognize(file)
-        .then(result => {
-            document.getElementById('readingText').innerHTML = `<p>${result.data.text}</p>`;
-            document.getElementById('ttsBtn').style.display = 'inline-block';
+    if (typeof Tesseract === 'undefined') {
+        showToast('OCR 라이브러리를 불러오는 중입니다. 페이지를 새로고침해주세요.', 'error');
+        console.error('Tesseract.js가 로드되지 않았습니다. index.html에서 Tesseract.js 스크립트가 로드되는지 확인하세요.');
+        return;
+    }
+
+    // 로딩 토스트 표시
+    const loadingToast = showToast('이미지에서 텍스트를 추출하는 중...', 'loading', 0);
+    
+    try {
+        // Tesseract.js로 텍스트 추출
+        // 일본어와 영어를 모두 인식하도록 설정
+        const { data: { text } } = await Tesseract.recognize(file, 'jpn+eng', {
+            logger: (m) => {
+                if (m.status === 'recognizing text') {
+                    const progress = Math.round(m.progress * 100);
+                    loadingToast.querySelector('.toast-title').textContent = 
+                        `텍스트 추출 중... ${progress}%`;
+                }
+            }
         });
-    */
+
+        if (!text || text.trim().length === 0) {
+            loadingToast.remove();
+            showToast('이미지에서 텍스트를 찾을 수 없습니다.', 'error');
+            return;
+        }
+
+        // 추출된 텍스트를 독해 지문으로 표시
+        loadingToast.remove();
+        showToast('텍스트 추출 완료! 단어 정보를 로드하는 중...', 'info', 2000);
+
+        // 독해 지문 상태 저장
+        AppState.currentReadingPassage = {
+            text: text.trim(),
+            questions: [], // 이미지에서 추출한 텍스트는 문제 없음
+            level: null,
+            certType: null, // 언어 자동 감지
+            isFromImage: true
+        };
+        AppState.readingAnswers = {};
+
+        // 텍스트 언어 감지 (일본어 문자 포함 여부로 판단)
+        const hasJapanese = /[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/.test(text);
+        const certType = hasJapanese ? 'jlpt' : 'toeic';
+
+        // certType 저장
+        AppState.currentReadingPassage.certType = certType;
+
+        // 지문 표시 (호버 기능 포함)
+        await displayExtractedText(text, certType);
+
+        // 파일 입력 초기화
+        e.target.value = '';
+
+    } catch (error) {
+        console.error('텍스트 추출 오류:', error);
+        loadingToast.remove();
+        showToast('텍스트 추출 중 오류가 발생했습니다: ' + error.message, 'error');
+    }
+}
+
+// 추출된 텍스트를 독해 지문으로 표시 (단어 호버 기능 포함)
+async function displayExtractedText(text, certType) {
+    // 기본 텍스트 표시
+    let formattedText = text.replace(/\n/g, '<br>');
+    
+    // 단어 호버 기능 추가를 위한 로딩 시작
+    const wordLoadingToast = showToast('단어 정보를 로드하는 중...', 'loading', 0);
+    
+    try {
+        // 비동기로 단어 호버 기능 추가
+        await new Promise(resolve => setTimeout(resolve, 100)); // DOM 업데이트 대기
+        
+        if (certType === 'toeic' && AppState.toeicDictionary?.words && AppState.toeicDictionary.words.length > 0) {
+            // TOEIC 영어 지문
+            formattedText = addEnglishWordHoverToText(formattedText);
+        } else if (certType === 'jlpt' && (AppState.compoundWords?.words || AppState.singleCharacters?.words)) {
+            // JLPT 일본어 지문
+            formattedText = addWordHoverToText(formattedText);
+        }
+
+        // 지문 표시
+        document.getElementById('readingText').innerHTML = `<p>${formattedText}</p>`;
+        document.getElementById('ttsBtn').style.display = 'inline-block';
+        
+        // 문제 영역 숨기기 (이미지에서 추출한 텍스트는 문제 없음)
+        document.getElementById('readingQuestions').style.display = 'none';
+        
+        // 호버 이벤트 연결
+        await new Promise(resolve => setTimeout(resolve, 100)); // DOM 업데이트 대기
+        attachWordHoverEvents();
+        
+        // 단어 정보 로딩 완료 알림
+        wordLoadingToast.remove();
+        const hoverableWords = document.querySelectorAll('.word-hoverable').length;
+        showToast(`단어 정보 로딩 완료! ${hoverableWords}개의 단어에 호버 기능이 활성화되었습니다.`, 'success', 4000);
+        
+    } catch (error) {
+        console.error('단어 호버 기능 추가 오류:', error);
+        wordLoadingToast.remove();
+        showToast('단어 호버 기능 추가 중 오류가 발생했습니다.', 'error');
+        // 오류가 발생해도 텍스트는 표시
+        document.getElementById('readingText').innerHTML = `<p>${formattedText}</p>`;
+        document.getElementById('ttsBtn').style.display = 'inline-block';
+    }
 }
 
 function readText() {
