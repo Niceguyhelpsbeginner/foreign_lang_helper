@@ -320,6 +320,39 @@ function initializeEventListeners() {
     document.getElementById('imageInput').addEventListener('change', handleImageUpload);
     document.getElementById('ttsBtn').addEventListener('click', readText);
     document.getElementById('loadReadingBtn').addEventListener('click', loadReadingPassage);
+    
+    // 텍스트 편집 기능
+    document.getElementById('editTextBtn').addEventListener('click', () => {
+        const readingText = document.getElementById('readingText');
+        readingText.contentEditable = 'true';
+        readingText.style.border = '2px solid var(--primary-color)';
+        readingText.style.padding = '1rem';
+        readingText.style.borderRadius = '8px';
+        readingText.focus();
+        document.getElementById('editTextBtn').style.display = 'none';
+        document.getElementById('saveTextBtn').style.display = 'inline-block';
+    });
+    
+    document.getElementById('saveTextBtn').addEventListener('click', async () => {
+        const readingText = document.getElementById('readingText');
+        const text = readingText.innerText || readingText.textContent;
+        
+        readingText.contentEditable = 'false';
+        readingText.style.border = '';
+        readingText.style.padding = '';
+        readingText.style.borderRadius = '';
+        
+        document.getElementById('editTextBtn').style.display = 'inline-block';
+        document.getElementById('saveTextBtn').style.display = 'none';
+        
+        // 저장된 텍스트로 다시 표시 (호버 기능 포함)
+        if (AppState.currentReadingPassage && AppState.currentReadingPassage.isFromImage) {
+            AppState.currentReadingPassage.text = text.trim();
+            const certType = AppState.currentReadingPassage.certType || 'jlpt';
+            await displayExtractedText(text.trim(), certType);
+            showToast('텍스트가 저장되었습니다. 단어 정보를 다시 로드하는 중...', 'info', 2000);
+        }
+    });
 
     // 모의고사
     document.getElementById('submitTestBtn').addEventListener('click', submitTestAnswer);
@@ -1796,6 +1829,10 @@ function displayReadingPassage(passage) {
     
     document.getElementById('readingText').innerHTML = `<p>${formattedText}</p>`;
     document.getElementById('ttsBtn').style.display = 'inline-block';
+    
+    // 텍스트 편집 버튼 숨기기 (일반 독해 지문인 경우)
+    document.getElementById('editTextBtn').style.display = 'none';
+    document.getElementById('saveTextBtn').style.display = 'none';
 
     // 자격증 레벨 표시
     if (passage.level) {
@@ -2294,6 +2331,73 @@ function showToast(message, type = 'info', duration = 3000) {
     return toast;
 }
 
+// Google Cloud Vision API를 사용한 텍스트 추출
+async function extractTextWithGoogleVision(file, loadingToast) {
+    try {
+        // 이미지를 base64로 인코딩
+        const base64Image = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => {
+                // data:image/jpeg;base64, 부분 제거
+                const base64 = reader.result.split(',')[1];
+                resolve(base64);
+            };
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
+
+        loadingToast.querySelector('.toast-title').textContent = 'Google Vision API 호출 중...';
+
+        // Google Cloud Vision API 호출
+        const response = await fetch(
+            `https://vision.googleapis.com/v1/images:annotate?key=${GOOGLE_VISION_API_KEY}`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    requests: [
+                        {
+                            image: {
+                                content: base64Image
+                            },
+                            features: [
+                                {
+                                    type: 'TEXT_DETECTION',
+                                    maxResults: 1
+                                }
+                            ],
+                            imageContext: {
+                                languageHints: ['ja', 'en'] // 일본어와 영어 우선
+                            }
+                        }
+                    ]
+                })
+            }
+        );
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error?.message || 'Google Vision API 오류');
+        }
+
+        const data = await response.json();
+        
+        // 텍스트 추출
+        if (data.responses && data.responses[0] && data.responses[0].textAnnotations) {
+            // 첫 번째 annotation이 전체 텍스트
+            const fullText = data.responses[0].textAnnotations[0]?.description || '';
+            return fullText;
+        } else {
+            throw new Error('텍스트를 찾을 수 없습니다.');
+        }
+    } catch (error) {
+        console.error('Google Vision API 오류:', error);
+        throw error;
+    }
+}
+
 // 이미지에서 텍스트 추출 및 독해 지문으로 표시
 async function handleImageUpload(e) {
     const file = e.target.files[0];
@@ -2323,21 +2427,30 @@ async function handleImageUpload(e) {
     const loadingToast = showToast('이미지에서 텍스트를 추출하는 중...', 'loading', 0);
     
     try {
-        // Tesseract.js로 텍스트 추출
-        // 일본어와 영어를 모두 인식하도록 설정 (더 정확한 인식을 위해)
-        const { data: { text } } = await Tesseract.recognize(file, 'jpn+eng', {
-            logger: (m) => {
-                if (m.status === 'recognizing text') {
-                    const progress = Math.round(m.progress * 100);
-                    loadingToast.querySelector('.toast-title').textContent = 
-                        `텍스트 추출 중... ${progress}%`;
-                }
-            },
-            // PSM 모드: 단일 블록 텍스트로 인식 (더 정확함)
-            // 6 = Uniform block of vertically aligned text
-            // 11 = Sparse text (일반적인 문서에 적합)
-            tessedit_pageseg_mode: '11'
-        });
+        let text = '';
+        
+        // Google Cloud Vision API가 설정되어 있으면 우선 사용 (더 정확함)
+        if (typeof GOOGLE_VISION_API_KEY !== 'undefined' && GOOGLE_VISION_API_KEY && GOOGLE_VISION_API_KEY !== 'your-api-key-here') {
+            loadingToast.querySelector('.toast-title').textContent = 'Google Vision API로 텍스트 추출 중...';
+            text = await extractTextWithGoogleVision(file, loadingToast);
+        } else {
+            // Tesseract.js로 텍스트 추출 (폴백)
+            loadingToast.querySelector('.toast-title').textContent = 'Tesseract.js로 텍스트 추출 중...';
+            const { data: { text: tesseractText } } = await Tesseract.recognize(file, 'jpn+eng', {
+                logger: (m) => {
+                    if (m.status === 'recognizing text') {
+                        const progress = Math.round(m.progress * 100);
+                        loadingToast.querySelector('.toast-title').textContent = 
+                            `텍스트 추출 중... ${progress}%`;
+                    }
+                },
+                // PSM 모드: 단일 블록 텍스트로 인식 (더 정확함)
+                // 6 = Uniform block of vertically aligned text
+                // 11 = Sparse text (일반적인 문서에 적합)
+                tessedit_pageseg_mode: '11'
+            });
+            text = tesseractText;
+        }
 
         if (!text || text.trim().length === 0) {
             loadingToast.remove();
@@ -2351,16 +2464,24 @@ async function handleImageUpload(e) {
             .replace(/\n\s*\n/g, '\n') // 연속된 줄바꿈을 하나로
             .trim();
 
+        // OCR 품질 검사 (특수문자나 깨진 문자가 많으면)
+        const totalChars = cleanedText.length;
+        const japaneseChars = (cleanedText.match(/[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/g) || []).length;
+        const englishChars = (cleanedText.match(/[a-zA-Z]/g) || []).length;
+        const validChars = japaneseChars + englishChars;
+        const specialChars = totalChars - validChars - (cleanedText.match(/\s/g) || []).length;
+        const specialCharRatio = totalChars > 0 ? specialChars / totalChars : 0;
+        const validCharRatio = totalChars > 0 ? validChars / totalChars : 0;
+        
+        // OCR 품질이 낮은 경우 (유효한 문자 비율이 50% 미만이거나 특수문자 비율이 30% 이상)
+        const isLowQuality = validCharRatio < 0.5 || specialCharRatio > 0.3;
+
         // 추출된 텍스트를 독해 지문으로 표시
         loadingToast.remove();
-        showToast('텍스트 추출 완료! 단어 정보를 로드하는 중...', 'info', 2000);
-        
-        // OCR 품질 경고 (특수문자나 깨진 문자가 많으면)
-        const specialCharRatio = (cleanedText.match(/[^\w\s\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF\u3000-\u303F]/g) || []).length / cleanedText.length;
-        if (specialCharRatio > 0.3) {
-            setTimeout(() => {
-                showToast('⚠️ OCR 인식 품질이 낮을 수 있습니다. 선명한 이미지를 사용해주세요.', 'error', 5000);
-            }, 2500);
+        if (isLowQuality) {
+            showToast('⚠️ OCR 인식 품질이 낮습니다. 텍스트를 직접 수정하거나 더 선명한 이미지를 사용해주세요.', 'error', 6000);
+        } else {
+            showToast('텍스트 추출 완료! 단어 정보를 로드하는 중...', 'info', 2000);
         }
 
         // 독해 지문 상태 저장
@@ -2382,19 +2503,6 @@ async function handleImageUpload(e) {
 
         // 지문 표시 (호버 기능 포함)
         await displayExtractedText(cleanedText, certType);
-        
-        // OCR 품질 안내 (특수문자 비율이 높으면)
-        const totalChars = cleanedText.length;
-        const japaneseChars = (cleanedText.match(/[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/g) || []).length;
-        const englishChars = (cleanedText.match(/[a-zA-Z]/g) || []).length;
-        const specialChars = (cleanedText.match(/[^\w\s\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF\u3000-\u303F]/g) || []).length;
-        
-        // 특수문자 비율이 30% 이상이면 경고
-        if (totalChars > 0 && specialChars / totalChars > 0.3) {
-            setTimeout(() => {
-                showToast('⚠️ OCR 인식 품질이 낮을 수 있습니다. 더 선명한 이미지를 사용하거나 텍스트를 직접 입력해주세요.', 'error', 6000);
-            }, 3000);
-        }
 
         // 파일 입력 초기화
         e.target.value = '';
@@ -2429,6 +2537,14 @@ async function displayExtractedText(text, certType) {
         // 지문 표시
         document.getElementById('readingText').innerHTML = `<p>${formattedText}</p>`;
         document.getElementById('ttsBtn').style.display = 'inline-block';
+        
+        // 텍스트 편집 버튼 표시 (이미지에서 추출한 텍스트인 경우)
+        if (AppState.currentReadingPassage && AppState.currentReadingPassage.isFromImage) {
+            document.getElementById('editTextBtn').style.display = 'inline-block';
+        } else {
+            document.getElementById('editTextBtn').style.display = 'none';
+        }
+        document.getElementById('saveTextBtn').style.display = 'none';
         
         // 문제 영역 숨기기 (이미지에서 추출한 텍스트는 문제 없음)
         document.getElementById('readingQuestions').style.display = 'none';

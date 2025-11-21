@@ -233,10 +233,12 @@
                 </div>
                 <div class="reading-content">
                     <div class="reading-text-container">
-                        <div id="readingText" class="reading-text">
+                        <div id="readingText" class="reading-text" contenteditable="false">
                             <p>독해 지문을 선택하거나 사진을 업로드하여 텍스트를 추출하세요.</p>
                         </div>
                         <div class="reading-controls">
+                            <button class="btn btn-secondary" id="editTextBtn" style="display: none;">✏️ 텍스트 수정</button>
+                            <button class="btn btn-secondary" id="saveTextBtn" style="display: none;">💾 저장</button>
                             <button class="btn btn-secondary" id="loadReadingBtn">새 독해 지문 불러오기</button>
                         </div>
                     </div>
@@ -537,6 +539,8 @@
 
     <!-- Supabase 클라이언트 설정 (supabase_client.js를 먼저 로드) -->
     <script src="supabase_client.js"></script>
+    <!-- Google Cloud Vision API 설정 (선택사항) -->
+    <script src="google_vision_config.js" onerror="console.warn('Google Vision API 설정 파일이 없습니다. Tesseract.js를 사용합니다.')"></script>
     <script src="app.js"></script>
 </body>
 </html>

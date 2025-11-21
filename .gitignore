@@ -35,6 +35,9 @@ node_modules/
 supabase_config.js
 # supabase_client.js는 배포를 위해 커밋에 포함
 
+# Google Cloud Vision API 설정 파일 (API 키 포함)
+google_vision_config.js
+
 
 
 
