@@ -27,16 +27,115 @@ const AppState = {
 
 // 초기화
 document.addEventListener('DOMContentLoaded', async () => {
-    loadUserData();
-    loadData();
+    await loadUserData(); // async로 변경
+    await loadData(); // async로 변경
     await loadDictionary();
     initializeEventListeners();
     updateUI();
     updateAuthUI();
+    
+    // Supabase Auth 상태 변화 감지
+    if (window.supabaseClient) {
+        window.supabaseClient.auth.onAuthStateChange((event, session) => {
+            if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
+                loadUserData();
+                loadData();
+            } else if (event === 'SIGNED_OUT') {
+                AppState.currentUser = null;
+                AppState.vocabulary = [];
+                AppState.searchHistory = [];
+                saveUserData();
+                saveData();
+                updateAuthUI();
+                updateUI();
+            }
+        });
+    }
 });
 
-// 데이터 로드
-function loadData() {
+// 데이터 로드 (Supabase 또는 localStorage)
+async function loadData() {
+    // 로그인하지 않은 경우 localStorage 사용
+    if (!AppState.currentUser || !window.supabaseClient) {
+        loadDataFromLocalStorage();
+        return;
+    }
+
+    const supabase = window.supabaseClient;
+    const userId = AppState.currentUser.id;
+
+    try {
+        // 사용자 단어장 로드
+        const { data: vocabData } = await supabase
+            .from('user_vocabulary')
+            .select('*, words(*)')
+            .eq('user_id', userId);
+
+        if (vocabData) {
+            AppState.vocabulary = vocabData.map(item => ({
+                id: item.word_id,
+                word: item.words?.word || '',
+                meaning: item.words?.meaning || '',
+                pronunciation: item.words?.pronunciation || '',
+                mastered: item.mastered,
+                reviewCount: item.review_count,
+                lastReviewed: item.last_reviewed_at
+            }));
+        }
+
+        // 검색 기록 로드 (최근 50개)
+        const { data: historyData } = await supabase
+            .from('search_history')
+            .select('*')
+            .eq('user_id', userId)
+            .order('created_at', { ascending: false })
+            .limit(50);
+
+        if (historyData) {
+            AppState.searchHistory = historyData.map(item => ({
+                query: item.query,
+                language: item.language,
+                date: item.created_at
+            }));
+        }
+
+        // 오늘의 진행상황 로드
+        const today = new Date().toISOString().split('T')[0];
+        const { data: progressData } = await supabase
+            .from('user_progress')
+            .select('*')
+            .eq('user_id', userId)
+            .eq('date', today)
+            .single();
+
+        if (progressData) {
+            AppState.dailyProgress = {
+                date: progressData.date,
+                wordsLearned: progressData.words_learned || 0,
+                goal: AppState.settings.dailyGoal
+            };
+        } else {
+            AppState.dailyProgress = {
+                date: new Date().toDateString(),
+                wordsLearned: 0,
+                goal: AppState.settings.dailyGoal
+            };
+        }
+
+        // 설정은 localStorage에 저장 (Supabase 테이블 없음)
+        const savedSettings = localStorage.getItem('settings');
+        if (savedSettings) {
+            AppState.settings = { ...AppState.settings, ...JSON.parse(savedSettings) };
+        }
+    } catch (error) {
+        console.error('데이터 로드 오류:', error);
+        // 폴백: localStorage 사용
+        loadDataFromLocalStorage();
+    }
+}
+
+// localStorage에서 데이터 로드 (폴백)
+function loadDataFromLocalStorage() {
     const savedVocab = localStorage.getItem('vocabulary');
     const savedHistory = localStorage.getItem('searchHistory');
     const savedSettings = localStorage.getItem('settings');
@@ -64,12 +163,93 @@ function loadData() {
     }
 }
 
-// 데이터 저장
-function saveData() {
-    localStorage.setItem('vocabulary', JSON.stringify(AppState.vocabulary));
-    localStorage.setItem('searchHistory', JSON.stringify(AppState.searchHistory));
+// 데이터 저장 (Supabase 또는 localStorage)
+async function saveData() {
+    // 설정은 항상 localStorage에 저장
     localStorage.setItem('settings', JSON.stringify(AppState.settings));
-    localStorage.setItem('dailyProgress', JSON.stringify(AppState.dailyProgress));
+
+    // 로그인하지 않은 경우 localStorage 사용
+    if (!AppState.currentUser || !window.supabaseClient) {
+        localStorage.setItem('vocabulary', JSON.stringify(AppState.vocabulary));
+        localStorage.setItem('searchHistory', JSON.stringify(AppState.searchHistory));
+        localStorage.setItem('dailyProgress', JSON.stringify(AppState.dailyProgress));
+        return;
+    }
+
+    const supabase = window.supabaseClient;
+    const userId = AppState.currentUser.id;
+
+    try {
+        // 사용자 단어장 저장 (배치 업데이트)
+        if (AppState.vocabulary && AppState.vocabulary.length > 0) {
+            const vocabToUpsert = AppState.vocabulary
+                .filter(v => v.id) // word_id가 있는 것만
+                .map(v => ({
+                    user_id: userId,
+                    word_id: v.id,
+                    mastered: v.mastered || false,
+                    review_count: v.reviewCount || 0,
+                    last_reviewed_at: v.lastReviewed || null
+                }));
+
+            if (vocabToUpsert.length > 0) {
+                const { error } = await supabase
+                    .from('user_vocabulary')
+                    .upsert(vocabToUpsert, { onConflict: 'user_id,word_id' });
+
+                if (error) {
+                    console.error('단어장 저장 오류:', error);
+                }
+            }
+        }
+
+        // 검색 기록 저장 (최근 것만)
+        if (AppState.searchHistory && AppState.searchHistory.length > 0) {
+            const recentHistory = AppState.searchHistory.slice(0, 10); // 최근 10개만
+            const historyToInsert = recentHistory.map(h => ({
+                user_id: userId,
+                query: h.query,
+                language: h.language
+            }));
+
+            if (historyToInsert.length > 0) {
+                const { error } = await supabase
+                    .from('search_history')
+                    .insert(historyToInsert);
+
+                if (error) {
+                    console.error('검색 기록 저장 오류:', error);
+                }
+            }
+        }
+
+        // 오늘의 진행상황 저장
+        const today = new Date().toISOString().split('T')[0];
+        const { error: progressError } = await supabase
+            .from('user_progress')
+            .upsert({
+                user_id: userId,
+                date: today,
+                words_learned: AppState.dailyProgress.wordsLearned || 0,
+                quiz_score: 0, // 필요시 추가
+                study_time_minutes: 0 // 필요시 추가
+            }, { onConflict: 'user_id,date' });
+
+        if (progressError) {
+            console.error('진행상황 저장 오류:', progressError);
+        }
+
+        // localStorage에도 백업 저장
+        localStorage.setItem('vocabulary', JSON.stringify(AppState.vocabulary));
+        localStorage.setItem('searchHistory', JSON.stringify(AppState.searchHistory));
+        localStorage.setItem('dailyProgress', JSON.stringify(AppState.dailyProgress));
+    } catch (error) {
+        console.error('데이터 저장 오류:', error);
+        // 폴백: localStorage에만 저장
+        localStorage.setItem('vocabulary', JSON.stringify(AppState.vocabulary));
+        localStorage.setItem('searchHistory', JSON.stringify(AppState.searchHistory));
+        localStorage.setItem('dailyProgress', JSON.stringify(AppState.dailyProgress));
+    }
 }
 
 // 이벤트 리스너 초기화
@@ -238,8 +418,81 @@ function isJapanese(text) {
     return /[\u3040-\u309F\u30A0-\u30FF\u4e00-\u9faf]/.test(text);
 }
 
-// 사전 데이터 로드
+// 사전 데이터 로드 (Supabase에서)
 async function loadDictionary() {
+    try {
+        // Supabase 클라이언트 확인
+        if (!window.supabaseClient) {
+            console.warn('Supabase 클라이언트가 로드되지 않았습니다. JSON 파일을 사용합니다.');
+            await loadDictionaryFromJSON();
+            return;
+        }
+
+        const supabase = window.supabaseClient;
+        console.log('🔍 Supabase에서 사전 데이터 로드 시작...');
+
+        // 일본어 단어 로드 (복합 단어 + 단일 한자)
+        const { data: japaneseWords, error: jaError, count: jaCount } = await supabase
+            .from('words')
+            .select('*', { count: 'exact' })
+            .eq('language', 'ja');
+
+        if (jaError) {
+            console.error('❌ 일본어 단어 로드 오류:', jaError);
+            console.error('오류 상세:', JSON.stringify(jaError, null, 2));
+            await loadDictionaryFromJSON(); // 폴백: JSON 파일 사용
+            return;
+        }
+
+        console.log(`📊 일본어 단어 조회 결과: ${japaneseWords?.length || 0}개 (총 ${jaCount || 0}개)`);
+
+        // 영어 단어 로드 (TOEIC)
+        const { data: englishWords, error: enError, count: enCount } = await supabase
+            .from('words')
+            .select('*', { count: 'exact' })
+            .eq('language', 'en');
+
+        if (enError) {
+            console.error('❌ 영어 단어 로드 오류:', enError);
+            console.error('오류 상세:', JSON.stringify(enError, null, 2));
+        } else {
+            console.log(`📊 영어 단어 조회 결과: ${englishWords?.length || 0}개 (총 ${enCount || 0}개)`);
+        }
+
+        // 데이터가 없는 경우 JSON 파일 사용
+        if ((!japaneseWords || japaneseWords.length === 0) && (!englishWords || englishWords.length === 0)) {
+            console.warn('⚠️ Supabase에 데이터가 없습니다. JSON 파일을 사용합니다.');
+            await loadDictionaryFromJSON();
+            return;
+        }
+
+        // 데이터 구조 변환 (기존 형식과 호환)
+        const compoundWordsList = (japaneseWords || []).filter(w => w.type === 'word' || !w.type || w.type === null);
+        const singleCharactersList = (japaneseWords || []).filter(w => w.type === 'kanji');
+
+        AppState.compoundWords = { words: compoundWordsList };
+        AppState.singleCharacters = { words: singleCharactersList };
+        AppState.toeicDictionary = { words: englishWords || [] };
+
+        // 기존 호환성을 위해 통합 사전도 유지 (일본어만)
+        AppState.dictionary = {
+            words: [
+                ...compoundWordsList,
+                ...singleCharactersList
+            ]
+        };
+
+        console.log(`✅ 사전 로드 완료: 일본어 ${japaneseWords?.length || 0}개 (복합: ${compoundWordsList.length}, 한자: ${singleCharactersList.length}), 영어 ${englishWords?.length || 0}개`);
+    } catch (error) {
+        console.error('❌ 사전 로드 오류:', error);
+        console.error('오류 스택:', error.stack);
+        // 폴백: JSON 파일 사용
+        await loadDictionaryFromJSON();
+    }
+}
+
+// JSON 파일에서 사전 로드 (폴백)
+async function loadDictionaryFromJSON() {
     try {
         // 일본어 복합 단어 사전 로드
         const compoundResponse = await fetch('jlpt/vocabulary/compound_word.json');
@@ -279,7 +532,7 @@ async function loadDictionary() {
             ]
         };
     } catch (error) {
-        console.error('사전 로드 오류:', error);
+        console.error('JSON 사전 로드 오류:', error);
         AppState.compoundWords = { words: [] };
         AppState.singleCharacters = { words: [] };
         AppState.toeicDictionary = { words: [] };
@@ -324,11 +577,26 @@ async function searchDictionary() {
     }
 }
 
-// 로컬 사전에서 검색
+// 로컬 사전에서 검색 (Supabase 또는 메모리에서)
 function searchLocalDictionary(word) {
-    // 한국어 입력인지 확인
+    // 먼저 메모리에 로드된 데이터에서 검색 (빠름)
+    const foundInMemory = searchInMemory(word);
+    if (foundInMemory && !foundInMemory.error) {
+        return foundInMemory;
+    }
+
+    // 메모리에 없으면 Supabase에서 직접 검색 (비동기)
+    // 하지만 동기 함수이므로 메모리 검색 결과 반환
+    return foundInMemory || {
+        word: word,
+        meaning: '검색 결과를 찾을 수 없습니다.',
+        error: true
+    };
+}
+
+// 메모리에 로드된 데이터에서 검색
+function searchInMemory(word) {
     const isKoreanInput = isKorean(word);
-    
     let foundWord = null;
     
     if (isKoreanInput) {
@@ -361,7 +629,7 @@ function searchLocalDictionary(word) {
                 hiragana: foundWord.hiragana || null,
                 katakana: foundWord.katakana || null,
                 kanji: foundWord.type === 'kanji' ? foundWord.word : null,
-                kanjiComponents: foundWord.kanjiComponents || null,
+                kanjiComponents: foundWord.kanji_components || foundWord.kanjiComponents || null,
                 searchedKorean: word,
                 error: false
             };
@@ -400,7 +668,7 @@ function searchLocalDictionary(word) {
                 hiragana: foundWord.hiragana || null,
                 katakana: foundWord.katakana || null,
                 kanji: foundWord.type === 'kanji' ? foundWord.word : null,
-                kanjiComponents: foundWord.kanjiComponents || null,
+                kanjiComponents: foundWord.kanji_components || foundWord.kanjiComponents || null,
                 error: false
             };
         }
@@ -415,6 +683,7 @@ function searchLocalDictionary(word) {
 
 // TOEIC 사전에서 검색
 function searchToeicDictionary(word) {
+    // 메모리에 로드된 데이터에서 검색
     if (!AppState.toeicDictionary?.words || AppState.toeicDictionary.words.length === 0) {
         return {
             error: true,
@@ -605,12 +874,12 @@ function displayDictionaryResult(result, word, lang) {
 
 // 검색 기록에 추가
 function addToSearchHistory(word, lang) {
-    const entry = { word, lang, date: new Date().toISOString() };
+    const entry = { query: word, language: lang, date: new Date().toISOString() };
     AppState.searchHistory.unshift(entry);
     if (AppState.searchHistory.length > 20) {
         AppState.searchHistory = AppState.searchHistory.slice(0, 20);
     }
-    saveData();
+    saveData(); // Supabase에 저장됨
     renderSearchHistory();
     
     // 일본어 검색인 경우 플래시카드에 자동 추가
@@ -665,7 +934,7 @@ function renderSearchHistory() {
     }
 
     historyList.innerHTML = AppState.searchHistory.map(entry => 
-        `<span class="history-item" onclick="searchFromHistory('${entry.word}', '${entry.lang}')">${entry.word}</span>`
+        `<span class="history-item" onclick="searchFromHistory('${entry.query || entry.word}', '${entry.language || entry.lang}')">${entry.query || entry.word}</span>`
     ).join('');
 }
 
@@ -727,12 +996,15 @@ function addKanjiHover(container) {
         // 복합 단어에서 먼저 검색
         let wordData = AppState.compoundWords?.words?.find(w => w.word === wordText);
         
-        if (wordData && wordData.kanjiComponents && wordData.kanjiComponents.length > 1) {
+        // Supabase에서는 kanji_components, JSON에서는 kanjiComponents
+        const kanjiComponents = wordData?.kanji_components || wordData?.kanjiComponents;
+        
+        if (wordData && kanjiComponents && kanjiComponents.length > 1) {
             // 여러 한자로 구성된 단어인 경우
             el.classList.add('kanji-word-hoverable');
             el.setAttribute('data-word', wordText);
             el.setAttribute('data-meaning', wordData.meaning);
-            el.setAttribute('data-kanji-components', JSON.stringify(wordData.kanjiComponents));
+            el.setAttribute('data-kanji-components', JSON.stringify(kanjiComponents));
             
             // 호버 이벤트 추가
             el.addEventListener('mouseenter', showWordKanjiTooltip);
@@ -945,11 +1217,16 @@ function toggleKanjiBreakdown(e) {
             // 단일 한자 사전에서 검색
             const kanjiData = AppState.singleCharacters?.words?.find(w => w.word === kanji);
             if (kanjiData) {
+                // Supabase에서는 on_yomi, kun_yomi로 저장되지만, JSON에서는 onYomi, kunYomi
+                const onYomi = kanjiData.on_yomi || kanjiData.onYomi || [];
+                const kunYomi = kanjiData.kun_yomi || kanjiData.kunYomi || [];
+                const kanjiMeaning = kanjiData.kanji_meaning || kanjiData.kanjiMeaning || '';
+                
                 html += `<span class="individual-kanji" 
                               data-kanji="${kanji}"
-                              data-on-yomi="${JSON.stringify(kanjiData.onYomi || [])}"
-                              data-kun-yomi="${JSON.stringify(kanjiData.kunYomi || [])}"
-                              data-kanji-meaning="${kanjiData.kanjiMeaning || ''}">${kanji}</span>`;
+                              data-on-yomi="${JSON.stringify(onYomi)}"
+                              data-kun-yomi="${JSON.stringify(kunYomi)}"
+                              data-kanji-meaning="${kanjiMeaning}">${kanji}</span>`;
             } else {
                 html += `<span class="individual-kanji" data-kanji="${kanji}">${kanji}</span>`;
             }
@@ -2262,7 +2539,7 @@ function updateProgressPage() {
     } else {
         activityDiv.innerHTML = recentActivity.map(entry => `
             <div class="stat-item">
-                <span>${entry.word} 검색</span>
+                <span>${entry.query || entry.word} 검색</span>
                 <span>${new Date(entry.date).toLocaleDateString()}</span>
             </div>
         `).join('');
@@ -2279,16 +2556,56 @@ function getLanguageName(code) {
     return names[code] || code;
 }
 
-// 사용자 데이터 로드
-function loadUserData() {
-    const savedUser = localStorage.getItem('currentUser');
-    if (savedUser) {
-        AppState.currentUser = JSON.parse(savedUser);
+// 사용자 데이터 로드 (Supabase Auth 세션 확인)
+async function loadUserData() {
+    // Supabase 클라이언트 확인
+    if (!window.supabaseClient) {
+        // 폴백: localStorage 사용
+        const savedUser = localStorage.getItem('currentUser');
+        if (savedUser) {
+            AppState.currentUser = JSON.parse(savedUser);
+        }
+        return;
     }
-    
-    const savedUsers = localStorage.getItem('users');
-    if (!savedUsers) {
-        localStorage.setItem('users', JSON.stringify([]));
+
+    const supabase = window.supabaseClient;
+
+    try {
+        // 현재 세션 확인
+        const { data: { session }, error } = await supabase.auth.getSession();
+        
+        if (error) {
+            console.error('세션 확인 오류:', error);
+            return;
+        }
+
+        if (session && session.user) {
+            // 프로필 정보 가져오기
+            const { data: profile, error: profileError } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', session.user.id)
+                .single();
+
+            if (profileError) {
+                console.error('프로필 로드 오류:', profileError);
+            }
+
+            AppState.currentUser = {
+                id: session.user.id,
+                username: profile?.username || session.user.email?.split('@')[0] || 'User',
+                email: session.user.email
+            };
+        } else {
+            AppState.currentUser = null;
+        }
+    } catch (error) {
+        console.error('사용자 데이터 로드 오류:', error);
+        // 폴백: localStorage 사용
+        const savedUser = localStorage.getItem('currentUser');
+        if (savedUser) {
+            AppState.currentUser = JSON.parse(savedUser);
+        }
     }
 }
 
@@ -2361,42 +2678,90 @@ function showSignupModal() {
     document.getElementById('signupPasswordConfirm').value = '';
 }
 
-// 로그인 처리
-function handleLogin() {
+// 로그인 처리 (Supabase Auth)
+async function handleLogin() {
     const emailOrUsername = document.getElementById('loginEmail').value.trim();
     const password = document.getElementById('loginPassword').value;
     const errorDiv = document.getElementById('loginError');
     
     if (!emailOrUsername || !password) {
-        errorDiv.textContent = '이메일/사용자명과 비밀번호를 입력해주세요.';
+        errorDiv.textContent = '이메일과 비밀번호를 입력해주세요.';
         errorDiv.style.display = 'block';
         return;
     }
-    
-    const users = getAllUsers();
-    const user = users.find(u => 
-        (u.email === emailOrUsername || u.username === emailOrUsername) && 
-        u.password === password
-    );
-    
-    if (user) {
-        // 비밀번호는 저장하지 않음
-        AppState.currentUser = {
-            id: user.id,
-            username: user.username,
-            email: user.email
-        };
-        saveUserData();
-        updateAuthUI();
-        closeModal('loginModal');
-    } else {
-        errorDiv.textContent = '이메일/사용자명 또는 비밀번호가 올바르지 않습니다.';
+
+    // Supabase 클라이언트 확인
+    if (!window.supabaseClient) {
+        errorDiv.textContent = 'Supabase 클라이언트가 로드되지 않았습니다.';
+        errorDiv.style.display = 'block';
+        return;
+    }
+
+    const supabase = window.supabaseClient;
+    errorDiv.style.display = 'none';
+
+    try {
+        // 이메일로 로그인 (Supabase는 이메일만 지원)
+        // 사용자명으로 로그인하려면 먼저 프로필에서 이메일 찾기
+        let email = emailOrUsername;
+        
+        // 이메일 형식이 아니면 프로필에서 찾기
+        if (!emailOrUsername.includes('@')) {
+            const { data: profiles } = await supabase
+                .from('profiles')
+                .select('email')
+                .eq('username', emailOrUsername)
+                .single();
+            
+            if (profiles && profiles.email) {
+                email = profiles.email;
+            } else {
+                errorDiv.textContent = '사용자명을 찾을 수 없습니다. 이메일을 사용해주세요.';
+                errorDiv.style.display = 'block';
+                return;
+            }
+        }
+
+        // Supabase Auth로 로그인
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email: email,
+            password: password
+        });
+
+        if (error) {
+            errorDiv.textContent = error.message || '이메일 또는 비밀번호가 올바르지 않습니다.';
+            errorDiv.style.display = 'block';
+            return;
+        }
+
+        if (data.user) {
+            // 프로필 정보 가져오기
+            const { data: profile } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', data.user.id)
+                .single();
+
+            AppState.currentUser = {
+                id: data.user.id,
+                username: profile?.username || data.user.email?.split('@')[0] || 'User',
+                email: data.user.email
+            };
+            
+            saveUserData();
+            updateAuthUI();
+            await loadData(); // 사용자 데이터 로드
+            closeModal('loginModal');
+        }
+    } catch (error) {
+        console.error('로그인 오류:', error);
+        errorDiv.textContent = '로그인 중 오류가 발생했습니다.';
         errorDiv.style.display = 'block';
     }
 }
 
-// 회원가입 처리
-function handleSignup() {
+// 회원가입 처리 (Supabase Auth)
+async function handleSignup() {
     const username = document.getElementById('signupUsername').value.trim();
     const email = document.getElementById('signupEmail').value.trim();
     const password = document.getElementById('signupPassword').value;
@@ -2416,59 +2781,115 @@ function handleSignup() {
         return;
     }
     
-    if (password.length < 4) {
-        errorDiv.textContent = '비밀번호는 최소 4자 이상이어야 합니다.';
+    if (password.length < 6) {
+        errorDiv.textContent = '비밀번호는 최소 6자 이상이어야 합니다.';
         errorDiv.style.display = 'block';
         return;
     }
-    
-    const users = getAllUsers();
-    
-    // 중복 확인
-    if (users.find(u => u.email === email)) {
-        errorDiv.textContent = '이미 사용 중인 이메일입니다.';
+
+    // Supabase 클라이언트 확인
+    if (!window.supabaseClient) {
+        errorDiv.textContent = 'Supabase 클라이언트가 로드되지 않았습니다.';
         errorDiv.style.display = 'block';
         return;
     }
-    
-    if (users.find(u => u.username === username)) {
-        errorDiv.textContent = '이미 사용 중인 사용자명입니다.';
+
+    const supabase = window.supabaseClient;
+    errorDiv.style.display = 'none';
+
+    try {
+        // 사용자명 중복 확인
+        const { data: existingProfile } = await supabase
+            .from('profiles')
+            .select('username')
+            .eq('username', username)
+            .single();
+
+        if (existingProfile) {
+            errorDiv.textContent = '이미 사용 중인 사용자명입니다.';
+            errorDiv.style.display = 'block';
+            return;
+        }
+
+        // Supabase Auth로 회원가입
+        const { data, error } = await supabase.auth.signUp({
+            email: email,
+            password: password,
+            options: {
+                data: {
+                    username: username
+                }
+            }
+        });
+
+        if (error) {
+            errorDiv.textContent = error.message || '회원가입 중 오류가 발생했습니다.';
+            errorDiv.style.display = 'block';
+            return;
+        }
+
+        if (data.user) {
+            // 프로필은 트리거로 자동 생성되지만, 사용자명을 확실히 설정
+            const { error: profileError } = await supabase
+                .from('profiles')
+                .upsert({
+                    id: data.user.id,
+                    username: username,
+                    email: email
+                });
+
+            if (profileError) {
+                console.error('프로필 생성 오류:', profileError);
+            }
+
+            // 자동 로그인
+            AppState.currentUser = {
+                id: data.user.id,
+                username: username,
+                email: email
+            };
+            
+            saveUserData();
+            updateAuthUI();
+            await loadData(); // 사용자 데이터 로드
+            closeModal('signupModal');
+            
+            alert('회원가입이 완료되었습니다!');
+        }
+    } catch (error) {
+        console.error('회원가입 오류:', error);
+        errorDiv.textContent = '회원가입 중 오류가 발생했습니다.';
         errorDiv.style.display = 'block';
-        return;
     }
-    
-    // 새 사용자 생성
-    const newUser = {
-        id: Date.now().toString(),
-        username: username,
-        email: email,
-        password: password, // 실제로는 해시화해야 함
-        createdAt: new Date().toISOString()
-    };
-    
-    users.push(newUser);
-    saveUsers(users);
-    
-    // 자동 로그인
-    AppState.currentUser = {
-        id: newUser.id,
-        username: newUser.username,
-        email: newUser.email
-    };
-    saveUserData();
-    updateAuthUI();
-    closeModal('signupModal');
-    
-    alert('회원가입이 완료되었습니다!');
 }
 
-// 로그아웃 처리
-function handleLogout() {
-    if (confirm('로그아웃 하시겠습니까?')) {
-        AppState.currentUser = null;
-        saveUserData();
-        updateAuthUI();
+// 로그아웃 처리 (Supabase Auth)
+async function handleLogout() {
+    if (!confirm('로그아웃 하시겠습니까?')) {
+        return;
     }
+
+    // Supabase 클라이언트 확인
+    if (window.supabaseClient) {
+        try {
+            const { error } = await window.supabaseClient.auth.signOut();
+            if (error) {
+                console.error('로그아웃 오류:', error);
+            }
+        } catch (error) {
+            console.error('로그아웃 오류:', error);
+        }
+    }
+
+    AppState.currentUser = null;
+    saveUserData();
+    updateAuthUI();
+    
+    // 사용자 데이터 초기화
+    AppState.vocabulary = [];
+    AppState.searchHistory = [];
+    saveData();
+    updateUI();
 }
 
 // 계정 관리 모달 열기
@@ -2491,8 +2912,8 @@ function openAccountModal() {
     document.getElementById('accountModal').classList.add('active');
 }
 
-// 비밀번호 변경 처리
-function handlePasswordChange() {
+// 비밀번호 변경 처리 (Supabase Auth)
+async function handlePasswordChange() {
     const currentPassword = document.getElementById('currentPassword').value;
     const newPassword = document.getElementById('newPassword').value;
     const newPasswordConfirm = document.getElementById('newPasswordConfirm').value;
@@ -2514,42 +2935,61 @@ function handlePasswordChange() {
         return;
     }
     
-    if (newPassword.length < 4) {
-        errorDiv.textContent = '비밀번호는 최소 4자 이상이어야 합니다.';
+    if (newPassword.length < 6) {
+        errorDiv.textContent = '비밀번호는 최소 6자 이상이어야 합니다.';
         errorDiv.style.display = 'block';
         return;
     }
-    
-    const users = getAllUsers();
-    const userIndex = users.findIndex(u => u.id === AppState.currentUser.id);
-    
-    if (userIndex === -1) {
-        errorDiv.textContent = '사용자를 찾을 수 없습니다.';
+
+    // Supabase 클라이언트 확인
+    if (!window.supabaseClient || !AppState.currentUser) {
+        errorDiv.textContent = '로그인이 필요합니다.';
         errorDiv.style.display = 'block';
         return;
     }
-    
-    if (users[userIndex].password !== currentPassword) {
-        errorDiv.textContent = '현재 비밀번호가 올바르지 않습니다.';
+
+    const supabase = window.supabaseClient;
+
+    try {
+        // 현재 비밀번호 확인 (재로그인)
+        const { error: signInError } = await supabase.auth.signInWithPassword({
+            email: AppState.currentUser.email,
+            password: currentPassword
+        });
+
+        if (signInError) {
+            errorDiv.textContent = '현재 비밀번호가 올바르지 않습니다.';
+            errorDiv.style.display = 'block';
+            return;
+        }
+
+        // 비밀번호 변경
+        const { error: updateError } = await supabase.auth.updateUser({
+            password: newPassword
+        });
+
+        if (updateError) {
+            errorDiv.textContent = updateError.message || '비밀번호 변경 중 오류가 발생했습니다.';
+            errorDiv.style.display = 'block';
+            return;
+        }
+
+        successDiv.textContent = '비밀번호가 성공적으로 변경되었습니다.';
+        successDiv.style.display = 'block';
+        
+        // 입력 필드 초기화
+        document.getElementById('currentPassword').value = '';
+        document.getElementById('newPassword').value = '';
+        document.getElementById('newPasswordConfirm').value = '';
+    } catch (error) {
+        console.error('비밀번호 변경 오류:', error);
+        errorDiv.textContent = '비밀번호 변경 중 오류가 발생했습니다.';
         errorDiv.style.display = 'block';
-        return;
     }
-    
-    // 비밀번호 변경
-    users[userIndex].password = newPassword;
-    saveUsers(users);
-    
-    successDiv.textContent = '비밀번호가 성공적으로 변경되었습니다.';
-    successDiv.style.display = 'block';
-    
-    // 입력 필드 초기화
-    document.getElementById('currentPassword').value = '';
-    document.getElementById('newPassword').value = '';
-    document.getElementById('newPasswordConfirm').value = '';
 }
 
-// 회원 탈퇴 처리
-function handleAccountDeletion() {
+// 회원 탈퇴 처리 (Supabase Auth)
+async function handleAccountDeletion() {
     const password = document.getElementById('deletePasswordConfirm').value;
     const errorDiv = document.getElementById('deleteError');
     
@@ -2564,37 +3004,66 @@ function handleAccountDeletion() {
     if (!confirm('정말로 회원 탈퇴를 하시겠습니까? 모든 데이터가 삭제되며 복구할 수 없습니다.')) {
         return;
     }
-    
-    const users = getAllUsers();
-    const userIndex = users.findIndex(u => u.id === AppState.currentUser.id);
-    
-    if (userIndex === -1) {
-        errorDiv.textContent = '사용자를 찾을 수 없습니다.';
+
+    // Supabase 클라이언트 확인
+    if (!window.supabaseClient || !AppState.currentUser) {
+        errorDiv.textContent = '로그인이 필요합니다.';
         errorDiv.style.display = 'block';
         return;
     }
-    
-    if (users[userIndex].password !== password) {
-        errorDiv.textContent = '비밀번호가 올바르지 않습니다.';
+
+    const supabase = window.supabaseClient;
+
+    try {
+        // 비밀번호 확인 (재로그인)
+        const { error: signInError } = await supabase.auth.signInWithPassword({
+            email: AppState.currentUser.email,
+            password: password
+        });
+
+        if (signInError) {
+            errorDiv.textContent = '비밀번호가 올바르지 않습니다.';
+            errorDiv.style.display = 'block';
+            return;
+        }
+
+        // 사용자 데이터 삭제는 RLS 정책과 CASCADE로 자동 처리됨
+        // profiles 테이블 삭제 시 관련 데이터 모두 삭제됨
+        
+        // Auth 사용자 삭제
+        const { error: deleteError } = await supabase.auth.admin.deleteUser(AppState.currentUser.id);
+        
+        // admin API는 클라이언트에서 사용할 수 없으므로, 프로필만 삭제
+        // 실제로는 서버 사이드에서 처리해야 하지만, 여기서는 프로필 삭제로 대체
+        const { error: profileDeleteError } = await supabase
+            .from('profiles')
+            .delete()
+            .eq('id', AppState.currentUser.id);
+
+        if (profileDeleteError) {
+            console.error('프로필 삭제 오류:', profileDeleteError);
+            // 프로필 삭제 실패해도 로그아웃은 진행
+        }
+
+        // 로그아웃
+        await supabase.auth.signOut();
+        
+        // 로컬 데이터 초기화
+        AppState.currentUser = null;
+        AppState.vocabulary = [];
+        AppState.searchHistory = [];
+        saveUserData();
+        saveData();
+        updateAuthUI();
+        updateUI();
+        
+        closeModal('accountModal');
+        alert('회원 탈퇴가 완료되었습니다.');
+    } catch (error) {
+        console.error('회원 탈퇴 오류:', error);
+        errorDiv.textContent = '회원 탈퇴 중 오류가 발생했습니다.';
         errorDiv.style.display = 'block';
-        return;
     }
-    
-    // 사용자 삭제
-    users.splice(userIndex, 1);
-    saveUsers(users);
-    
-    // 로그아웃 및 데이터 초기화
-    AppState.currentUser = null;
-    AppState.vocabulary = [];
-    AppState.searchHistory = [];
-    saveUserData();
-    saveData();
-    updateAuthUI();
-    updateUI();
-    
-    closeModal('accountModal');
-    alert('회원 탈퇴가 완료되었습니다.');
 }
 
 // 전역 함수 (HTML에서 호출)

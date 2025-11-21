@@ -29,6 +29,12 @@ node_modules/
 *.tmp
 *.temp
 
+# Supabase 설정 파일 (API 키 포함)
+# 참고: supabase_client.js는 Vercel 배포를 위해 커밋에 포함합니다.
+# Supabase의 anon 키는 공개되어도 안전합니다 (RLS로 보호됨).
+supabase_config.js
+# supabase_client.js는 배포를 위해 커밋에 포함
+
 
 
 

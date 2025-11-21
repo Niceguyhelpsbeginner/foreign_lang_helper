@@ -1,20 +1,13 @@
 {
   "name": "foreign_lang_helper",
   "version": "1.0.0",
-  "description": "learn foreign language quickly",
-  "main": "app.js",
+  "description": "외국어 학습 도우미",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "echo 'Static site - no build needed'"
+    "migrate": "node migrate_data.js",
+    "check-data": "node check_supabase_data.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Niceguyhelpsbeginner/foreign_lang_helper.git"
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0"
   },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Niceguyhelpsbeginner/foreign_lang_helper/issues"
-  },
-  "homepage": "https://github.com/Niceguyhelpsbeginner/foreign_lang_helper#readme"
+  "devDependencies": {}
 }
