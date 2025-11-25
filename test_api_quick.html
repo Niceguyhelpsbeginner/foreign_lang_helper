@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Gemini API 빠른 테스트</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        button {
+            background: #4285f4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #357ae8;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+            white-space: pre-wrap;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-box">
+        <h1>🧪 Gemini API 연결 테스트</h1>
+        <p>API 키가 올바르게 설정되었는지 확인합니다.</p>
+        <button id="testBtn">테스트 시작</button>
+        <div id="result"></div>
+    </div>
+
+    <script src="gemini_config.js"></script>
+    <script>
+        document.getElementById('testBtn').addEventListener('click', async () => {
+            const btn = document.getElementById('testBtn');
+            const resultDiv = document.getElementById('result');
+            
+            btn.disabled = true;
+            resultDiv.innerHTML = '<div class="result info">테스트 중...</div>';
+            
+            try {
+                // API 키 확인
+                if (typeof GEMINI_API_KEY === 'undefined' || !GEMINI_API_KEY || GEMINI_API_KEY === 'your-api-key-here') {
+                    throw new Error('API 키가 설정되지 않았습니다.');
+                }
+                
+                // 여러 모델과 API 버전을 시도해봅니다 (최신 모델 우선)
+                const models = [
+                    'gemini-2.5-flash',      // 최신 Flash 모델
+                    'gemini-2.0-flash',      // 안정적인 Flash 모델
+                    'gemini-flash-latest',   // 최신 Flash 버전
+                    'gemini-2.5-pro',        // Pro 모델
+                    'gemini-pro-latest'       // 최신 Pro 버전
+                ];
+                const apiVersions = ['v1', 'v1beta']; // v1을 먼저 시도
+                
+                let response;
+                let lastError;
+                
+                // 각 API 버전과 모델을 순차적으로 시도
+                for (const version of apiVersions) {
+                    for (const model of models) {
+                        try {
+                            const testResponse = await fetch(
+                                `https://generativelanguage.googleapis.com/${version}/models/${model}:generateContent?key=${GEMINI_API_KEY}`,
+                            {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify({
+                                    contents: [{
+                                        parts: [{
+                                            text: '안녕하세요라고 한 번만 말해주세요.'
+                                        }]
+                                    }],
+                                    generationConfig: {
+                                        temperature: 0.1,
+                                        maxOutputTokens: 10
+                                    }
+                                })
+                            }
+                        );
+                        
+                            if (testResponse.ok) {
+                                response = testResponse;
+                                window.workingModel = model; // 작동하는 모델 저장
+                                window.workingVersion = version; // 작동하는 버전 저장
+                                break;
+                            } else {
+                                const errorData = await testResponse.json().catch(() => ({}));
+                                lastError = errorData.error?.message || `HTTP ${testResponse.status}`;
+                            }
+                        } catch (err) {
+                            lastError = err.message;
+                            continue;
+                        }
+                    }
+                    if (response) break; // 성공한 버전이 있으면 중단
+                }
+                
+                if (!response) {
+                    throw new Error(`모든 모델 시도 실패. 마지막 오류: ${lastError}`);
+                }
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error?.message || `HTTP ${response.status} 오류`);
+                }
+                
+                const data = await response.json();
+                
+                // 안전하게 응답 데이터 확인
+                if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+                    const content = data.candidates[0].content;
+                    const text = content.parts && content.parts[0] ? content.parts[0].text : '응답 없음';
+                    
+                    resultDiv.innerHTML = `
+                        <div class="result success">
+                            <strong>✅ 성공!</strong><br><br>
+                            API 키가 올바르게 설정되었습니다.<br>
+                            사용된 모델: ${window.workingModel || '알 수 없음'}<br>
+                            API 버전: ${window.workingVersion || '알 수 없음'}<br>
+                            응답: ${text}<br><br>
+                            이제 이미지 텍스트 추출 기능을 사용할 수 있습니다!
+                        </div>
+                    `;
+                } else {
+                    console.error('응답 데이터 구조:', data);
+                    throw new Error('예상치 못한 응답 형식: ' + JSON.stringify(data).substring(0, 200));
+                }
+            } catch (error) {
+                let errorMsg = error.message;
+                
+                // 일반적인 오류 메시지 개선
+                if (errorMsg.includes('403') || errorMsg.includes('blocked')) {
+                    errorMsg = '403 오류: HTTP 리퍼러가 차단되었습니다.\n\n해결 방법:\n1. Google AI Studio에서 새 API 키 발급 (권장)\n2. Google Cloud Console에서 API 키 제한에 http://localhost:* 추가';
+                } else if (errorMsg.includes('401') || errorMsg.includes('invalid')) {
+                    errorMsg = '401 오류: API 키가 유효하지 않습니다.\n\n해결 방법:\n1. gemini_config.js 파일의 API 키 확인\n2. Google AI Studio에서 새 API 키 발급';
+                }
+                
+                resultDiv.innerHTML = `
+                    <div class="result error">
+                        <strong>❌ 오류 발생</strong><br><br>
+                        ${errorMsg}
+                    </div>
+                `;
+            } finally {
+                btn.disabled = false;
+            }
+        });
+        
+        // 페이지 로드 시 API 키 상태 확인
+        window.addEventListener('load', () => {
+            const resultDiv = document.getElementById('result');
+            if (typeof GEMINI_API_KEY === 'undefined' || !GEMINI_API_KEY || GEMINI_API_KEY === 'your-api-key-here') {
+                resultDiv.innerHTML = '<div class="result error">⚠️ API 키가 설정되지 않았습니다. gemini_config.js 파일을 확인하세요.</div>';
+            } else {
+                resultDiv.innerHTML = '<div class="result info">✅ API 키가 설정되었습니다. 위의 "테스트 시작" 버튼을 클릭하여 연결을 확인하세요.</div>';
+            }
+        });
+    </script>
+</body>
+</html>
+

@@ -6,3 +6,5 @@ https://cvqdlrtfycqbtzekkmkv.supabase.co -project url
 
 
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2cWRscnRmeWNxYnR6ZWtrbWt2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM3MjMwOTAsImV4cCI6MjA3OTI5OTA5MH0.W38de0RfvjuFXeGEl8AlP_lrlLgo4VPQHr_uOsdb6AQ -anon api
+
+			

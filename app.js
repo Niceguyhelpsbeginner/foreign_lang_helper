@@ -7,7 +7,10 @@ const AppState = {
     settings: {
         targetCertification: 'none',
         dailyGoal: 10,
-        ttsLanguage: 'ja'
+        ttsLanguage: 'ja',
+        ttsRate: 1.0,      // 읽는 속도 (0.1 ~ 10)
+        ttsPitch: 1.0,     // 음성 높이 (0 ~ 2)
+        ttsVolume: 1.0     // 볼륨 (0 ~ 1)
     },
     dictionary: null, // 로드된 사전 데이터
     compoundWords: null, // 복합 단어 사전 (일본어)
@@ -319,6 +322,8 @@ function initializeEventListeners() {
     });
     document.getElementById('imageInput').addEventListener('change', handleImageUpload);
     document.getElementById('ttsBtn').addEventListener('click', readText);
+    document.getElementById('ttsPauseBtn').addEventListener('click', togglePauseTTS);
+    document.getElementById('ttsStopBtn').addEventListener('click', stopTTS);
     document.getElementById('loadReadingBtn').addEventListener('click', loadReadingPassage);
     
     // 텍스트 편집 기능
@@ -1829,6 +1834,7 @@ function displayReadingPassage(passage) {
     
     document.getElementById('readingText').innerHTML = `<p>${formattedText}</p>`;
     document.getElementById('ttsBtn').style.display = 'inline-block';
+    updateTTSButtons();
     
     // 텍스트 편집 버튼 숨기기 (일반 독해 지문인 경우)
     document.getElementById('editTextBtn').style.display = 'none';
@@ -2331,69 +2337,136 @@ function showToast(message, type = 'info', duration = 3000) {
     return toast;
 }
 
-// Google Cloud Vision API를 사용한 텍스트 추출
-async function extractTextWithGoogleVision(file, loadingToast) {
+// Google Gemini API를 사용한 텍스트 추출
+async function extractTextWithGemini(file, loadingToast) {
     try {
         // 이미지를 base64로 인코딩
         const base64Image = await new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.onload = () => {
-                // data:image/jpeg;base64, 부분 제거
-                const base64 = reader.result.split(',')[1];
-                resolve(base64);
+                // data:image/jpeg;base64, 부분 포함 (Gemini API는 전체 data URL 형식 사용)
+                const dataUrl = reader.result;
+                resolve(dataUrl);
             };
             reader.onerror = reject;
             reader.readAsDataURL(file);
         });
 
-        loadingToast.querySelector('.toast-title').textContent = 'Google Vision API 호출 중...';
+        // MIME 타입 추출
+        const mimeType = file.type || 'image/jpeg';
 
-        // Google Cloud Vision API 호출
-        const response = await fetch(
-            `https://vision.googleapis.com/v1/images:annotate?key=${GOOGLE_VISION_API_KEY}`,
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    requests: [
-                        {
-                            image: {
-                                content: base64Image
-                            },
-                            features: [
-                                {
-                                    type: 'TEXT_DETECTION',
-                                    maxResults: 1
-                                }
-                            ],
-                            imageContext: {
-                                languageHints: ['ja', 'en'] // 일본어와 영어 우선
+        loadingToast.querySelector('.toast-title').textContent = 'Gemini API로 텍스트 추출 중...';
+
+        // Gemini API 호출 (여러 모델 및 API 버전 시도)
+        // 사용 가능한 최신 모델 우선 사용 (이미지 텍스트 추출에 최적화)
+        const models = [
+            'gemini-2.5-flash',           // 최신 Flash 모델 (빠르고 효율적)
+            'gemini-2.0-flash',           // 안정적인 Flash 모델
+            'gemini-flash-latest',        // 최신 Flash 버전
+            'gemini-2.5-pro',             // 더 강력한 Pro 모델
+            'gemini-pro-latest'           // 최신 Pro 버전
+        ];
+        const apiVersions = ['v1', 'v1beta']; // v1을 먼저 시도
+        let response;
+        let lastError;
+        
+        for (const version of apiVersions) {
+            for (const model of models) {
+                try {
+                    const testResponse = await fetch(
+                        `https://generativelanguage.googleapis.com/${version}/models/${model}:generateContent?key=${GEMINI_API_KEY}`,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            contents: [{
+                                parts: [
+                                    {
+                                        text: `이미지에서 텍스트를 정확하게 추출해주세요.
+
+**중요 지침:**
+1. 이미지에 표시된 모든 텍스트를 정확하게 추출하세요
+2. 원본의 줄바꿈, 공백, 문단 구조를 그대로 유지하세요
+3. 일본어(히라가나, 가타카나, 한자), 영어, 숫자, 기호를 모두 정확하게 인식하세요
+4. 텍스트의 방향(가로/세로)을 올바르게 인식하세요
+5. 손글씨나 흐릿한 텍스트도 최선을 다해 읽으세요
+6. 추출된 텍스트만 출력하고, 설명이나 주석은 절대 추가하지 마세요
+7. 텍스트가 전혀 없으면 "텍스트 없음"이라고만 답하세요
+
+**출력 형식:**
+- 추출된 텍스트만 순수하게 출력하세요
+- 앞뒤 설명 없이 텍스트만 출력하세요
+
+추출된 텍스트:`
+                                    },
+                                    {
+                                        inline_data: {
+                                            mime_type: mimeType,
+                                            data: base64Image.split(',')[1] // base64 데이터만 추출
+                                        }
+                                    }
+                                ]
+                            }],
+                            generationConfig: {
+                                temperature: 0.1, // 낮은 temperature로 정확도 향상
+                                topK: 1,
+                                topP: 1,
+                                maxOutputTokens: 8192
                             }
-                        }
-                    ]
-                })
+                        })
+                    }
+                );
+                
+                    if (testResponse.ok) {
+                        response = testResponse;
+                        break; // 성공한 모델과 버전 사용
+                    } else {
+                        const errorData = await testResponse.json().catch(() => ({}));
+                        lastError = errorData.error?.message || `HTTP ${testResponse.status}`;
+                    }
+                } catch (err) {
+                    lastError = err.message;
+                    continue;
+                }
             }
-        );
+            if (response) break; // 성공한 버전이 있으면 중단
+        }
+
+        if (!response) {
+            throw new Error(`모든 모델 시도 실패. 마지막 오류: ${lastError || '알 수 없는 오류'}`);
+        }
 
         if (!response.ok) {
             const errorData = await response.json();
-            throw new Error(errorData.error?.message || 'Google Vision API 오류');
+            throw new Error(errorData.error?.message || 'Gemini API 오류');
         }
 
         const data = await response.json();
         
-        // 텍스트 추출
-        if (data.responses && data.responses[0] && data.responses[0].textAnnotations) {
-            // 첫 번째 annotation이 전체 텍스트
-            const fullText = data.responses[0].textAnnotations[0]?.description || '';
-            return fullText;
+        // 텍스트 추출 (안전하게 접근)
+        if (data.candidates && data.candidates[0] && data.candidates[0].content) {
+            const content = data.candidates[0].content;
+            if (content.parts && content.parts[0] && content.parts[0].text) {
+                const extractedText = content.parts[0].text;
+                
+                // "텍스트 없음" 체크
+                if (extractedText.trim().toLowerCase() === '텍스트 없음' || extractedText.trim() === '') {
+                    throw new Error('이미지에서 텍스트를 찾을 수 없습니다.');
+                }
+                
+                return extractedText.trim();
+            } else {
+                console.error('응답 데이터 구조:', data);
+                throw new Error('응답에 텍스트가 없습니다. 응답 구조: ' + JSON.stringify(data).substring(0, 200));
+            }
         } else {
-            throw new Error('텍스트를 찾을 수 없습니다.');
+            console.error('응답 데이터 구조:', data);
+            throw new Error('텍스트를 찾을 수 없습니다. 응답 구조: ' + JSON.stringify(data).substring(0, 200));
         }
     } catch (error) {
-        console.error('Google Vision API 오류:', error);
+        console.error('Gemini API 오류:', error);
         throw error;
     }
 }
@@ -2429,10 +2502,9 @@ async function handleImageUpload(e) {
     try {
         let text = '';
         
-        // Google Cloud Vision API가 설정되어 있으면 우선 사용 (더 정확함)
-        if (typeof GOOGLE_VISION_API_KEY !== 'undefined' && GOOGLE_VISION_API_KEY && GOOGLE_VISION_API_KEY !== 'your-api-key-here') {
-            loadingToast.querySelector('.toast-title').textContent = 'Google Vision API로 텍스트 추출 중...';
-            text = await extractTextWithGoogleVision(file, loadingToast);
+        // Gemini API가 설정되어 있으면 우선 사용 (생성형 AI의 추론력으로 더 정확함)
+        if (typeof GEMINI_API_KEY !== 'undefined' && GEMINI_API_KEY && GEMINI_API_KEY !== 'your-api-key-here') {
+            text = await extractTextWithGemini(file, loadingToast);
         } else {
             // Tesseract.js로 텍스트 추출 (폴백)
             loadingToast.querySelector('.toast-title').textContent = 'Tesseract.js로 텍스트 추출 중...';
@@ -2537,6 +2609,7 @@ async function displayExtractedText(text, certType) {
         // 지문 표시
         document.getElementById('readingText').innerHTML = `<p>${formattedText}</p>`;
         document.getElementById('ttsBtn').style.display = 'inline-block';
+        updateTTSButtons();
         
         // 텍스트 편집 버튼 표시 (이미지에서 추출한 텍스트인 경우)
         if (AppState.currentReadingPassage && AppState.currentReadingPassage.isFromImage) {
@@ -2568,17 +2641,177 @@ async function displayExtractedText(text, certType) {
     }
 }
 
+// TTS 상태 관리
+let currentUtterance = null;
+let isTTSPlaying = false;
+
 function readText() {
-    const text = document.getElementById('readingText').textContent;
-    const lang = AppState.settings.ttsLanguage;
+    const readingTextElement = document.getElementById('readingText');
+    if (!readingTextElement) return;
     
-    if ('speechSynthesis' in window) {
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = lang === 'ko' ? 'ko-KR' : lang === 'ja' ? 'ja-JP' : lang === 'zh' ? 'zh-CN' : 'en-US';
-        speechSynthesis.speak(utterance);
-    } else {
-        alert('이 브라우저는 TTS를 지원하지 않습니다.');
+    // HTML 태그 제거하고 순수 텍스트 추출
+    let text = readingTextElement.textContent || readingTextElement.innerText;
+    text = text.trim();
+    
+    if (!text || text.length === 0) {
+        showToast('읽을 텍스트가 없습니다.', 'error');
+        return;
     }
+    
+    // 브라우저 TTS 지원 확인
+    if (!('speechSynthesis' in window)) {
+        showToast('이 브라우저는 TTS를 지원하지 않습니다.', 'error');
+        return;
+    }
+    
+    // 이전 재생 중지
+    speechSynthesis.cancel();
+    
+    // 언어 자동 감지 (텍스트 내용 기반)
+    const detectedLang = detectLanguage(text);
+    const lang = detectedLang || AppState.settings.ttsLanguage;
+    
+    // TTS 설정
+    currentUtterance = new SpeechSynthesisUtterance(text);
+    currentUtterance.lang = getLanguageCode(lang);
+    currentUtterance.rate = AppState.settings.ttsRate || 1.0; // 읽는 속도 (0.1 ~ 10)
+    currentUtterance.pitch = AppState.settings.ttsPitch || 1.0; // 음성 높이 (0 ~ 2)
+    currentUtterance.volume = AppState.settings.ttsVolume || 1.0; // 볼륨 (0 ~ 1)
+    
+    // 이벤트 리스너
+    currentUtterance.onstart = () => {
+        isTTSPlaying = true;
+        updateTTSButtons();
+        showToast(`읽기 시작 (${getLanguageName(lang)})`, 'info', 2000);
+    };
+    
+    currentUtterance.onend = () => {
+        isTTSPlaying = false;
+        updateTTSButtons();
+        currentUtterance = null;
+    };
+    
+    currentUtterance.onerror = (event) => {
+        isTTSPlaying = false;
+        updateTTSButtons();
+        console.error('TTS 오류:', event);
+        showToast('음성 읽기 중 오류가 발생했습니다.', 'error');
+        currentUtterance = null;
+    };
+    
+    // TTS 시작
+    speechSynthesis.speak(currentUtterance);
+}
+
+// TTS 일시정지
+function pauseTTS() {
+    if (isTTSPlaying && speechSynthesis.speaking) {
+        speechSynthesis.pause();
+        isTTSPlaying = false;
+        updateTTSButtons();
+        showToast('읽기 일시정지', 'info', 2000);
+    }
+}
+
+// TTS 재개
+function resumeTTS() {
+    if (!isTTSPlaying && speechSynthesis.paused) {
+        speechSynthesis.resume();
+        isTTSPlaying = true;
+        updateTTSButtons();
+        showToast('읽기 재개', 'info', 2000);
+    }
+}
+
+// TTS 중지
+function stopTTS() {
+    speechSynthesis.cancel();
+    isTTSPlaying = false;
+    updateTTSButtons();
+    currentUtterance = null;
+    showToast('읽기 중지', 'info', 2000);
+}
+
+// TTS 버튼 상태 업데이트
+function updateTTSButtons() {
+    const ttsBtn = document.getElementById('ttsBtn');
+    const ttsPauseBtn = document.getElementById('ttsPauseBtn');
+    const ttsStopBtn = document.getElementById('ttsStopBtn');
+    
+    const isPlaying = isTTSPlaying && speechSynthesis.speaking;
+    const isPaused = speechSynthesis.paused;
+    
+    // 읽어주기 버튼은 항상 표시 (재생 중이 아닐 때만 활성화)
+    if (ttsBtn) {
+        ttsBtn.style.display = isPlaying ? 'none' : 'inline-block';
+        ttsBtn.disabled = isPlaying;
+    }
+    
+    // 일시정지 버튼은 재생 중일 때만 표시
+    if (ttsPauseBtn) {
+        if (isPlaying || isPaused) {
+            ttsPauseBtn.style.display = 'inline-block';
+            ttsPauseBtn.textContent = isPaused ? '▶️ 재개' : '⏸️ 일시정지';
+            ttsPauseBtn.disabled = false;
+        } else {
+            ttsPauseBtn.style.display = 'none';
+        }
+    }
+    
+    // 중지 버튼은 재생 중이거나 일시정지 중일 때만 표시
+    if (ttsStopBtn) {
+        if (isPlaying || isPaused) {
+            ttsStopBtn.style.display = 'inline-block';
+            ttsStopBtn.disabled = false;
+        } else {
+            ttsStopBtn.style.display = 'none';
+        }
+    }
+}
+
+// 언어 자동 감지
+function detectLanguage(text) {
+    // 일본어 문자 감지
+    if (/[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/.test(text)) {
+        return 'ja';
+    }
+    // 영어 문자 감지 (일본어가 아닌 경우)
+    if (/[a-zA-Z]/.test(text)) {
+        return 'en';
+    }
+    // 한글 감지
+    if (/[가-힣]/.test(text)) {
+        return 'ko';
+    }
+    // 중국어 감지
+    if (/[\u4E00-\u9FFF]/.test(text) && !/[\u3040-\u309F\u30A0-\u30FF]/.test(text)) {
+        return 'zh';
+    }
+    return null; // 감지 실패 시 설정값 사용
+}
+
+// 언어 코드 변환
+function getLanguageCode(lang) {
+    const langMap = {
+        'ko': 'ko-KR',
+        'ja': 'ja-JP',
+        'en': 'en-US',
+        'zh': 'zh-CN',
+        'es': 'es-ES'
+    };
+    return langMap[lang] || 'en-US';
+}
+
+// 언어 이름 변환
+function getLanguageName(lang) {
+    const langMap = {
+        'ko': '한국어',
+        'ja': '일본어',
+        'en': '영어',
+        'zh': '중국어',
+        'es': '스페인어'
+    };
+    return langMap[lang] || '영어';
 }
 
 // 모의고사
@@ -2810,7 +3043,6 @@ function openSettingsModal() {
     document.getElementById('settingsModal').classList.add('active');
     document.getElementById('targetCertification').value = AppState.settings.targetCertification;
     document.getElementById('dailyGoal').value = AppState.settings.dailyGoal;
-    document.getElementById('ttsLanguage').value = AppState.settings.ttsLanguage;
 }
 
 function closeSettingsModal() {
@@ -2818,9 +3050,16 @@ function closeSettingsModal() {
 }
 
 function saveSettings() {
-    AppState.settings.targetCertification = document.getElementById('targetCertification').value;
-    AppState.settings.dailyGoal = parseInt(document.getElementById('dailyGoal').value);
-    AppState.settings.ttsLanguage = document.getElementById('ttsLanguage').value;
+        AppState.settings.targetCertification = document.getElementById('targetCertification').value;
+        AppState.settings.dailyGoal = parseInt(document.getElementById('dailyGoal').value);
+        
+        // TTS 설정 저장
+        const ttsRate = document.getElementById('ttsRate');
+        const ttsPitch = document.getElementById('ttsPitch');
+        const ttsVolume = document.getElementById('ttsVolume');
+        if (ttsRate) AppState.settings.ttsRate = parseFloat(ttsRate.value);
+        if (ttsPitch) AppState.settings.ttsPitch = parseFloat(ttsPitch.value);
+        if (ttsVolume) AppState.settings.ttsVolume = parseFloat(ttsVolume.value);
     
     AppState.dailyProgress.goal = AppState.settings.dailyGoal;
     

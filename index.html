@@ -229,6 +229,8 @@
                         <button class="btn btn-secondary" id="uploadImageBtn">📷 사진에서 텍스트 추출</button>
                         <input type="file" id="imageInput" accept="image/*" style="display: none;">
                         <button class="btn btn-primary" id="ttsBtn" style="display: none;">🔊 읽어주기</button>
+                        <button class="btn btn-warning" id="ttsPauseBtn" style="display: none;">⏸️ 일시정지</button>
+                        <button class="btn btn-danger" id="ttsStopBtn" style="display: none;">⏹️ 중지</button>
                     </div>
                 </div>
                 <div class="reading-content">
@@ -489,14 +491,32 @@
                         <label>일일 목표 단어 수 (일본어 플래시카드)</label>
                         <input type="number" id="dailyGoal" min="1" max="100" value="10">
                     </div>
+                    <div class="form-group" style="padding: 1rem; background: #e8f5e9; border-radius: 8px; margin-bottom: 1rem;">
+                        <strong style="color: #2e7d32;">💡 언어 자동 감지</strong>
+                        <p style="margin-top: 0.5rem; color: var(--text-secondary); font-size: 0.9rem;">
+                            텍스트 언어가 자동으로 감지되어 읽어줍니다 (일본어/영어/한국어/중국어 지원)
+                        </p>
+                    </div>
                     <div class="form-group">
-                        <label>TTS 언어</label>
-                        <select id="ttsLanguage">
-                            <option value="ko">한국어</option>
-                            <option value="ja" selected>일본어</option>
-                            <option value="en">영어</option>
-                            <option value="zh">중국어</option>
-                        </select>
+                        <label>읽는 속도: <span id="ttsRateValue">1.0</span>x</label>
+                        <input type="range" id="ttsRate" min="0.5" max="2.0" step="0.1" value="1.0">
+                        <small style="color: var(--text-secondary); display: block; margin-top: 0.5rem;">
+                            느림 (0.5x) ← → 빠름 (2.0x)
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label>음성 높이: <span id="ttsPitchValue">1.0</span></label>
+                        <input type="range" id="ttsPitch" min="0.5" max="2.0" step="0.1" value="1.0">
+                        <small style="color: var(--text-secondary); display: block; margin-top: 0.5rem;">
+                            낮음 (0.5) ← → 높음 (2.0)
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label>볼륨: <span id="ttsVolumeValue">100</span>%</label>
+                        <input type="range" id="ttsVolume" min="0" max="1" step="0.1" value="1.0">
+                        <small style="color: var(--text-secondary); display: block; margin-top: 0.5rem;">
+                            작음 (0%) ← → 큼 (100%)
+                        </small>
                     </div>
                     <div class="form-group" style="padding: 1rem; background: #e0f2fe; border-radius: 8px; margin-top: 1rem;">
                         <strong style="color: #0369a1;">✅ 일본어 사전 기능</strong>
@@ -539,8 +559,8 @@
 
     <!-- Supabase 클라이언트 설정 (supabase_client.js를 먼저 로드) -->
     <script src="supabase_client.js"></script>
-    <!-- Google Cloud Vision API 설정 (선택사항) -->
-    <script src="google_vision_config.js" onerror="console.warn('Google Vision API 설정 파일이 없습니다. Tesseract.js를 사용합니다.')"></script>
+    <!-- Google Gemini API 설정 (선택사항) -->
+    <script src="gemini_config.js" onerror="console.warn('Gemini API 설정 파일이 없습니다. Tesseract.js를 사용합니다.')"></script>
     <script src="app.js"></script>
 </body>
 </html>
