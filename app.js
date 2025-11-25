@@ -2703,6 +2703,23 @@ function readText() {
     speechSynthesis.speak(currentUtterance);
 }
 
+// TTS 일시정지/재개 토글
+function togglePauseTTS() {
+    if (speechSynthesis.speaking && !speechSynthesis.paused) {
+        // 재생 중이면 일시정지
+        speechSynthesis.pause();
+        isTTSPlaying = false;
+        updateTTSButtons();
+        showToast('읽기 일시정지', 'info', 2000);
+    } else if (speechSynthesis.paused) {
+        // 일시정지 중이면 재개
+        speechSynthesis.resume();
+        isTTSPlaying = true;
+        updateTTSButtons();
+        showToast('읽기 재개', 'info', 2000);
+    }
+}
+
 // TTS 일시정지
 function pauseTTS() {
     if (isTTSPlaying && speechSynthesis.speaking) {
@@ -2738,18 +2755,24 @@ function updateTTSButtons() {
     const ttsPauseBtn = document.getElementById('ttsPauseBtn');
     const ttsStopBtn = document.getElementById('ttsStopBtn');
     
-    const isPlaying = isTTSPlaying && speechSynthesis.speaking;
+    // speechSynthesis 상태 확인
+    const isSpeaking = speechSynthesis.speaking;
     const isPaused = speechSynthesis.paused;
+    const isActive = isSpeaking || isPaused; // 재생 중이거나 일시정지 중
     
-    // 읽어주기 버튼은 항상 표시 (재생 중이 아닐 때만 활성화)
+    // 읽어주기 버튼은 재생 중이 아닐 때만 표시
     if (ttsBtn) {
-        ttsBtn.style.display = isPlaying ? 'none' : 'inline-block';
-        ttsBtn.disabled = isPlaying;
+        if (isActive) {
+            ttsBtn.style.display = 'none';
+        } else {
+            ttsBtn.style.display = 'inline-block';
+            ttsBtn.disabled = false;
+        }
     }
     
-    // 일시정지 버튼은 재생 중일 때만 표시
+    // 일시정지/재개 버튼은 재생 중이거나 일시정지 중일 때만 표시
     if (ttsPauseBtn) {
-        if (isPlaying || isPaused) {
+        if (isActive) {
             ttsPauseBtn.style.display = 'inline-block';
             ttsPauseBtn.textContent = isPaused ? '▶️ 재개' : '⏸️ 일시정지';
             ttsPauseBtn.disabled = false;
@@ -2760,7 +2783,7 @@ function updateTTSButtons() {
     
     // 중지 버튼은 재생 중이거나 일시정지 중일 때만 표시
     if (ttsStopBtn) {
-        if (isPlaying || isPaused) {
+        if (isActive) {
             ttsStopBtn.style.display = 'inline-block';
             ttsStopBtn.disabled = false;
         } else {
