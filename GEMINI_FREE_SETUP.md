@@ -101,3 +101,12 @@ Google AI Studio에서 사용량 확인:
 - [Gemini API 문서](https://ai.google.dev/docs)
 - [무료 할당량 정보](https://ai.google.dev/pricing)
 
+
+
+
+
+
+
+
+
+

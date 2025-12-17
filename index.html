@@ -25,12 +25,9 @@
 
         <nav class="main-nav">
             <button class="nav-btn active" data-page="home">홈</button>
-            <button class="nav-btn" data-page="dictionary">사전</button>
-            <button class="nav-btn" data-page="learn">학습</button>
-            <button class="nav-btn" data-page="quiz">퀴즈</button>
+            <button class="nav-btn" data-page="vocabulary">단어장</button>
             <button class="nav-btn" data-page="reading">독해</button>
             <button class="nav-btn" data-page="mocktest">모의고사</button>
-            <button class="nav-btn" data-page="vocabulary">단어장</button>
             <button class="nav-btn" data-page="progress">진행상황</button>
         </nav>
 
@@ -166,24 +163,38 @@
                 </div>
             </section>
 
-            <!-- 단어장 페이지 -->
+            <!-- 단어장 페이지 (통합) -->
             <section id="vocabulary-page" class="page">
                 <div class="page-header">
                     <h2>📖 단어장</h2>
-                    <button class="btn btn-primary" id="addWordBtn">+ 단어 추가</button>
+                    <div id="certificationInfo" style="margin-top: 0.5rem;">
+                        <span id="currentCertification" style="color: var(--text-secondary); font-size: 0.9rem;"></span>
+                    </div>
                 </div>
                 <div class="vocabulary-filters">
                     <input type="text" id="searchWord" placeholder="단어 검색..." class="search-input">
-                    <select id="filterLanguage">
-                        <option value="all">모든 언어</option>
-                        <option value="en">영어</option>
-                        <option value="ja">일본어</option>
-                        <option value="zh">중국어</option>
-                        <option value="es">스페인어</option>
-                    </select>
+                    <button class="btn btn-secondary" id="refreshVocabBtn">🔄 새로고침</button>
+                </div>
+                <div id="vocabularyStats" style="margin: 1rem 0; padding: 1rem; background: var(--bg-secondary); border-radius: 8px; display: none;">
+                    <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+                        <div>
+                            <strong>총 단어 수:</strong> <span id="totalWordCount">0</span>
+                        </div>
+                        <div>
+                            <strong>학습한 단어:</strong> <span id="learnedWordCount">0</span>
+                        </div>
+                        <div>
+                            <strong>학습률:</strong> <span id="learningRate">0%</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="vocabulary-list" id="vocabularyList">
-                    <!-- 단어 목록이 여기에 동적으로 추가됩니다 -->
+                    <div style="text-align: center; padding: 3rem; color: var(--text-secondary);">
+                        <p>설정에서 목표 자격증을 선택하면 해당 자격증의 단어 리스트가 표시됩니다.</p>
+                        <button class="btn btn-primary" onclick="document.getElementById('settingsBtn').click()" style="margin-top: 1rem;">
+                            ⚙️ 설정 열기
+                        </button>
+                    </div>
                 </div>
             </section>
 
@@ -236,7 +247,9 @@
                 <div class="reading-content">
                     <div class="reading-text-container">
                         <div id="readingText" class="reading-text" contenteditable="false">
-                            <p>독해 지문을 선택하거나 사진을 업로드하여 텍스트를 추출하세요.</p>
+                            <div id="text-body">
+                                <p>독해 지문을 선택하거나 사진을 업로드하여 텍스트를 추출하세요.</p>
+                            </div>
                         </div>
                         <div class="reading-controls">
                             <button class="btn btn-secondary" id="editTextBtn" style="display: none;">✏️ 텍스트 수정</button>

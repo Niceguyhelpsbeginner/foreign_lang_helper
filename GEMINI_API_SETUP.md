@@ -136,3 +136,12 @@
 - [API 키 보안 가이드](https://cloud.google.com/docs/authentication/api-keys)
 - [가격 정보](https://ai.google.dev/pricing)
 
+
+
+
+
+
+
+
+
+
