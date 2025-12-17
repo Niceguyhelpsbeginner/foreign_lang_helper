@@ -1,4 +1,4 @@
-# 🌍 外국語学習 도우미 (Foreign Language Helper)
+# 🌍 外語語学習 (Foreign Language Helper)
 
 ## 📋 プロジェクト概要
 
