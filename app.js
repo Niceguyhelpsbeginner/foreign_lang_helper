@@ -16,6 +16,7 @@ const AppState = {
     compoundWords: null, // 복합 단어 사전 (일본어)
     singleCharacters: null, // 단일 한자 사전 (일본어)
     toeicDictionary: null, // TOEIC 사전
+    topikDictionary: null, // TOPIK 사전 (한국어)
     currentQuiz: null,
     currentTest: null,
     currentFlashcardIndex: 0,
@@ -30,12 +31,24 @@ const AppState = {
 
 // 초기화
 document.addEventListener('DOMContentLoaded', async () => {
+    // 언어 설정 로드 및 적용
+    const savedLanguage = localStorage.getItem('appLanguage') || 'ko';
+    if (typeof setLanguage === 'function') {
+        setLanguage(savedLanguage);
+    }
+    
     await loadUserData(); // async로 변경
     await loadData(); // async로 변경
     await loadDictionary();
     initializeEventListeners();
     updateUI();
     updateAuthUI();
+    
+    // 언어 선택자 초기값 설정
+    const languageSelector = document.getElementById('languageSelector');
+    if (languageSelector) {
+        languageSelector.value = savedLanguage;
+    }
     
     // Supabase Auth 상태 변화 감지
     if (window.supabaseClient) {
@@ -257,6 +270,22 @@ async function saveData() {
 
 // 이벤트 리스너 초기화
 function initializeEventListeners() {
+    // 언어 선택자
+    const languageSelector = document.getElementById('languageSelector');
+    if (languageSelector) {
+        languageSelector.addEventListener('change', (e) => {
+            const selectedLang = e.target.value;
+            if (typeof setLanguage === 'function') {
+                setLanguage(selectedLang);
+                // UI 업데이트
+                updateUI();
+                updateAuthUI();
+                // 현재 페이지 다시 표시하여 텍스트 업데이트
+                showPage(AppState.currentPage);
+            }
+        });
+    }
+    
     // 네비게이션
     document.querySelectorAll('.nav-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -280,7 +309,7 @@ function initializeEventListeners() {
     if (refreshVocabBtn) {
         refreshVocabBtn.addEventListener('click', () => {
             renderVocabularyList();
-            showToast('단어장을 새로고침했습니다.', 'info', 2000);
+            showToast(typeof t === 'function' ? t('vocabularyRefreshed') : '단어장을 새로고침했습니다.', 'info', 2000);
         });
     }
 
@@ -359,7 +388,7 @@ function initializeEventListeners() {
             AppState.currentReadingPassage.text = text.trim();
             const certType = AppState.currentReadingPassage.certType || 'jlpt';
             await displayExtractedText(text.trim(), certType);
-            showToast('텍스트가 저장되었습니다. 단어 정보를 다시 로드하는 중...', 'info', 2000);
+            showToast(typeof t === 'function' ? t('textSaved') : '텍스트가 저장되었습니다. 단어 정보를 다시 로드하는 중...', 'info', 2000);
         }
     });
 
@@ -505,6 +534,19 @@ async function loadDictionary() {
             console.log(`📊 영어 단어 조회 결과: ${englishWords?.length || 0}개 (총 ${enCount || 0}개)`);
         }
 
+        // 한국어 단어 로드 (TOPIK)
+        const { data: koreanWords, error: koError, count: koCount } = await supabase
+            .from('words')
+            .select('*', { count: 'exact' })
+            .eq('language', 'ko');
+
+        if (koError) {
+            console.error('❌ 한국어 단어 로드 오류:', koError);
+            console.error('오류 상세:', JSON.stringify(koError, null, 2));
+        } else {
+            console.log(`📊 한국어 단어 조회 결과: ${koreanWords?.length || 0}개 (총 ${koCount || 0}개)`);
+        }
+
         // 데이터가 없는 경우 JSON 파일 사용
         if ((!japaneseWords || japaneseWords.length === 0) && (!englishWords || englishWords.length === 0)) {
             console.warn('⚠️ Supabase에 데이터가 없습니다. JSON 파일을 사용합니다.');
@@ -519,6 +561,7 @@ async function loadDictionary() {
         AppState.compoundWords = { words: [] };
         AppState.singleCharacters = { words: singleCharactersList };
         AppState.toeicDictionary = { words: englishWords || [] };
+        AppState.topikDictionary = { words: koreanWords || [] };
 
         // 기존 호환성을 위해 통합 사전도 유지 (단일 한자만)
         AppState.dictionary = {
@@ -527,7 +570,7 @@ async function loadDictionary() {
             ]
         };
 
-        console.log(`✅ 사전 로드 완료: 일본어 한자 ${singleCharactersList.length}개, 영어 ${englishWords?.length || 0}개`);
+        console.log(`✅ 사전 로드 완료: 일본어 한자 ${singleCharactersList.length}개, 영어 ${englishWords?.length || 0}개, 한국어 ${koreanWords?.length || 0}개`);
     } catch (error) {
         console.error('❌ 사전 로드 오류:', error);
         console.error('오류 스택:', error.stack);
@@ -562,6 +605,16 @@ async function loadDictionaryFromJSON() {
             AppState.toeicDictionary = { words: [] };
         }
         
+        // TOPIK 사전 로드
+        const topikResponse = await fetch('topik/vocabulary/dictionary.json');
+        if (topikResponse.ok) {
+            const topikData = await topikResponse.json();
+            AppState.topikDictionary = topikData;
+        } else {
+            console.warn('TOPIK 사전 파일을 찾을 수 없습니다.');
+            AppState.topikDictionary = { words: [] };
+        }
+        
         // 기존 호환성을 위해 통합 사전도 유지 (단일 한자만)
         AppState.dictionary = {
             words: [
@@ -573,6 +626,7 @@ async function loadDictionaryFromJSON() {
         AppState.compoundWords = { words: [] };
         AppState.singleCharacters = { words: [] };
         AppState.toeicDictionary = { words: [] };
+        AppState.topikDictionary = { words: [] };
         AppState.dictionary = { words: [] };
     }
 }
@@ -598,6 +652,9 @@ async function searchDictionary() {
         } else if (language === 'en') {
             // 영어: TOEIC 사전에서 검색
             result = searchToeicDictionary(query);
+        } else if (language === 'ko') {
+            // 한국어: TOPIK 사전에서 검색
+            result = searchTopikDictionary(query);
         } else {
             // 다른 언어는 기존 시뮬레이션 사용
             result = await mockDictionarySearch(query, language);
@@ -695,6 +752,66 @@ function searchInMemory(word) {
 }
 
 // TOEIC 사전에서 검색
+// TOPIK 사전 검색 함수
+function searchTopikDictionary(word) {
+    // 메모리에 로드된 데이터에서 검색
+    if (!AppState.topikDictionary?.words || AppState.topikDictionary.words.length === 0) {
+        return {
+            error: true,
+            message: 'TOPIK 사전이 로드되지 않았습니다.'
+        };
+    }
+    
+    const searchWord = word.trim();
+    const isJapaneseInput = isJapanese(word);
+    
+    // 일본어로 검색 (의미 필드에서)
+    if (isJapaneseInput) {
+        let foundWord = AppState.topikDictionary.words.find(w => 
+            w.meaning === searchWord || w.meaning.includes(searchWord) || searchWord.includes(w.meaning)
+        );
+        
+        if (foundWord) {
+            return {
+                word: foundWord.word,
+                meaning: foundWord.meaning,
+                pronunciation: foundWord.pronunciation || null,
+                level: foundWord.level || null,
+                example: foundWord.example || null,
+                error: false
+            };
+        }
+    } else {
+        // 한국어 단어로 검색
+        let foundWord = AppState.topikDictionary.words.find(w => 
+            w.word === searchWord
+        );
+        
+        // 부분 일치 검색
+        if (!foundWord) {
+            foundWord = AppState.topikDictionary.words.find(w => 
+                w.word.includes(searchWord) || searchWord.includes(w.word)
+            );
+        }
+        
+        if (foundWord) {
+            return {
+                word: foundWord.word,
+                meaning: foundWord.meaning,
+                pronunciation: foundWord.pronunciation || null,
+                level: foundWord.level || null,
+                example: foundWord.example || null,
+                error: false
+            };
+        }
+    }
+    
+    return {
+        error: true,
+        message: '검색 결과를 찾을 수 없습니다.'
+    };
+}
+
 function searchToeicDictionary(word) {
     // 메모리에 로드된 데이터에서 검색
     if (!AppState.toeicDictionary?.words || AppState.toeicDictionary.words.length === 0) {
@@ -1232,7 +1349,7 @@ function attachKanjiHoverEvents(container) {
                 tooltip.classList.add('pinned');
                 const hint = tooltip.querySelector('.tooltip-hint');
                 if (hint) {
-                    hint.textContent = '💡 다시 클릭하여 고정 해제';
+                    hint.textContent = typeof t === 'function' ? t('clickToUnpin') : '💡 다시 클릭하여 고정 해제';
                 }
             } else {
                 const pinnedTooltip = document.querySelector('.word-kanji-tooltip.pinned');
@@ -1240,7 +1357,7 @@ function attachKanjiHoverEvents(container) {
                     pinnedTooltip.classList.remove('pinned');
                     const hint = pinnedTooltip.querySelector('.tooltip-hint');
                     if (hint) {
-                        hint.textContent = '💡 클릭하여 고정';
+                        hint.textContent = typeof t === 'function' ? t('clickToPin') : '💡 클릭하여 고정';
                     }
                     hideWordKanjiTooltip();
                 }
@@ -1304,19 +1421,22 @@ function showWordKanjiTooltip(e) {
     }
     
     if (reading) {
-        content += `<div class="tooltip-reading" style="margin-bottom: 0.5rem; color: rgba(255,255,255,0.9);">읽기: ${reading}</div>`;
+        const readingLabelText = typeof t === 'function' ? t('readingLabel') : '읽기:';
+        content += `<div class="tooltip-reading" style="margin-bottom: 0.5rem; color: rgba(255,255,255,0.9);">${readingLabelText} ${reading}</div>`;
     }
     
     if (fullOnYomi.length > 0) {
+        const onYomiLabelText = typeof t === 'function' ? t('onYomiLabel') : '음독 (音読み):';
         content += `<div class="tooltip-on-yomi" style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.2);">
-            <div style="font-size: 0.9rem; color: rgba(255,255,255,0.8); margin-bottom: 0.3rem;">음독 (音読み):</div>
+            <div style="font-size: 0.9rem; color: rgba(255,255,255,0.8); margin-bottom: 0.3rem;">${onYomiLabelText}</div>
             <div style="font-size: 1rem; color: #FFC107;">${fullOnYomi.join(', ')}</div>
         </div>`;
     }
     
     if (fullKunYomi.length > 0) {
+        const kunYomiLabelText = typeof t === 'function' ? t('kunYomiLabel') : '훈독 (訓読み):';
         content += `<div class="tooltip-kun-yomi" style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.2);">
-            <div style="font-size: 0.9rem; color: rgba(255,255,255,0.8); margin-bottom: 0.3rem;">훈독 (訓読み):</div>
+            <div style="font-size: 0.9rem; color: rgba(255,255,255,0.8); margin-bottom: 0.3rem;">${kunYomiLabelText}</div>
             <div style="font-size: 1rem; color: #2196F3;">${fullKunYomi.join(', ')}</div>
         </div>`;
     }
@@ -1331,8 +1451,9 @@ function showWordKanjiTooltip(e) {
             const reading = w.reading || '';
             return `${kanji}(${reading})`;
         }).join(', ');
+        const onYomiExamplesLabel = typeof t === 'function' ? t('onYomiExamples') : '음독 예시:';
         content += `<div class="tooltip-on-yomi-examples" style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.2); font-size: 0.85rem; color: rgba(255,255,255,0.7);">
-            <div style="margin-bottom: 0.3rem;">음독 예시:</div>
+            <div style="margin-bottom: 0.3rem;">${onYomiExamplesLabel}</div>
             <div>${examples}</div>
         </div>`;
     }
@@ -1343,13 +1464,15 @@ function showWordKanjiTooltip(e) {
             const reading = w.reading || '';
             return `${kanji}(${reading})`;
         }).join(', ');
+        const kunYomiExamplesLabel = typeof t === 'function' ? t('kunYomiExamples') : '훈독 예시:';
         content += `<div class="tooltip-kun-yomi-examples" style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.2); font-size: 0.85rem; color: rgba(255,255,255,0.7);">
-            <div style="margin-bottom: 0.3rem;">훈독 예시:</div>
+            <div style="margin-bottom: 0.3rem;">${kunYomiExamplesLabel}</div>
             <div>${examples}</div>
         </div>`;
     }
     
-    content += `<div class="tooltip-hint" style="margin-top: 0.5rem; font-size: 0.8rem; color: rgba(255,255,255,0.7);">💡 클릭하여 고정</div>`;
+    const pinHintText = typeof t === 'function' ? t('clickToPin') : '💡 클릭하여 고정';
+    content += `<div class="tooltip-hint" style="margin-top: 0.5rem; font-size: 0.8rem; color: rgba(255,255,255,0.7);">${pinHintText}</div>`;
     
     tooltip.innerHTML = content;
     
@@ -1406,7 +1529,7 @@ function addEtymologyHover(container, word) {
 function updateFlashcard() {
     const filteredWords = getFilteredWords();
     if (filteredWords.length === 0) {
-        document.getElementById('wordDisplay').textContent = '학습할 단어가 없습니다';
+        document.getElementById('wordDisplay').textContent = typeof t === 'function' ? t('noWordsToLearn') : '학습할 단어가 없습니다';
         document.getElementById('meaningDisplay').textContent = '';
         document.getElementById('exampleDisplay').textContent = '';
         document.getElementById('currentCard').textContent = '0';
@@ -1595,7 +1718,8 @@ function selectFlashcardOption(element, wordText, isCorrect) {
     feedback.style.display = 'block';
     
     if (isCorrect) {
-        feedback.innerHTML = '<div style="padding: 1rem; background: #d1fae5; border-radius: 8px; color: #065f46; font-weight: 600;">✓ 정답입니다!</div>';
+        const correctMsg = typeof t === 'function' ? t('correctAnswer') : '정답입니다!';
+        feedback.innerHTML = `<div style="padding: 1rem; background: #d1fae5; border-radius: 8px; color: #065f46; font-weight: 600;">✓ ${correctMsg}</div>`;
         
         // 단어를 mastered로 표시 (정답을 맞추면 더 이상 나타나지 않음)
         const decodedWordText = wordText.replace(/&quot;/g, '"').replace(/&#x27;/g, "'").replace(/&amp;/g, '&');
@@ -1614,7 +1738,8 @@ function selectFlashcardOption(element, wordText, isCorrect) {
             changeCard(1);
         }, 1500);
     } else {
-        feedback.innerHTML = '<div style="padding: 1rem; background: #fee2e2; border-radius: 8px; color: #991b1b; font-weight: 600;">✗ 오답입니다. 정답을 확인하세요.</div>';
+        const incorrectMsg = typeof t === 'function' ? t('incorrectAnswer') : '오답입니다. 정답을 확인하세요.';
+        feedback.innerHTML = `<div style="padding: 1rem; background: #fee2e2; border-radius: 8px; color: #991b1b; font-weight: 600;">✗ ${incorrectMsg}</div>`;
         
         // 2초 후 다음 카드로
         setTimeout(() => {
@@ -1629,7 +1754,7 @@ function startQuiz() {
     const filteredWords = getFilteredWords();
     
     if (filteredWords.length === 0) {
-        alert('퀴즈를 풀 수 있는 단어가 없습니다. 단어를 추가해주세요.');
+        alert(typeof t === 'function' ? t('noWordsForQuiz') : '퀴즈를 풀 수 있는 단어가 없습니다. 단어를 추가해주세요.');
         return;
     }
 
@@ -1673,7 +1798,8 @@ function showQuizQuestion() {
     
     const options = [word.meaning, ...wrongAnswers].sort(() => Math.random() - 0.5);
 
-    document.getElementById('quizQuestionText').textContent = `"${word.word}"의 의미는?`;
+    const questionText = typeof t === 'function' ? t('whatIsMeaningOfWord').replace('{word}', word.word) : `"${word.word}"의 의미는?`;
+    document.getElementById('quizQuestionText').textContent = questionText;
     document.getElementById('quizProgressText').textContent = `${quiz.currentIndex + 1} / ${quiz.words.length}`;
     document.getElementById('quizProgress').style.width = `${((quiz.currentIndex + 1) / quiz.words.length) * 100}%`;
 
@@ -1807,7 +1933,8 @@ async function loadJLPTReadingPassage() {
                 readingTextDiv.innerHTML = '';
                 readingTextDiv.appendChild(textBody);
             }
-            textBody.innerHTML = '<p style="color: var(--text-secondary); text-align: center; padding: 2rem;">독해 문제가 없습니다.</p>';
+            const noReadingMsg = typeof t === 'function' ? t('noReadingPassage') : '독해 문제가 없습니다.';
+            textBody.innerHTML = `<p style="color: var(--text-secondary); text-align: center; padding: 2rem;">${noReadingMsg}</p>`;
             document.getElementById('questionsList').innerHTML = '';
             return;
         }
@@ -1884,6 +2011,10 @@ function displayReadingPassage(passage) {
             // TOEIC 영어 지문
             console.log('TOEIC 단어 호버 기능 활성화, 사전 단어 수:', AppState.toeicDictionary.words.length);
             formattedText = addEnglishWordHoverToText(formattedText);
+        } else if (passage.certType === 'topik' && AppState.topikDictionary?.words && AppState.topikDictionary.words.length > 0) {
+            // TOPIK 한국어 지문
+            console.log('TOPIK 단어 호버 기능 활성화, 사전 단어 수:', AppState.topikDictionary.words.length);
+            formattedText = addKoreanWordHoverToText(formattedText);
         }
         // JLPT는 addKanjiHover로 처리 (텍스트 삽입 후)
     }
@@ -1891,7 +2022,9 @@ function displayReadingPassage(passage) {
     // 자격증 레벨 표시
     let finalHtml = `<p>${formattedText}</p>`;
     if (passage.level) {
-        const certName = passage.certType === 'toeic' ? 'TOEIC' : 'JLPT';
+        let certName = 'JLPT';
+        if (passage.certType === 'toeic') certName = 'TOEIC';
+        else if (passage.certType === 'topik') certName = 'TOPIK';
         const levelBadge = `<div style="margin-bottom: 1rem;">
             <span style="padding: 0.25rem 0.75rem; background: var(--primary-color); color: white; border-radius: 12px; font-size: 0.85rem; font-weight: 600;">
                 ${certName} ${passage.level}
@@ -1937,6 +2070,11 @@ function displayReadingPassage(passage) {
             setTimeout(() => {
                 attachWordHoverEvents();
             }, 100);
+        } else if (passage.certType === 'topik') {
+            // TOPIK: 한국어 단어 호버 이벤트 연결
+            setTimeout(() => {
+                attachKoreanWordHoverEvents();
+            }, 100);
         }
         
         // 안내 메시지 표시
@@ -1945,7 +2083,8 @@ function displayReadingPassage(passage) {
             const info = document.createElement('div');
             info.className = 'hover-info';
             info.style.cssText = 'margin-top: 1rem; padding: 0.75rem; background: #dbeafe; border-radius: 8px; color: #1e40af; font-size: 0.9rem;';
-            info.innerHTML = '💡 모든 문제를 풀었습니다! 지문의 단어에 마우스를 올려보세요.';
+            const allAnsweredMsg = typeof t === 'function' ? t('allQuestionsAnswered') : '💡 모든 문제를 풀었습니다! 지문의 단어에 마우스를 올려보세요.';
+            info.innerHTML = allAnsweredMsg;
             readingTextDiv.appendChild(info);
         }
     }
@@ -1995,7 +2134,7 @@ function displayReadingPassage(passage) {
             </div>
             ${isAnswered ? `
                 <div style="margin-top: 0.5rem; padding: 0.5rem; background: ${isCorrect ? '#d1fae5' : '#fee2e2'}; border-radius: 6px; font-size: 0.9rem;">
-                    ${isCorrect ? '✓ 정답입니다!' : '✗ 오답입니다. 정답을 확인하세요.'}
+                    ${isCorrect ? (typeof t === 'function' ? '✓ ' + t('correctAnswer') : '✓ 정답입니다!') : (typeof t === 'function' ? '✗ ' + t('incorrectAnswer') : '✗ 오답입니다. 정답을 확인하세요.')}
                 </div>
             ` : ''}
         </div>
@@ -2126,6 +2265,157 @@ function addEnglishWordHoverToText(text) {
     return protectedText;
 }
 
+// 한국어 텍스트에 단어 호버 기능 추가
+function addKoreanWordHoverToText(text) {
+    if (!AppState.topikDictionary?.words || AppState.topikDictionary.words.length === 0) {
+        console.warn('TOPIK 사전이 로드되지 않았습니다.');
+        return text;
+    }
+
+    // HTML 태그를 임시로 보호
+    const htmlTagRegex = /<[^>]+>/g;
+    const htmlTags = [];
+    let tagIndex = 0;
+    
+    let protectedText = text.replace(htmlTagRegex, (match) => {
+        htmlTags[tagIndex] = match;
+        return `__HTML_TAG_${tagIndex++}__`;
+    });
+
+    // 사전의 단어들을 길이 순으로 정렬 (짧은 단어부터 매칭)
+    const sortedWords = [...AppState.topikDictionary.words].sort((a, b) => a.word.length - b.word.length);
+    
+    // 이미 처리된 위치 추적 (중복 방지)
+    const processedPositions = new Set();
+    let totalMatches = 0;
+    
+    sortedWords.forEach(wordData => {
+        const word = wordData.word;
+        const meaning = wordData.meaning;
+        const pronunciation = wordData.pronunciation || '';
+        
+        // 한국어 단어 정규식 생성
+        const escapedWord = escapeRegex(word);
+        const testRegex = new RegExp(escapedWord, 'g');
+        
+        // 모든 매칭 위치를 먼저 찾기
+        const matches = [];
+        let match;
+        
+        while ((match = testRegex.exec(protectedText)) !== null) {
+            const index = match.index;
+            const matchedWord = match[0];
+            
+            // HTML 태그나 플레이스홀더 안에 있는지 확인
+            const beforeCurrent = protectedText.substring(0, index);
+            const openTagCount = (beforeCurrent.match(/<span class="word-hoverable"/g) || []).length;
+            const closeTagCount = (beforeCurrent.match(/<\/span>/g) || []).length;
+            const isInsideTag = openTagCount > closeTagCount;
+            
+            const beforeTag = protectedText.substring(Math.max(0, index - 100), index);
+            const afterTag = protectedText.substring(index + matchedWord.length, Math.min(protectedText.length, index + matchedWord.length + 100));
+            const isInPlaceholder = beforeTag.match(/__HTML_TAG_\d+__$/) || afterTag.match(/^__HTML_TAG_\d+__/);
+            
+            // 이미 처리된 위치인지 확인
+            let isProcessed = false;
+            for (let i = index; i < index + matchedWord.length; i++) {
+                if (processedPositions.has(i)) {
+                    isProcessed = true;
+                    break;
+                }
+            }
+            
+            if (!isInsideTag && !isInPlaceholder && !isProcessed) {
+                matches.push({ index, word: matchedWord, length: matchedWord.length });
+            }
+        }
+        
+        totalMatches += matches.length;
+        
+        // 뒤에서부터 처리 (인덱스가 변경되지 않도록)
+        matches.reverse().forEach(({ index, word: matchedWord, length }) => {
+            const before = protectedText.substring(0, index);
+            const wordText = protectedText.substring(index, index + length);
+            const after = protectedText.substring(index + length);
+            
+            protectedText = before + 
+                `<span class="word-hoverable-korean" data-word="${escapeHtml(matchedWord)}" data-meaning="${escapeHtml(meaning)}" data-pronunciation="${escapeHtml(pronunciation || '')}">${wordText}</span>` + 
+                after;
+            
+            // 처리된 위치 기록
+            for (let i = index; i < index + length; i++) {
+                processedPositions.add(i);
+            }
+        });
+    });
+
+    console.log(`한국어 단어 호버: 총 ${totalMatches}개의 단어가 매칭되었습니다.`);
+
+    // HTML 태그 복원
+    htmlTags.forEach((tag, idx) => {
+        protectedText = protectedText.replace(`__HTML_TAG_${idx}__`, tag);
+    });
+
+    return protectedText;
+}
+
+// 한국어 단어 호버 이벤트 연결
+function attachKoreanWordHoverEvents() {
+    const hoverableWords = document.querySelectorAll('.word-hoverable-korean');
+    console.log(`한국어 단어 호버 이벤트 연결: ${hoverableWords.length}개의 호버 가능한 단어를 찾았습니다.`);
+    
+    hoverableWords.forEach(wordSpan => {
+        // 이미 이벤트가 연결된 경우 건너뛰기
+        if (wordSpan.dataset.eventsAttached === 'true') {
+            return;
+        }
+        
+        // 한국어 단어용 이벤트 연결
+        wordSpan.addEventListener('mouseenter', showKoreanWordTooltip);
+        wordSpan.addEventListener('mouseleave', hideWordTooltip);
+        wordSpan.dataset.eventsAttached = 'true';
+    });
+}
+
+// 한국어 단어 툴팁 표시
+function showKoreanWordTooltip(e) {
+    const wordSpan = e.target;
+    const word = wordSpan.dataset.word || wordSpan.textContent.trim();
+    const meaning = wordSpan.dataset.meaning;
+    const pronunciation = wordSpan.dataset.pronunciation;
+    
+    // 기존 툴팁 제거
+    hideWordTooltip();
+    
+    // 툴팁 생성
+    const tooltip = document.createElement('div');
+    tooltip.className = 'word-tooltip';
+    tooltip.innerHTML = `
+        <div class="tooltip-word">${escapeHtml(word)}</div>
+        <div class="tooltip-meaning">${escapeHtml(meaning || '')}</div>
+        ${pronunciation ? `<div class="tooltip-pronunciation">${escapeHtml(pronunciation)}</div>` : ''}
+    `;
+    
+    document.body.appendChild(tooltip);
+    
+    // 위치 계산
+    const rect = wordSpan.getBoundingClientRect();
+    tooltip.style.left = rect.left + (rect.width / 2) - (tooltip.offsetWidth / 2) + 'px';
+    tooltip.style.top = rect.top - tooltip.offsetHeight - 8 + 'px';
+    
+    // 화면 밖으로 나가지 않도록 조정
+    const tooltipRect = tooltip.getBoundingClientRect();
+    if (tooltipRect.left < 10) {
+        tooltip.style.left = '10px';
+    }
+    if (tooltipRect.right > window.innerWidth - 10) {
+        tooltip.style.left = (window.innerWidth - tooltip.offsetWidth - 10) + 'px';
+    }
+    if (tooltipRect.top < 10) {
+        tooltip.style.top = rect.bottom + 8 + 'px';
+    }
+}
+
 // 영어 단어 호버 이벤트 연결 (한자는 attachKanjiHoverEvents에서 처리)
 function attachWordHoverEvents() {
     const hoverableWords = document.querySelectorAll('.word-hoverable');
@@ -2237,7 +2527,9 @@ function selectReadingOption(questionIndex, optionIndex, correctAnswer) {
         const feedback = questionDiv.querySelector('.feedback') || document.createElement('div');
         feedback.className = 'feedback';
         feedback.style.cssText = `margin-top: 0.5rem; padding: 0.5rem; background: ${optionIndex === correctAnswer ? '#d1fae5' : '#fee2e2'}; border-radius: 6px; font-size: 0.9rem;`;
-        feedback.textContent = optionIndex === correctAnswer ? '✓ 정답입니다!' : '✗ 오답입니다. 정답을 확인하세요.';
+        const correctMsg = typeof t === 'function' ? t('correctAnswer') : '정답입니다!';
+        const incorrectMsg = typeof t === 'function' ? t('incorrectAnswer') : '오답입니다. 정답을 확인하세요.';
+        feedback.textContent = optionIndex === correctAnswer ? '✓ ' + correctMsg : '✗ ' + incorrectMsg;
         
         if (!questionDiv.querySelector('.feedback')) {
             questionDiv.appendChild(feedback);
@@ -2914,7 +3206,7 @@ function generateMockTestQuestions() {
 function generateLevelTestQuestions() {
     const allWords = AppState.vocabulary;
     return allWords.slice(0, 20).map(word => ({
-        question: `"${word.word}"의 의미는?`,
+        question: typeof t === 'function' ? t('whatIsMeaningOfWord').replace('{word}', word.word) : `"${word.word}"의 의미는?`,
         options: [
             word.meaning,
             ...allWords.filter(w => w.word !== word.word).slice(0, 3).map(w => w.meaning)
@@ -3011,12 +3303,15 @@ function renderVocabularyList() {
     
     // 목표 자격증이 없으면 안내 메시지 표시
     if (!certification || certification === 'none') {
+        const selectCertMsg = typeof t === 'function' ? t('selectCertificationPrompt') : '목표 자격증을 선택해주세요';
+        const selectCertDesc = typeof t === 'function' ? t('selectCertification') : '설정에서 목표 자격증을 선택하면 해당 자격증의 단어 리스트가 표시됩니다.';
+        const openSettingsText = typeof t === 'function' ? t('openSettings') : '⚙️ 설정 열기';
         list.innerHTML = `
             <div style="text-align: center; padding: 3rem; color: var(--text-secondary);">
-                <p style="font-size: 1.1rem; margin-bottom: 1rem;">목표 자격증을 선택해주세요</p>
-                <p style="margin-bottom: 1.5rem;">설정에서 목표 자격증을 선택하면 해당 자격증의 단어 리스트가 표시됩니다.</p>
+                <p style="font-size: 1.1rem; margin-bottom: 1rem;">${selectCertMsg}</p>
+                <p style="margin-bottom: 1.5rem;">${selectCertDesc}</p>
                 <button class="btn btn-primary" onclick="document.getElementById('settingsBtn').click()">
-                    ⚙️ 설정 열기
+                    ${openSettingsText}
                 </button>
             </div>
         `;
@@ -3037,7 +3332,8 @@ function renderVocabularyList() {
         'hsk-2': 'HSK 2급',
         'hsk-3': 'HSK 3급'
     };
-    document.getElementById('currentCertification').textContent = `목표 자격증: ${certNames[certification] || certification}`;
+    const targetCertLabel = typeof t === 'function' ? t('targetCertificationLabel') : '목표 자격증:';
+    document.getElementById('currentCertification').textContent = `${targetCertLabel} ${certNames[certification] || certification}`;
     
     // 자격증별 단어 데이터 가져오기
     let words = [];
@@ -3075,10 +3371,13 @@ function renderVocabularyList() {
     document.getElementById('vocabularyStats').style.display = 'flex';
     
     if (words.length === 0) {
+        const noResultsMsg = typeof t === 'function' ? t('noSearchResults') : '검색 결과가 없습니다.';
+        const loadingMsg = typeof t === 'function' ? t('loadingWords') : '단어 데이터를 불러오는 중입니다...';
+        const tryAgainMsg = typeof t === 'function' ? t('pleaseTryAgain') : '잠시 후 다시 시도해주세요.';
         list.innerHTML = `
             <div style="text-align: center; padding: 3rem; color: var(--text-secondary);">
-                <p>${searchTerm ? '검색 결과가 없습니다.' : '단어 데이터를 불러오는 중입니다...'}</p>
-                ${!searchTerm ? '<p style="margin-top: 1rem; font-size: 0.9rem;">잠시 후 다시 시도해주세요.</p>' : ''}
+                <p>${searchTerm ? noResultsMsg : loadingMsg}</p>
+                ${!searchTerm ? `<p style="margin-top: 1rem; font-size: 0.9rem;">${tryAgainMsg}</p>` : ''}
             </div>
         `;
         return;
@@ -3104,8 +3403,8 @@ function renderVocabularyList() {
                     </div>
                 </div>
                 <div class="vocab-actions">
-                    <button class="btn btn-secondary" onclick="showWordDetail('${wordText}', '${certification.startsWith('jlpt') ? 'ja' : 'en'}')">상세</button>
-                    ${isLearned ? '' : `<button class="btn btn-success" onclick="markWordAsLearned('${wordText}', '${meaning}', '${certification.startsWith('jlpt') ? 'ja' : 'en'}')">학습 완료</button>`}
+                    <button class="btn btn-secondary" onclick="showWordDetail('${wordText}', '${certification.startsWith('jlpt') ? 'ja' : 'en'}')">${typeof t === 'function' ? t('detail') : '상세'}</button>
+                    ${isLearned ? '' : `<button class="btn btn-success" onclick="markWordAsLearned('${wordText}', '${meaning}', '${certification.startsWith('jlpt') ? 'ja' : 'en'}')">${typeof t === 'function' ? t('markAsLearned') : '학습 완료'}</button>`}
                 </div>
             </div>
         `;
@@ -3137,7 +3436,8 @@ document.getElementById('searchWord')?.addEventListener('input', renderVocabular
 // filterLanguage 제거됨 - 목표 자격증 기반으로 자동 필터링
 
 function deleteWord(index) {
-    if (confirm('이 단어를 삭제하시겠습니까?')) {
+    const confirmDeleteMsg = typeof t === 'function' ? t('confirmDelete') : '이 단어를 삭제하시겠습니까?';
+    if (confirm(confirmDeleteMsg)) {
         AppState.vocabulary.splice(index, 1);
         saveData();
         renderVocabularyList();
@@ -3151,6 +3451,7 @@ function openAddWordModal() {
     document.getElementById('modalWord').value = '';
     document.getElementById('modalMeaning').value = '';
     document.getElementById('modalExample').value = '';
+    if (typeof updateAllTexts === 'function') updateAllTexts();
 }
 
 function closeAddWordModal() {
@@ -3192,6 +3493,7 @@ function openSettingsModal() {
     document.getElementById('settingsModal').classList.add('active');
     document.getElementById('targetCertification').value = AppState.settings.targetCertification;
     document.getElementById('dailyGoal').value = AppState.settings.dailyGoal;
+    if (typeof updateAllTexts === 'function') updateAllTexts();
 }
 
 function closeSettingsModal() {
@@ -3384,6 +3686,7 @@ function showLoginModal() {
     document.getElementById('loginError').style.display = 'none';
     document.getElementById('loginEmail').value = '';
     document.getElementById('loginPassword').value = '';
+    if (typeof updateAllTexts === 'function') updateAllTexts();
 }
 
 // 회원가입 모달 표시
@@ -3395,6 +3698,7 @@ function showSignupModal() {
     document.getElementById('signupEmail').value = '';
     document.getElementById('signupPassword').value = '';
     document.getElementById('signupPasswordConfirm').value = '';
+    if (typeof updateAllTexts === 'function') updateAllTexts();
 }
 
 // 로그인 처리 (Supabase Auth)
@@ -3404,14 +3708,14 @@ async function handleLogin() {
     const errorDiv = document.getElementById('loginError');
     
     if (!emailOrUsername || !password) {
-        errorDiv.textContent = '이메일과 비밀번호를 입력해주세요.';
+        errorDiv.textContent = typeof t === 'function' ? t('enterEmailAndPassword') : '이메일과 비밀번호를 입력해주세요.';
         errorDiv.style.display = 'block';
         return;
     }
 
     // Supabase 클라이언트 확인
     if (!window.supabaseClient) {
-        errorDiv.textContent = 'Supabase 클라이언트가 로드되지 않았습니다.';
+        errorDiv.textContent = typeof t === 'function' ? t('supabaseClientNotLoaded') : 'Supabase 클라이언트가 로드되지 않았습니다.';
         errorDiv.style.display = 'block';
         return;
     }
@@ -3435,7 +3739,7 @@ async function handleLogin() {
             if (profiles && profiles.email) {
                 email = profiles.email;
             } else {
-                errorDiv.textContent = '사용자명을 찾을 수 없습니다. 이메일을 사용해주세요.';
+                errorDiv.textContent = typeof t === 'function' ? t('usernameNotFound') : '사용자명을 찾을 수 없습니다. 이메일을 사용해주세요.';
                 errorDiv.style.display = 'block';
                 return;
             }
@@ -3448,7 +3752,7 @@ async function handleLogin() {
         });
 
         if (error) {
-            errorDiv.textContent = error.message || '이메일 또는 비밀번호가 올바르지 않습니다.';
+            errorDiv.textContent = error.message || (typeof t === 'function' ? t('emailOrPasswordIncorrect') : '이메일 또는 비밀번호가 올바르지 않습니다.');
             errorDiv.style.display = 'block';
             return;
         }
@@ -3474,7 +3778,7 @@ async function handleLogin() {
         }
     } catch (error) {
         console.error('로그인 오류:', error);
-        errorDiv.textContent = '로그인 중 오류가 발생했습니다.';
+        errorDiv.textContent = typeof t === 'function' ? t('loginError') : '로그인 중 오류가 발생했습니다.';
         errorDiv.style.display = 'block';
     }
 }
@@ -3489,26 +3793,26 @@ async function handleSignup() {
     
     // 유효성 검사
     if (!username || !email || !password || !passwordConfirm) {
-        errorDiv.textContent = '모든 필드를 입력해주세요.';
+        errorDiv.textContent = typeof t === 'function' ? t('fillAllFields') : '모든 필드를 입력해주세요.';
         errorDiv.style.display = 'block';
         return;
     }
     
     if (password !== passwordConfirm) {
-        errorDiv.textContent = '비밀번호가 일치하지 않습니다.';
+        errorDiv.textContent = typeof t === 'function' ? t('passwordsDoNotMatch') : '비밀번호가 일치하지 않습니다.';
         errorDiv.style.display = 'block';
         return;
     }
     
     if (password.length < 6) {
-        errorDiv.textContent = '비밀번호는 최소 6자 이상이어야 합니다.';
+        errorDiv.textContent = typeof t === 'function' ? t('passwordMinLength') : '비밀번호는 최소 6자 이상이어야 합니다.';
         errorDiv.style.display = 'block';
         return;
     }
 
     // Supabase 클라이언트 확인
     if (!window.supabaseClient) {
-        errorDiv.textContent = 'Supabase 클라이언트가 로드되지 않았습니다.';
+        errorDiv.textContent = typeof t === 'function' ? t('supabaseClientNotLoaded') : 'Supabase 클라이언트가 로드되지 않았습니다.';
         errorDiv.style.display = 'block';
         return;
     }
@@ -3525,7 +3829,7 @@ async function handleSignup() {
             .single();
 
         if (existingProfile) {
-            errorDiv.textContent = '이미 사용 중인 사용자명입니다.';
+            errorDiv.textContent = typeof t === 'function' ? t('usernameAlreadyExists') : '이미 사용 중인 사용자명입니다.';
             errorDiv.style.display = 'block';
             return;
         }
@@ -3542,7 +3846,7 @@ async function handleSignup() {
         });
 
         if (error) {
-            errorDiv.textContent = error.message || '회원가입 중 오류가 발생했습니다.';
+            errorDiv.textContent = error.message || (typeof t === 'function' ? t('signupError') : '회원가입 중 오류가 발생했습니다.');
             errorDiv.style.display = 'block';
             return;
         }
@@ -3573,7 +3877,7 @@ async function handleSignup() {
             await loadData(); // 사용자 데이터 로드
             closeModal('signupModal');
             
-            alert('회원가입이 완료되었습니다!');
+            alert(typeof t === 'function' ? t('signupSuccess') : '회원가입이 완료되었습니다!');
         }
     } catch (error) {
         console.error('회원가입 오류:', error);
@@ -3622,6 +3926,7 @@ function openAccountModal() {
     document.getElementById('accountEmail').textContent = AppState.currentUser.email;
     document.getElementById('currentPassword').value = '';
     document.getElementById('newPassword').value = '';
+    if (typeof updateAllTexts === 'function') updateAllTexts();
     document.getElementById('newPasswordConfirm').value = '';
     document.getElementById('deletePasswordConfirm').value = '';
     document.getElementById('passwordChangeError').style.display = 'none';
@@ -3688,12 +3993,12 @@ async function handlePasswordChange() {
         });
 
         if (updateError) {
-            errorDiv.textContent = updateError.message || '비밀번호 변경 중 오류가 발생했습니다.';
+            errorDiv.textContent = updateError.message || (typeof t === 'function' ? t('passwordChangeError') : '비밀번호 변경 중 오류가 발생했습니다.');
             errorDiv.style.display = 'block';
             return;
         }
 
-        successDiv.textContent = '비밀번호가 성공적으로 변경되었습니다.';
+        successDiv.textContent = typeof t === 'function' ? t('passwordChangeSuccess') : '비밀번호가 성공적으로 변경되었습니다.';
         successDiv.style.display = 'block';
         
         // 입력 필드 초기화
@@ -3702,7 +4007,7 @@ async function handlePasswordChange() {
         document.getElementById('newPasswordConfirm').value = '';
     } catch (error) {
         console.error('비밀번호 변경 오류:', error);
-        errorDiv.textContent = '비밀번호 변경 중 오류가 발생했습니다.';
+        errorDiv.textContent = typeof t === 'function' ? t('passwordChangeError') : '비밀번호 변경 중 오류가 발생했습니다.';
         errorDiv.style.display = 'block';
     }
 }
@@ -3720,13 +4025,14 @@ async function handleAccountDeletion() {
         return;
     }
     
-    if (!confirm('정말로 회원 탈퇴를 하시겠습니까? 모든 데이터가 삭제되며 복구할 수 없습니다.')) {
+    const confirmMsg = typeof t === 'function' ? t('deleteAccountWarning') : '정말로 회원 탈퇴를 하시겠습니까? 모든 데이터가 삭제되며 복구할 수 없습니다.';
+    if (!confirm(confirmMsg)) {
         return;
     }
 
     // Supabase 클라이언트 확인
     if (!window.supabaseClient || !AppState.currentUser) {
-        errorDiv.textContent = '로그인이 필요합니다.';
+        errorDiv.textContent = typeof t === 'function' ? t('loginRequired') : '로그인이 필요합니다.';
         errorDiv.style.display = 'block';
         return;
     }
@@ -3741,7 +4047,7 @@ async function handleAccountDeletion() {
         });
 
         if (signInError) {
-            errorDiv.textContent = '비밀번호가 올바르지 않습니다.';
+            errorDiv.textContent = typeof t === 'function' ? t('emailOrPasswordIncorrect') : '비밀번호가 올바르지 않습니다.';
             errorDiv.style.display = 'block';
             return;
         }
@@ -3777,10 +4083,10 @@ async function handleAccountDeletion() {
         updateUI();
         
         closeModal('accountModal');
-        alert('회원 탈퇴가 완료되었습니다.');
+        alert(typeof t === 'function' ? t('accountDeletedSuccess') : '회원 탈퇴가 완료되었습니다.');
     } catch (error) {
         console.error('회원 탈퇴 오류:', error);
-        errorDiv.textContent = '회원 탈퇴 중 오류가 발생했습니다.';
+        errorDiv.textContent = typeof t === 'function' ? t('accountDeleteErrorMsg') : '회원 탈퇴 중 오류가 발생했습니다.';
         errorDiv.style.display = 'block';
     }
 }

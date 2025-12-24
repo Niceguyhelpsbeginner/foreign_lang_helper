@@ -1,0 +1,41 @@
+{
+  "words": [
+    {
+      "word": "안녕하세요",
+      "meaning": "こんにちは",
+      "pronunciation": "annyeonghaseyo",
+      "level": "1",
+      "example": "안녕하세요, 만나서 반갑습니다."
+    },
+    {
+      "word": "감사합니다",
+      "meaning": "ありがとうございます",
+      "pronunciation": "gamsahamnida",
+      "level": "1",
+      "example": "도와주셔서 감사합니다."
+    },
+    {
+      "word": "사람",
+      "meaning": "人",
+      "pronunciation": "saram",
+      "level": "1",
+      "example": "좋은 사람입니다."
+    },
+    {
+      "word": "학교",
+      "meaning": "学校",
+      "pronunciation": "hakgyo",
+      "level": "1",
+      "example": "학교에 가다."
+    },
+    {
+      "word": "친구",
+      "meaning": "友達",
+      "pronunciation": "chinggu",
+      "level": "1",
+      "example": "친구를 만나다."
+    }
+  ]
+}
+
+

@@ -9,12 +9,21 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <!-- Tesseract.js OCR 라이브러리 -->
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+    <!-- 다국어 지원 -->
+    <script src="i18n.js"></script>
 </head>
 <body>
     <div class="container">
         <header>
             <h1>🌍 외국어 학습 도우미</h1>
             <div class="header-actions">
+                <!-- 언어 선택 -->
+                <select id="languageSelector" class="language-selector-dropdown" style="margin-right: 1rem; padding: 0.5rem; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary); font-size: 0.9rem;">
+                    <option value="ko">🇰🇷 한국어</option>
+                    <option value="ja">🇯🇵 日本語</option>
+                    <option value="en">🇺🇸 English</option>
+                    <option value="zh">🇨🇳 中文</option>
+                </select>
                 <span id="userInfo" style="display: none; margin-right: 1rem; color: var(--text-primary); font-weight: 600;"></span>
                 <button class="btn-icon" id="loginBtn" title="로그인" style="display: none;">🔐</button>
                 <button class="btn-icon" id="logoutBtn" title="로그아웃" style="display: none;">🚪</button>
@@ -75,6 +84,7 @@
                         <select id="learnLanguage">
                             <option value="ja" selected>일본어</option>
                             <option value="en">영어</option>
+                            <option value="ko">한국어</option>
                             <option value="zh">중국어</option>
                             <option value="es">스페인어</option>
                         </select>
@@ -213,6 +223,7 @@
                         <select id="dictLanguage">
                             <option value="ja" selected>일본어</option>
                             <option value="en">영어</option>
+                            <option value="ko">한국어</option>
                             <option value="zh">중국어</option>
                             <option value="es">스페인어</option>
                         </select>
@@ -347,6 +358,7 @@
                         <select id="modalLanguage">
                             <option value="ja" selected>일본어</option>
                             <option value="en">영어</option>
+                            <option value="ko">한국어</option>
                             <option value="zh">중국어</option>
                             <option value="es">스페인어</option>
                         </select>
@@ -495,6 +507,12 @@
                             <option value="jlpt-n2">JLPT N2</option>
                             <option value="jlpt-n1">JLPT N1</option>
                             <option value="toeic-reading">TOEIC Reading</option>
+                            <option value="topik-1">TOPIK 1급</option>
+                            <option value="topik-2">TOPIK 2급</option>
+                            <option value="topik-3">TOPIK 3급</option>
+                            <option value="topik-4">TOPIK 4급</option>
+                            <option value="topik-5">TOPIK 5급</option>
+                            <option value="topik-6">TOPIK 6급</option>
                             <option value="hsk-1">HSK 1급</option>
                             <option value="hsk-2">HSK 2급</option>
                             <option value="hsk-3">HSK 3급</option>
