@@ -1,4 +1,10 @@
-# 🌍 外国語学習ヘルパー(Foreign Language Helper)
+# ポートフォリオ
+
+**K・S**
+
+---
+
+# 🌍 外国語学習ヘルパー (Foreign Language Helper)
 
 ## 📋 プロジェクト概要
 
@@ -14,7 +20,7 @@
 - 画像からテキストを抽出して音声で読み上げる機能により、復習を効率化したいと考えた
 - 複数のデバイスで学習データを同期できるようにしたいと考えた
 -　特に直ぐに単語の意味を調べることではなく、マウスカーソルを上に置くだけで意味を調べることができるならと思って作りました。
-<img width="695" height="793" alt="스크린샷 2025-12-17 160507" src="https://github.com/user-attachments/assets/0ad5473d-1884-484f-8a2e-00272bfc9efb" />
+<img width="695" height="793" alt="単語ホバー機能のスクリーンショット - 読解文内の単語にマウスをホバーすると意味が表示される機能" src="https://github.com/user-attachments/assets/0ad5473d-1884-484f-8a2e-00272bfc9efb" />
 
 
 **ニーズ：**
@@ -30,7 +36,7 @@
 - **プロフィール管理**：ユーザー名、メールアドレスの管理
 - **パスワード変更・アカウント削除**：セキュアなアカウント管理機能
 - **セッション管理**：自動ログイン状態の維持
-<img width="636" height="495" alt="image" src="https://github.com/user-attachments/assets/f4b3e726-77fe-432a-b2dd-36a801f1512f" />
+<img width="636" height="495" alt="ユーザー認証画面のスクリーンショット - ログイン・サインアップ機能" src="https://github.com/user-attachments/assets/f4b3e726-77fe-432a-b2dd-36a801f1512f" />
 
 
 ### 2. 単語帳機能
@@ -46,7 +52,7 @@
 - **漢字の詳細表示**：漢字をホバーすると読み方・意味を表示（複合語の場合は個別漢字の意味も表示）
 - **単語ホバー機能**：読解文内の単語にマウスをホバーすると意味を即座に表示
 
-<img width="1489" height="838" alt="image" src="https://github.com/user-attachments/assets/d2078180-2d81-48fa-a336-f80c4358734d" />
+<img width="1489" height="838" alt="辞書機能のスクリーンショット - 日本語・英語辞書検索と漢字ホバー機能" src="https://github.com/user-attachments/assets/d2078180-2d81-48fa-a336-f80c4358734d" />
 
 ### 4. フラッシュカード学習
 - **JLPTレベル別学習**：N1～N5レベルに対応した単語学習
@@ -54,7 +60,7 @@
 - **カードめくり機能**：クリックでカードをめくって意味を確認
 - **習熟度管理**：「知っている」「知らない」ボタンで学習状況を記録
 - **前後移動**：前後の単語に移動して学習
-<img width="1533" height="722" alt="image" src="https://github.com/user-attachments/assets/0eb6ba75-ff43-445e-a102-2c300a5d8677" />
+<img width="1533" height="722" alt="フラッシュカード学習画面のスクリーンショット - JLPTレベル別単語学習機能" src="https://github.com/user-attachments/assets/0eb6ba75-ff43-445e-a102-2c300a5d8677" />
 
 ### 5. 読解練習
 - **JLPT読解問題**：レベル別の読解問題提供（N1～N5対応）
@@ -63,7 +69,7 @@
 - **音声制御**：読み上げ、一時停止、停止機能
 - **テキスト編集機能**：OCRで抽出したテキストを手動で編集可能
 - **単語ホバー機能**：読解文内の単語にマウスをホバーすると意味を表示
-<img width="1768" height="815" alt="image" src="https://github.com/user-attachments/assets/e4280b02-9ef2-4a11-8d26-230e21c18abb" />
+<img width="1768" height="815" alt="読解練習画面のスクリーンショット - OCR機能とTTS音声読み上げ機能" src="https://github.com/user-attachments/assets/e4280b02-9ef2-4a11-8d26-230e21c18abb" />
 
 ### 6. クイズ機能
 - **検索履歴ベースのクイズ**：検索した単語から自動的にクイズを生成
@@ -77,7 +83,7 @@
 - **自動採点**：即座に結果を表示
 - **進捗表示**：問題の進捗状況を表示
 
-<img width="1483" height="598" alt="image" src="https://github.com/user-attachments/assets/766efb0f-7b95-4c31-b2aa-9c41f64f48d6" />
+<img width="1483" height="598" alt="模擬試験・レベルテスト画面のスクリーンショット - 自動採点機能" src="https://github.com/user-attachments/assets/766efb0f-7b95-4c31-b2aa-9c41f64f48d6" />
 
 ### 8. 学習進捗管理
 - **日次進捗の記録**：学習した単語数、クイズスコアの記録
