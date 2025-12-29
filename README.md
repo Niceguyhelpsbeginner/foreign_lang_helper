@@ -91,7 +91,7 @@
 - **連続学習日数のカウント**：学習継続のモチベーション向上
 - **統計情報の表示**：総単語数、習得単語数、クイズ正答率など
 - **進捗グラフ**：学習進捗の可視化
-![Uploading image.png…]()
+<img width="1182" height="670" alt="image" src="https://github.com/user-attachments/assets/7f396dcd-b157-4ed3-b9cb-c01d58a223d6" />
 
 ## 🛠️ 使用技術・ツール
 
