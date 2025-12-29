@@ -37,25 +37,39 @@ document.addEventListener('DOMContentLoaded', async () => {
         setLanguage(savedLanguage);
     }
     
-    await loadUserData(); // async로 변경
-    await loadData(); // async로 변경
-    await loadDictionary();
-    initializeEventListeners();
-    updateUI();
-    updateAuthUI();
-    
-    // 언어 선택자 초기값 설정
-    const languageSelector = document.getElementById('languageSelector');
-    if (languageSelector) {
-        languageSelector.value = savedLanguage;
-    }
-    
-    // Supabase Auth 상태 변화 감지
+    // Supabase Auth 상태 확인
     if (window.supabaseClient) {
-        window.supabaseClient.auth.onAuthStateChange((event, session) => {
+        const { data: { session } } = await window.supabaseClient.auth.getSession();
+        
+        if (session) {
+            // 로그인된 상태
+            AppState.currentUser = {
+                id: session.user.id,
+                email: session.user.email
+            };
+            await loadUserData();
+            await loadData();
+            await loadDictionary();
+            await checkOnboardingStatus(); // 온보딩 상태 확인
+        } else {
+            // 로그인되지 않은 상태 - 로그인 모달 자동 표시
+            showLoginModal();
+            // 페이지 접근 제한
+            disablePageAccess();
+        }
+        
+        // Supabase Auth 상태 변화 감지
+        window.supabaseClient.auth.onAuthStateChange(async (event, session) => {
             if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') {
-                loadUserData();
-                loadData();
+                if (session) {
+                    AppState.currentUser = {
+                        id: session.user.id,
+                        email: session.user.email
+                    };
+                    await loadUserData();
+                    await loadData();
+                    await checkOnboardingStatus(); // 온보딩 상태 확인
+                }
             } else if (event === 'SIGNED_OUT') {
                 AppState.currentUser = null;
                 AppState.vocabulary = [];
@@ -64,9 +78,19 @@ document.addEventListener('DOMContentLoaded', async () => {
                 saveData();
                 updateAuthUI();
                 updateUI();
+                showLoginModal(); // 로그아웃 시 로그인 모달 표시
+                disablePageAccess(); // 페이지 접근 제한
             }
         });
+    } else {
+        // Supabase 클라이언트가 없으면 로그인 모달 표시
+        showLoginModal();
+        disablePageAccess();
     }
+    
+    initializeEventListeners();
+    updateUI();
+    updateAuthUI();
 });
 
 // 데이터 로드 (Supabase 또는 localStorage)
@@ -270,21 +294,7 @@ async function saveData() {
 
 // 이벤트 리스너 초기화
 function initializeEventListeners() {
-    // 언어 선택자
-    const languageSelector = document.getElementById('languageSelector');
-    if (languageSelector) {
-        languageSelector.addEventListener('change', (e) => {
-            const selectedLang = e.target.value;
-            if (typeof setLanguage === 'function') {
-                setLanguage(selectedLang);
-                // UI 업데이트
-                updateUI();
-                updateAuthUI();
-                // 현재 페이지 다시 표시하여 텍스트 업데이트
-                showPage(AppState.currentPage);
-            }
-        });
-    }
+    // 언어 선택자는 설정 모달로 이동했으므로 헤더 이벤트 리스너 제거
     
     // 네비게이션
     document.querySelectorAll('.nav-btn').forEach(btn => {
@@ -400,10 +410,14 @@ function initializeEventListeners() {
         document.getElementById('testResult').style.display = 'none';
     });
 
-    // 모달 닫기 (배경 클릭)
+    // 모달 닫기 (배경 클릭) - 필수 온보딩 모달은 제외
     document.querySelectorAll('.modal').forEach(modal => {
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
+                // 필수 온보딩 모달은 닫을 수 없음
+                if (modal.dataset.required === 'true') {
+                    return;
+                }
                 modal.classList.remove('active');
             }
         });
@@ -412,6 +426,21 @@ function initializeEventListeners() {
 
 // 페이지 전환
 function showPage(pageName) {
+    // 로그인하지 않은 경우 접근 제한
+    if (!AppState.currentUser) {
+        showLoginModal();
+        return;
+    }
+    
+    // 자격증이 없는 경우 학습 페이지 접근 제한
+    if (pageName === 'vocabulary' || pageName === 'reading' || pageName === 'mocktest' || pageName === 'quiz') {
+        if (!AppState.settings.targetCertification || AppState.settings.targetCertification === 'none') {
+            showToast('먼저 자격증을 선택해주세요. 설정에서 자격증을 추가할 수 있습니다.', 'info');
+            openSettingsModal();
+            return;
+        }
+    }
+    
     document.querySelectorAll('.page').forEach(page => {
         page.classList.remove('active');
     });
@@ -1369,8 +1398,8 @@ function attachKanjiHoverEvents(container) {
     });
 }
 
-// 단어 tooltip 표시
-function showWordKanjiTooltip(e) {
+// 단어 tooltip 표시 (비동기 - 언어 쌍별 테이블 사용)
+async function showWordKanjiTooltip(e) {
     const el = e.target;
     
     // 이미 고정된 툴팁이 있는지 확인
@@ -1380,7 +1409,7 @@ function showWordKanjiTooltip(e) {
     }
     
     const word = el.getAttribute('data-word');
-    const meaning = el.getAttribute('data-meaning');
+    let meaning = el.getAttribute('data-meaning');
     const reading = el.getAttribute('data-reading') || '';
     const onYomi = JSON.parse(el.getAttribute('data-on-yomi') || '[]');
     const kunYomi = JSON.parse(el.getAttribute('data-kun-yomi') || '[]');
@@ -1388,6 +1417,20 @@ function showWordKanjiTooltip(e) {
     const jlptLevel = el.getAttribute('data-jlpt-level') || '';
     const onYomiWords = JSON.parse(el.getAttribute('data-on-yomi-words') || '[]');
     const kunYomiWords = JSON.parse(el.getAttribute('data-kun-yomi-words') || '[]');
+    
+    // 텍스트 언어는 일본어
+    const textLanguage = 'ja';
+    
+    // 사용자가 선택한 언어 가져오기
+    const userLanguage = getCurrentUserLanguage();
+    
+    // 언어 쌍별 테이블에서 뜻 가져오기 (사용자 언어가 일본어가 아닌 경우)
+    if (userLanguage !== 'ja') {
+        const result = await getWordMeaningFromLanguagePair(word, textLanguage, userLanguage);
+        if (result && result.meaning) {
+            meaning = result.meaning;
+        }
+    }
     
     // 한자 데이터에서 추가 정보 가져오기
     const kanjiData = AppState.singleCharacters?.words?.find(w => w.word === word);
@@ -2146,12 +2189,157 @@ function displayReadingPassage(passage) {
 }
 
 
+// 현재 사용자가 선택한 언어 가져오기
+function getCurrentUserLanguage() {
+    // localStorage에서 먼저 확인 (가장 신뢰할 수 있는 소스)
+    const savedLanguage = localStorage.getItem('appLanguage');
+    if (savedLanguage) {
+        console.log(`🌐 getCurrentUserLanguage: localStorage에서 언어 가져옴: ${savedLanguage}`);
+        return savedLanguage;
+    }
+    
+    // 설정 모달의 언어 선택자에서 가져오기 (모달이 열려있을 때)
+    const appLanguageSelect = document.getElementById('appLanguage');
+    if (appLanguageSelect && appLanguageSelect.value) {
+        console.log(`🌐 getCurrentUserLanguage: select 요소에서 언어 가져옴: ${appLanguageSelect.value}`);
+        return appLanguageSelect.value;
+    }
+    
+    // 기본값
+    console.log(`🌐 getCurrentUserLanguage: 기본값 사용: ko`);
+    return 'ko';
+}
+
+// 영어 단어의 일본어 뜻 찾기
+function findJapaneseMeaningForEnglishWord(englishWord) {
+    // TOEIC 사전에서 영어 단어 찾기
+    if (AppState.toeicDictionary?.words) {
+        const wordData = AppState.toeicDictionary.words.find(w => 
+            w.word.toLowerCase() === englishWord.toLowerCase()
+        );
+        
+        if (wordData) {
+            // TOEIC 사전에 일본어 뜻 필드가 있으면 사용
+            if (wordData.japaneseMeaning) {
+                return wordData.japaneseMeaning;
+            }
+        }
+    }
+    
+    return null;
+}
+
+// 언어 쌍 테이블 이름 결정 (텍스트 언어 -> 사용자 언어)
+function getLanguagePairTable(textLanguage, userLanguage) {
+    // 같은 언어면 null 반환
+    if (textLanguage === userLanguage) {
+        return null;
+    }
+    
+    // 언어 쌍 테이블 이름 생성 (예: en_ja, ja_ko 등)
+    return `${textLanguage}_${userLanguage}`;
+}
+
+// 언어 쌍별 테이블에서 단어 뜻 가져오기 (비동기)
+async function getWordMeaningFromLanguagePair(word, textLanguage, userLanguage) {
+    // Supabase 클라이언트 확인
+    if (!window.supabaseClient) {
+        console.warn('Supabase 클라이언트가 로드되지 않았습니다.');
+        return null;
+    }
+    
+    // 언어 쌍 테이블 이름 결정
+    const tableName = getLanguagePairTable(textLanguage, userLanguage);
+    if (!tableName) {
+        // 같은 언어면 null 반환
+        return null;
+    }
+    
+    // 단어를 소문자로 변환하여 검색 (대소문자 무시)
+    const searchWord = word.toLowerCase().trim();
+    
+    try {
+        // 먼저 정확한 매칭 시도
+        let { data, error } = await window.supabaseClient
+            .from(tableName)
+            .select('source_word, target_meaning, pronunciation')
+            .eq('source_word', word) // 정확한 매칭
+            .limit(1);
+        
+        if (error) {
+            console.error(`언어 쌍 테이블 조회 오류 (${tableName}, 단어: "${word}"):`, error);
+            return null;
+        }
+        
+        if (data && data.length > 0) {
+            console.log(`✅ ${tableName} 테이블에서 "${word}" 정확히 찾음: "${data[0].target_meaning}"`);
+            return {
+                meaning: data[0].target_meaning,
+                pronunciation: data[0].pronunciation || null
+            };
+        }
+        
+        // 정확한 매칭이 실패하면 대소문자 무시 검색 시도
+        const { data: caseInsensitiveData, error: caseError } = await window.supabaseClient
+            .from(tableName)
+            .select('source_word, target_meaning, pronunciation')
+            .ilike('source_word', searchWord) // 대소문자 무시 검색
+            .limit(1);
+        
+        if (!caseError && caseInsensitiveData && caseInsensitiveData.length > 0) {
+            console.log(`✅ ${tableName} 테이블에서 "${word}" (대소문자 무시) 찾음: "${caseInsensitiveData[0].source_word}" -> "${caseInsensitiveData[0].target_meaning}"`);
+            return {
+                meaning: caseInsensitiveData[0].target_meaning,
+                pronunciation: caseInsensitiveData[0].pronunciation || null
+            };
+        }
+        
+        console.log(`⚠️ ${tableName} 테이블에서 "${word}"를 찾지 못함`);
+        return null;
+    } catch (error) {
+        console.error(`언어 쌍 테이블 조회 중 오류 (${tableName}, 단어: "${word}"):`, error);
+        return null;
+    }
+}
+
+// 영어 단어의 뜻을 사용자 언어에 맞게 변환 (기존 방식 - 폴백용)
+function getWordMeaningForLanguage(wordData, targetLanguage) {
+    // 기본적으로 한국어 뜻 사용
+    let meaning = wordData.meaning || '';
+    
+    // 사용자가 선택한 언어에 따라 다른 뜻 표시
+    if (targetLanguage === 'ja') {
+        // 일본어로 표시: TOEIC 사전에 일본어 뜻 필드가 있으면 사용
+        if (wordData.japaneseMeaning) {
+            meaning = wordData.japaneseMeaning;
+        }
+    } else if (targetLanguage === 'en') {
+        // 영어로 표시: 영어 단어의 영어 뜻 (definition) 표시
+        if (wordData.englishMeaning) {
+            meaning = wordData.englishMeaning;
+        } else if (wordData.example) {
+            // 예문이 있으면 예문을 표시
+            meaning = wordData.example;
+        }
+    } else if (targetLanguage === 'zh') {
+        // 중국어로 표시: 영어 단어의 중국어 뜻 찾기
+        if (wordData.chineseMeaning) {
+            meaning = wordData.chineseMeaning;
+        }
+    }
+    
+    return meaning;
+}
+
 // 영어 텍스트에 단어 호버 기능 추가
 function addEnglishWordHoverToText(text) {
     if (!AppState.toeicDictionary?.words || AppState.toeicDictionary.words.length === 0) {
         console.warn('TOEIC 사전이 로드되지 않았습니다.');
         return text;
     }
+
+    // 사용자가 선택한 언어 가져오기
+    const userLanguage = getCurrentUserLanguage();
 
     // HTML 태그를 임시로 보호
     const htmlTagRegex = /<[^>]+>/g;
@@ -2173,7 +2361,8 @@ function addEnglishWordHoverToText(text) {
     
     sortedWords.forEach(wordData => {
         const word = wordData.word.toLowerCase();
-        const meaning = wordData.meaning;
+        // 사용자 언어에 맞는 뜻 가져오기
+        const meaning = getWordMeaningForLanguage(wordData, userLanguage);
         const pronunciation = wordData.pronunciation || '';
         
         // 단어 경계를 고려한 정규식 생성 (대소문자 무시)
@@ -2245,7 +2434,7 @@ function addEnglishWordHoverToText(text) {
             const after = protectedText.substring(index + length);
             
             protectedText = before + 
-                `<span class="word-hoverable" data-word="${escapeHtml(matchedWord)}" data-meaning="${escapeHtml(meaning)}" data-pronunciation="${escapeHtml(pronunciation || '')}">${wordText}</span>` + 
+                `<span class="word-hoverable" data-word="${escapeHtml(matchedWord)}" data-meaning="${escapeHtml(meaning)}" data-pronunciation="${escapeHtml(pronunciation || '')}" data-text-language="en">${wordText}</span>` + 
                 after;
             
             // 처리된 위치 기록
@@ -2339,7 +2528,7 @@ function addKoreanWordHoverToText(text) {
             const after = protectedText.substring(index + length);
             
             protectedText = before + 
-                `<span class="word-hoverable-korean" data-word="${escapeHtml(matchedWord)}" data-meaning="${escapeHtml(meaning)}" data-pronunciation="${escapeHtml(pronunciation || '')}">${wordText}</span>` + 
+                `<span class="word-hoverable-korean" data-word="${escapeHtml(matchedWord)}" data-meaning="${escapeHtml(meaning)}" data-pronunciation="${escapeHtml(pronunciation || '')}" data-text-language="ko">${wordText}</span>` + 
                 after;
             
             // 처리된 위치 기록
@@ -2377,12 +2566,32 @@ function attachKoreanWordHoverEvents() {
     });
 }
 
-// 한국어 단어 툴팁 표시
-function showKoreanWordTooltip(e) {
+// 한국어 단어 툴팁 표시 (비동기 - 언어 쌍별 테이블 사용)
+async function showKoreanWordTooltip(e) {
     const wordSpan = e.target;
     const word = wordSpan.dataset.word || wordSpan.textContent.trim();
-    const meaning = wordSpan.dataset.meaning;
-    const pronunciation = wordSpan.dataset.pronunciation;
+    let pronunciation = wordSpan.dataset.pronunciation;
+    
+    // 텍스트 언어는 한국어
+    const textLanguage = 'ko';
+    
+    // 사용자가 선택한 언어 가져오기
+    const userLanguage = getCurrentUserLanguage();
+    
+    let meaning = '';
+    
+    // 언어 쌍별 테이블에서 뜻 가져오기
+    const result = await getWordMeaningFromLanguagePair(word, textLanguage, userLanguage);
+    
+    if (result) {
+        meaning = result.meaning;
+        if (result.pronunciation) {
+            pronunciation = result.pronunciation;
+        }
+    } else {
+        // 언어 쌍별 테이블에서 찾지 못한 경우 data-meaning 사용 (폴백)
+        meaning = wordSpan.dataset.meaning || '';
+    }
     
     // 기존 툴팁 제거
     hideWordTooltip();
@@ -2439,12 +2648,49 @@ function attachWordHoverEvents() {
     });
 }
 
-// 단어 툴팁 표시
-function showWordTooltip(e) {
+// 단어 툴팁 표시 (비동기 - 언어 쌍별 테이블 사용)
+async function showWordTooltip(e) {
     const wordSpan = e.target;
     const word = wordSpan.dataset.word || wordSpan.textContent.trim();
-    const meaning = wordSpan.dataset.meaning;
-    const pronunciation = wordSpan.dataset.pronunciation;
+    let pronunciation = wordSpan.dataset.pronunciation;
+    
+    // 텍스트 언어 감지 (data-text-language 속성 또는 단어 자체로 감지)
+    const textLanguage = wordSpan.dataset.textLanguage || detectLanguage(word) || 'en';
+    
+    // 사용자가 선택한 언어 가져오기
+    const userLanguage = getCurrentUserLanguage();
+    
+    let meaning = '';
+    
+    // 언어 쌍별 테이블에서 뜻 가져오기
+    const result = await getWordMeaningFromLanguagePair(word, textLanguage, userLanguage);
+    
+    if (result) {
+        meaning = result.meaning;
+        if (result.pronunciation) {
+            pronunciation = result.pronunciation;
+        }
+    } else {
+        // 언어 쌍별 테이블에서 찾지 못한 경우 폴백
+        // TOEIC 사전에서 단어 찾기 (기존 방식)
+        if (AppState.toeicDictionary?.words && textLanguage === 'en') {
+            const wordData = AppState.toeicDictionary.words.find(w => 
+                w.word.toLowerCase() === word.toLowerCase()
+            );
+            if (wordData) {
+                // 사용자 언어에 맞는 뜻 가져오기
+                meaning = getWordMeaningForLanguage(wordData, userLanguage);
+                if (!pronunciation && wordData.pronunciation) {
+                    pronunciation = wordData.pronunciation;
+                }
+            }
+        }
+        
+        // 여전히 찾지 못한 경우 data-meaning 사용 (최종 폴백)
+        if (!meaning) {
+            meaning = wordSpan.dataset.meaning || '';
+        }
+    }
     
     // 기존 툴팁 제거
     hideWordTooltip();
@@ -2573,15 +2819,16 @@ function updateReadingScore() {
     const scoreDiv = document.getElementById('readingScore') || document.createElement('div');
     scoreDiv.id = 'readingScore';
     scoreDiv.style.cssText = 'margin-bottom: 1rem; padding: 1rem; background: var(--bg-color); border-radius: 8px; text-align: center;';
+    const accuracyRateText = typeof t === 'function' ? t('accuracyRate') : '정답률';
     scoreDiv.innerHTML = `
-        <strong>정답률: ${correctCount} / ${totalQuestions} (${scorePercentage}%)</strong>
+        <strong>${accuracyRateText}: ${correctCount} / ${totalQuestions} (${scorePercentage}%)</strong>
     `;
     
     if (!document.getElementById('readingScore')) {
         questionsDiv.parentElement.insertBefore(scoreDiv, questionsDiv);
     } else {
         scoreDiv.innerHTML = `
-            <strong>정답률: ${correctCount} / ${totalQuestions} (${scorePercentage}%)</strong>
+            <strong>${accuracyRateText}: ${correctCount} / ${totalQuestions} (${scorePercentage}%)</strong>
         `;
     }
 }
@@ -3164,14 +3411,17 @@ function getLanguageName(lang) {
 }
 
 // 모의고사
-function startMockTest() {
+async function startMockTest() {
     document.querySelector('.test-selector').style.display = 'none';
     document.getElementById('testContainer').style.display = 'block';
     
     // 모의고사 문제 생성 (실제로는 서버에서 가져와야 함)
+    // 사용자의 모국어에 맞는 문제 생성
+    const questions = await generateMockTestQuestionsAsync();
+    
     AppState.currentTest = {
         type: 'mock',
-        questions: generateMockTestQuestions(),
+        questions: questions,
         currentIndex: 0,
         answers: [],
         startTime: Date.now()
@@ -3180,63 +3430,778 @@ function startMockTest() {
     showTestQuestion();
 }
 
-function startLevelTest() {
+async function startLevelTest() {
+    const language = document.getElementById('levelTestLanguage')?.value || 'ja';
+    
     document.querySelector('.test-selector').style.display = 'none';
     document.getElementById('testContainer').style.display = 'block';
     
+    // 문제 풀 생성 (사용자 모국어 고려)
+    const questionPool = await generateLevelTestQuestionPoolAsync(language);
+    
+    // 문제 풀이 비어있는지 확인
+    const totalPoolSize = questionPool.easy.length + questionPool.medium.length + questionPool.hard.length;
+    if (totalPoolSize === 0) {
+        console.error('문제 풀이 비어있습니다.');
+        const questionDiv = document.getElementById('testQuestion');
+        questionDiv.innerHTML = `
+            <div style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                <p>문제를 생성할 수 없습니다. 단어 데이터를 확인해주세요.</p>
+                <button class="btn btn-primary" onclick="document.querySelector('.test-selector').style.display = 'grid'; document.getElementById('testContainer').style.display = 'none';">
+                    돌아가기
+                </button>
+            </div>
+        `;
+        return;
+    }
+    
+    // 적응형 레벨테스트 초기화
     AppState.currentTest = {
         type: 'level',
-        questions: generateLevelTestQuestions(),
+        language: language,
+        questions: [],
         currentIndex: 0,
         answers: [],
-        startTime: Date.now()
+        startTime: Date.now(),
+        currentDifficulty: 1, // 1: 초급, 2: 중급, 3: 고급
+        correctStreak: 0,
+        wrongStreak: 0,
+        totalQuestions: Math.min(20, totalPoolSize), // 총 문제 수 (문제 풀 크기에 맞춤)
+        questionPool: questionPool
     };
 
-    showTestQuestion();
+    // 첫 문제 생성
+    generateNextAdaptiveQuestion();
+    
+    // 문제가 생성되었는지 확인
+    if (AppState.currentTest.questions.length === 0) {
+        console.error('첫 문제 생성에 실패했습니다.');
+        const questionDiv = document.getElementById('testQuestion');
+        questionDiv.innerHTML = `
+            <div style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                <p>문제를 생성할 수 없습니다. 단어 데이터를 확인해주세요.</p>
+                <button class="btn btn-primary" onclick="document.querySelector('.test-selector').style.display = 'grid'; document.getElementById('testContainer').style.display = 'none';">
+                    돌아가기
+                </button>
+            </div>
+        `;
+        return;
+    }
+    
+    await showTestQuestion();
 }
 
-function generateMockTestQuestions() {
-    // 실제로는 서버에서 문제를 가져와야 합니다
+// 사용자의 모국어 가져오기
+async function getUserNativeLanguage() {
+    if (!AppState.currentUser || !window.supabaseClient) {
+        return 'ko'; // 기본값: 한국어
+    }
+    
+    try {
+        const supabase = window.supabaseClient;
+        const userId = AppState.currentUser.id;
+        
+        const { data: profile, error } = await supabase
+            .from('profiles')
+            .select('native_language')
+            .eq('id', userId)
+            .single();
+        
+        if (error || !profile || !profile.native_language) {
+            return 'ko'; // 기본값: 한국어
+        }
+        
+        return profile.native_language;
+    } catch (error) {
+        console.error('모국어 가져오기 오류:', error);
+        return 'ko'; // 기본값: 한국어
+    }
+}
+
+// 사용자의 모국어에 맞는 문제 생성 (비동기)
+async function generateMockTestQuestionsAsync() {
+    // 사용자의 모국어 가져오기
+    const nativeLanguage = await getUserNativeLanguage();
+    
+    // i18n 함수 사용
+    const getTranslation = (key) => {
+        if (typeof t === 'function') {
+            return t(key);
+        }
+        
+        // 폴백: 직접 번역 객체 사용
+        const translations = {
+            ko: {
+                correctGrammar: "다음 중 올바른 문법은?",
+                wordMeaning: "다음 단어의 의미는?",
+                meaning1: "의미 1",
+                meaning2: "의미 2",
+                meaning3: "의미 3",
+                meaning4: "의미 4"
+            },
+            ja: {
+                correctGrammar: "次のうち正しい文法は？",
+                wordMeaning: "次の単語の意味は？",
+                meaning1: "意味 1",
+                meaning2: "意味 2",
+                meaning3: "意味 3",
+                meaning4: "意味 4"
+            },
+            en: {
+                correctGrammar: "Which of the following is correct grammar?",
+                wordMeaning: "What is the meaning of the following word?",
+                meaning1: "Meaning 1",
+                meaning2: "Meaning 2",
+                meaning3: "Meaning 3",
+                meaning4: "Meaning 4"
+            },
+            zh: {
+                correctGrammar: "下列哪一个是正确的语法？",
+                wordMeaning: "下列单词的意思是什么？",
+                meaning1: "意思 1",
+                meaning2: "意思 2",
+                meaning3: "意思 3",
+                meaning4: "意思 4"
+            }
+        };
+        
+        const lang = nativeLanguage || 'ko';
+        return translations[lang]?.[key] || translations['ko'][key] || key;
+    };
+    
     return [
-        { question: "다음 중 올바른 문법은?", options: ["Option 1", "Option 2", "Option 3", "Option 4"], correct: 0 },
-        { question: "다음 단어의 의미는?", options: ["의미 1", "의미 2", "의미 3", "의미 4"], correct: 1 }
+        { 
+            question: getTranslation('correctGrammar'), 
+            options: ["Option 1", "Option 2", "Option 3", "Option 4"], 
+            correct: 0 
+        },
+        { 
+            question: getTranslation('wordMeaning'), 
+            options: [
+                getTranslation('meaning1'), 
+                getTranslation('meaning2'), 
+                getTranslation('meaning3'), 
+                getTranslation('meaning4')
+            ], 
+            correct: 1 
+        }
     ];
 }
 
-function generateLevelTestQuestions() {
-    const allWords = AppState.vocabulary;
-    return allWords.slice(0, 20).map(word => ({
-        question: typeof t === 'function' ? t('whatIsMeaningOfWord').replace('{word}', word.word) : `"${word.word}"의 의미는?`,
-        options: [
-            word.meaning,
-            ...allWords.filter(w => w.word !== word.word).slice(0, 3).map(w => w.meaning)
-        ].sort(() => Math.random() - 0.5),
-        correct: 0
-    }));
+// 기존 함수는 호환성을 위해 유지 (동기 버전)
+function generateMockTestQuestions() {
+    // 사용자의 모국어에 맞는 문제 텍스트 반환
+    // 실제로는 서버에서 문제를 가져와야 합니다
+    const currentLang = getCurrentUserLanguage();
+    
+    // i18n 함수 사용
+    const getTranslation = (key) => {
+        if (typeof t === 'function') {
+            return t(key);
+        }
+        
+        // 폴백: 직접 번역 객체 사용
+        const translations = {
+            ko: {
+                correctGrammar: "다음 중 올바른 문법은?",
+                wordMeaning: "다음 단어의 의미는?",
+                meaning1: "의미 1",
+                meaning2: "의미 2",
+                meaning3: "의미 3",
+                meaning4: "의미 4"
+            },
+            ja: {
+                correctGrammar: "次のうち正しい文法は？",
+                wordMeaning: "次の単語の意味は？",
+                meaning1: "意味 1",
+                meaning2: "意味 2",
+                meaning3: "意味 3",
+                meaning4: "意味 4"
+            },
+            en: {
+                correctGrammar: "Which of the following is correct grammar?",
+                wordMeaning: "What is the meaning of the following word?",
+                meaning1: "Meaning 1",
+                meaning2: "Meaning 2",
+                meaning3: "Meaning 3",
+                meaning4: "Meaning 4"
+            },
+            zh: {
+                correctGrammar: "下列哪一个是正确的语法？",
+                wordMeaning: "下列单词的意思是什么？",
+                meaning1: "意思 1",
+                meaning2: "意思 2",
+                meaning3: "意思 3",
+                meaning4: "意思 4"
+            }
+        };
+        
+        const lang = currentLang || 'ko';
+        return translations[lang]?.[key] || translations['ko'][key] || key;
+    };
+    
+    return [
+        { 
+            question: getTranslation('correctGrammar'), 
+            options: ["Option 1", "Option 2", "Option 3", "Option 4"], 
+            correct: 0 
+        },
+        { 
+            question: getTranslation('wordMeaning'), 
+            options: [
+                getTranslation('meaning1'), 
+                getTranslation('meaning2'), 
+                getTranslation('meaning3'), 
+                getTranslation('meaning4')
+            ], 
+            correct: 1 
+        }
+    ];
 }
 
-function showTestQuestion() {
+// 레벨테스트용 문제 풀 생성 (비동기로 변경하여 사용자 모국어 가져오기)
+async function generateLevelTestQuestionPoolAsync(language) {
+    // 사용자의 모국어 가져오기
+    const nativeLanguage = await getUserNativeLanguage();
+    
+    return generateLevelTestQuestionPool(language, nativeLanguage);
+}
+
+// 레벨테스트용 문제 풀 생성
+function generateLevelTestQuestionPool(language, nativeLanguage = 'ko') {
+    const questionPool = {
+        easy: [],
+        medium: [],
+        hard: []
+    };
+
+    // 언어별 단어 데이터 가져오기
+    let words = [];
+    if (language === 'ja') {
+        words = AppState.singleCharacters?.words || [];
+        console.log(`일본어 단어 데이터: ${words.length}개`);
+    } else if (language === 'en') {
+        words = AppState.toeicDictionary?.words || [];
+        console.log(`영어 단어 데이터: ${words.length}개`);
+    } else if (language === 'zh') {
+        words = AppState.topikDictionary?.words || [];
+        console.log(`중국어 단어 데이터: ${words.length}개`);
+    } else {
+        words = AppState.vocabulary || [];
+        console.log(`단어장 데이터: ${words.length}개`);
+    }
+
+    // 단어가 없으면 기본 문제 생성
+    if (words.length === 0) {
+        console.warn('단어 데이터가 없습니다. 기본 문제를 생성합니다.');
+        return generateDefaultQuestions(language);
+    }
+
+    // 난이도별로 문제 생성
+    words.forEach((word, idx) => {
+        const wordText = word.word || word.kanji || '';
+        const meaning = word.meaning || word.translation || '';
+        
+        if (!wordText || !meaning) return;
+
+        // 다른 단어들로 오답 선택지 생성
+        const otherWords = words.filter(w => {
+            const wText = w.word || w.kanji || '';
+            return wText !== wordText && (w.meaning || w.translation);
+        });
+        
+        const wrongOptions = otherWords
+            .slice(0, 3)
+            .map(w => ({
+                word: w.word || w.kanji || '',
+                meaning: w.meaning || w.translation || ''
+            }))
+            .filter(w => w.meaning && w.meaning !== meaning);
+
+        if (wrongOptions.length < 3) return;
+
+        // 각 선택지에 해당하는 단어 정보 저장 (번역을 위해)
+        const optionWords = [
+            { word: wordText, meaning: meaning }, // 정답
+            ...wrongOptions
+        ];
+
+        const options = [meaning, ...wrongOptions.map(w => w.meaning)].sort(() => Math.random() - 0.5);
+        const correctIndex = options.indexOf(meaning);
+        
+        // optionWords도 같은 순서로 재정렬
+        const sortedOptionWords = options.map(opt => 
+            optionWords.find(ow => ow.meaning === opt) || { word: '', meaning: opt }
+        );
+
+        // 사용자의 모국어에 맞는 문제 텍스트 생성
+        const getQuestionText = (wordText) => {
+            if (typeof t === 'function') {
+                return t('whatIsMeaningOfWord').replace('{word}', wordText);
+            }
+            
+            // 폴백: 모국어에 맞는 텍스트
+            const questionTexts = {
+                ko: `"${wordText}"의 의미는?`,
+                ja: `"${wordText}"の意味は？`,
+                en: `What is the meaning of "${wordText}"?`,
+                zh: `"${wordText}"的意思是什么？`
+            };
+            
+            return questionTexts[nativeLanguage] || questionTexts['ko'];
+        };
+        
+        const question = {
+            question: getQuestionText(wordText),
+            options: options,
+            optionWords: sortedOptionWords, // 각 선택지에 해당하는 단어 정보 (옵션 순서와 동일)
+            correct: correctIndex,
+            difficulty: determineWordDifficulty(word, language),
+            word: wordText,
+            meaning: meaning
+        };
+
+        // 난이도별 분류
+        if (question.difficulty === 1) {
+            questionPool.easy.push(question);
+        } else if (question.difficulty === 2) {
+            questionPool.medium.push(question);
+        } else {
+            questionPool.hard.push(question);
+        }
+    });
+
+    console.log(`문제 풀 생성 완료: 초급 ${questionPool.easy.length}개, 중급 ${questionPool.medium.length}개, 고급 ${questionPool.hard.length}개`);
+
+    // 문제 풀이 비어있으면 기본 문제 생성
+    const totalQuestions = questionPool.easy.length + questionPool.medium.length + questionPool.hard.length;
+    if (totalQuestions === 0) {
+        console.warn('생성된 문제가 없습니다. 기본 문제를 사용합니다.');
+        return generateDefaultQuestions(language);
+    }
+
+    return questionPool;
+}
+
+// 기본 문제 생성 (단어 데이터가 없을 때) - 사용자 모국어 고려
+async function generateDefaultQuestionsAsync(language) {
+    const nativeLanguage = await getUserNativeLanguage();
+    return generateDefaultQuestions(language, nativeLanguage);
+}
+
+// 기본 문제 생성 (단어 데이터가 없을 때)
+function generateDefaultQuestions(language, nativeLanguage = 'ko') {
+    const defaultQuestions = {
+        easy: [],
+        medium: [],
+        hard: []
+    };
+
+    // 언어별 기본 문제
+    if (language === 'ja') {
+        const defaultWords = [
+            { word: '人', meaning: '사람', difficulty: 1 },
+            { word: '水', meaning: '물', difficulty: 1 },
+            { word: '火', meaning: '불', difficulty: 1 },
+            { word: '木', meaning: '나무', difficulty: 1 },
+            { word: '金', meaning: '금', difficulty: 1 },
+            { word: '学校', meaning: '학교', difficulty: 2 },
+            { word: '学生', meaning: '학생', difficulty: 2 },
+            { word: '先生', meaning: '선생님', difficulty: 2 },
+            { word: '勉強', meaning: '공부', difficulty: 2 },
+            { word: '図書館', meaning: '도서관', difficulty: 2 },
+            { word: '経済', meaning: '경제', difficulty: 3 },
+            { word: '政治', meaning: '정치', difficulty: 3 },
+            { word: '文化', meaning: '문화', difficulty: 3 },
+            { word: '社会', meaning: '사회', difficulty: 3 },
+            { word: '環境', meaning: '환경', difficulty: 3 }
+        ];
+
+        defaultWords.forEach((item, idx) => {
+            const wrongOptions = defaultWords
+                .filter(w => w.word !== item.word)
+                .slice(0, 3)
+                .map(w => w.meaning);
+            
+            const options = [item.meaning, ...wrongOptions].sort(() => Math.random() - 0.5);
+            const correctIndex = options.indexOf(item.meaning);
+
+            // 사용자의 모국어에 맞는 문제 텍스트 생성
+            const getQuestionText = (wordText) => {
+                const questionTexts = {
+                    ko: `"${wordText}"의 의미는?`,
+                    ja: `"${wordText}"の意味は？`,
+                    en: `What is the meaning of "${wordText}"?`,
+                    zh: `"${wordText}"的意思是什么？`
+                };
+                return questionTexts[nativeLanguage] || questionTexts['ko'];
+            };
+            
+            const question = {
+                question: getQuestionText(item.word),
+                options: options,
+                correct: correctIndex,
+                difficulty: item.difficulty,
+                word: item.word,
+                meaning: item.meaning
+            };
+
+            if (item.difficulty === 1) {
+                defaultQuestions.easy.push(question);
+            } else if (item.difficulty === 2) {
+                defaultQuestions.medium.push(question);
+            } else {
+                defaultQuestions.hard.push(question);
+            }
+        });
+    } else if (language === 'en') {
+        const defaultWords = [
+            { word: 'apple', meaning: '사과', difficulty: 1 },
+            { word: 'book', meaning: '책', difficulty: 1 },
+            { word: 'cat', meaning: '고양이', difficulty: 1 },
+            { word: 'dog', meaning: '개', difficulty: 1 },
+            { word: 'house', meaning: '집', difficulty: 1 },
+            { word: 'student', meaning: '학생', difficulty: 2 },
+            { word: 'teacher', meaning: '선생님', difficulty: 2 },
+            { word: 'library', meaning: '도서관', difficulty: 2 },
+            { word: 'computer', meaning: '컴퓨터', difficulty: 2 },
+            { word: 'university', meaning: '대학교', difficulty: 2 },
+            { word: 'economy', meaning: '경제', difficulty: 3 },
+            { word: 'politics', meaning: '정치', difficulty: 3 },
+            { word: 'culture', meaning: '문화', difficulty: 3 },
+            { word: 'society', meaning: '사회', difficulty: 3 },
+            { word: 'environment', meaning: '환경', difficulty: 3 }
+        ];
+
+        defaultWords.forEach((item, idx) => {
+            const wrongOptions = defaultWords
+                .filter(w => w.word !== item.word)
+                .slice(0, 3)
+                .map(w => w.meaning);
+            
+            const options = [item.meaning, ...wrongOptions].sort(() => Math.random() - 0.5);
+            const correctIndex = options.indexOf(item.meaning);
+
+            // 사용자의 모국어에 맞는 문제 텍스트 생성
+            const getQuestionText = (wordText) => {
+                const questionTexts = {
+                    ko: `"${wordText}"의 의미는?`,
+                    ja: `"${wordText}"の意味は？`,
+                    en: `What is the meaning of "${wordText}"?`,
+                    zh: `"${wordText}"的意思是什么？`
+                };
+                return questionTexts[nativeLanguage] || questionTexts['ko'];
+            };
+            
+            const question = {
+                question: getQuestionText(item.word),
+                options: options,
+                correct: correctIndex,
+                difficulty: item.difficulty,
+                word: item.word,
+                meaning: item.meaning
+            };
+
+            if (item.difficulty === 1) {
+                defaultQuestions.easy.push(question);
+            } else if (item.difficulty === 2) {
+                defaultQuestions.medium.push(question);
+            } else {
+                defaultQuestions.hard.push(question);
+            }
+        });
+    } else {
+        // 한국어나 중국어의 경우 영어 기본 문제 사용
+        return generateDefaultQuestions('en');
+    }
+
+    return defaultQuestions;
+}
+
+// 단어의 난이도 결정
+function determineWordDifficulty(word, language) {
+    // 단어 길이, 빈도, 레벨 등을 고려하여 난이도 결정
+    const wordText = word.word || word.kanji || '';
+    const level = word.level || '';
+    
+    if (level.includes('beginner') || level.includes('basic') || wordText.length <= 3) {
+        return 1; // 초급
+    } else if (level.includes('advanced') || level.includes('high') || wordText.length >= 8) {
+        return 3; // 고급
+    } else {
+        return 2; // 중급
+    }
+}
+
+// 적응형 문제 생성 (맞으면 어려운 문제, 틀리면 쉬운 문제)
+function generateNextAdaptiveQuestion() {
     const test = AppState.currentTest;
-    if (!test || test.currentIndex >= test.questions.length) {
-        showTestResult();
+    if (!test || test.questions.length >= test.totalQuestions) {
         return;
     }
 
+    let difficulty = test.currentDifficulty;
+    
+    // 연속 정답이면 난이도 증가
+    if (test.correctStreak >= 2 && difficulty < 3) {
+        difficulty = Math.min(3, difficulty + 1);
+        test.currentDifficulty = difficulty;
+        test.correctStreak = 0;
+    }
+    // 연속 오답이면 난이도 감소
+    else if (test.wrongStreak >= 2 && difficulty > 1) {
+        difficulty = Math.max(1, difficulty - 1);
+        test.currentDifficulty = difficulty;
+        test.wrongStreak = 0;
+    }
+
+    // 해당 난이도의 문제 풀에서 랜덤 선택
+    let pool = [];
+    if (difficulty === 1) {
+        pool = test.questionPool.easy;
+    } else if (difficulty === 2) {
+        pool = test.questionPool.medium;
+    } else {
+        pool = test.questionPool.hard;
+    }
+
+    // 풀이 비어있으면 다른 난이도에서 가져오기
+    if (pool.length === 0) {
+        if (test.questionPool.medium.length > 0) {
+            pool = test.questionPool.medium;
+        } else if (test.questionPool.easy.length > 0) {
+            pool = test.questionPool.easy;
+        } else if (test.questionPool.hard.length > 0) {
+            pool = test.questionPool.hard;
+        }
+    }
+
+    if (pool.length === 0) {
+        console.error('문제 풀이 완전히 비어있습니다. 기본 문제를 생성합니다.');
+        // 문제 풀 재생성 시도
+        // 비동기 함수이므로 여기서는 직접 호출하지 않고, startLevelTest에서 처리
+        console.error('문제 풀이 비어있습니다. 레벨테스트를 다시 시작해주세요.');
+        return;
+        pool = test.questionPool.easy.length > 0 ? test.questionPool.easy : 
+               test.questionPool.medium.length > 0 ? test.questionPool.medium : 
+               test.questionPool.hard;
+        
+        if (pool.length === 0) {
+            console.error('기본 문제 생성도 실패했습니다.');
+            return;
+        }
+    }
+
+    // 이미 출제된 문제 제외
+    const usedWords = new Set(test.questions.map(q => q.word));
+    const availableQuestions = pool.filter(q => !usedWords.has(q.word));
+    
+    const questionPool = availableQuestions.length > 0 ? availableQuestions : pool;
+    
+    if (questionPool.length === 0) {
+        console.warn('사용 가능한 문제가 없습니다. 이미 출제된 문제를 재사용합니다.');
+        // 이미 출제된 문제라도 재사용
+        const reusedQuestion = pool[Math.floor(Math.random() * pool.length)];
+        const shuffledOptions = [...reusedQuestion.options].sort(() => Math.random() - 0.5);
+        const correctIndex = shuffledOptions.indexOf(reusedQuestion.meaning);
+        
+        test.questions.push({
+            ...reusedQuestion,
+            options: shuffledOptions,
+            correct: correctIndex,
+            difficulty: difficulty
+        });
+        return;
+    }
+    
+    const randomQuestion = questionPool[Math.floor(Math.random() * questionPool.length)];
+    
+    if (!randomQuestion || !randomQuestion.options || randomQuestion.options.length === 0) {
+        console.error('문제 데이터가 올바르지 않습니다:', randomQuestion);
+        return;
+    }
+    
+    // 선택지 섞기 (optionWords도 함께)
+    const shuffledIndices = [...Array(randomQuestion.options.length).keys()].sort(() => Math.random() - 0.5);
+    const shuffledOptions = shuffledIndices.map(idx => randomQuestion.options[idx]);
+    const shuffledOptionWords = shuffledIndices.map(idx => 
+        randomQuestion.optionWords && randomQuestion.optionWords[idx] 
+            ? randomQuestion.optionWords[idx] 
+            : { word: '', meaning: randomQuestion.options[idx] }
+    );
+    const originalCorrectIndex = randomQuestion.options.findIndex(opt => opt === randomQuestion.meaning);
+    const correctIndex = shuffledIndices.indexOf(originalCorrectIndex);
+
+    if (correctIndex === -1) {
+        console.error('정답을 찾을 수 없습니다:', randomQuestion);
+        return;
+    }
+
+    test.questions.push({
+        ...randomQuestion,
+        options: shuffledOptions,
+        optionWords: shuffledOptionWords, // 섞인 순서에 맞춰 optionWords도 재정렬
+        correct: correctIndex,
+        difficulty: difficulty
+    });
+    
+    console.log(`문제 생성 완료: ${test.questions.length}/${test.totalQuestions} (난이도: ${difficulty})`);
+}
+
+async function showTestQuestion() {
+    const test = AppState.currentTest;
+    if (!test) {
+        console.error('테스트 상태가 없습니다.');
+        return;
+    }
+
+    // 문제가 없으면 다음 문제 생성 시도
+    if (test.currentIndex >= test.questions.length) {
+        if (test.questions.length < test.totalQuestions) {
+            generateNextAdaptiveQuestion();
+            // 문제가 생성되었는지 확인
+            if (test.currentIndex >= test.questions.length) {
+                console.error('문제 생성에 실패했습니다.');
+                const questionDiv = document.getElementById('testQuestion');
+                questionDiv.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                        <p>문제를 생성할 수 없습니다. 단어 데이터를 확인해주세요.</p>
+                        <button class="btn btn-primary" onclick="document.querySelector('.test-selector').style.display = 'grid'; document.getElementById('testContainer').style.display = 'none';">
+                            돌아가기
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+        } else {
+            showTestResult();
+            return;
+        }
+    }
+
     const question = test.questions[test.currentIndex];
-    document.getElementById('testProgressText').textContent = `${test.currentIndex + 1} / ${test.questions.length}`;
-    document.getElementById('testProgress').style.width = `${((test.currentIndex + 1) / test.questions.length) * 100}%`;
+    
+    if (!question || !question.options || question.options.length === 0) {
+        console.error('문제 데이터가 올바르지 않습니다:', question);
+        const questionDiv = document.getElementById('testQuestion');
+        questionDiv.innerHTML = `
+            <div style="text-align: center; padding: 2rem; color: var(--text-secondary);">
+                <p>문제 데이터 오류가 발생했습니다.</p>
+                <button class="btn btn-primary" onclick="document.querySelector('.test-selector').style.display = 'grid'; document.getElementById('testContainer').style.display = 'none';">
+                    돌아가기
+                </button>
+            </div>
+        `;
+        return;
+    }
+
+    const totalQuestions = test.totalQuestions || test.questions.length;
+    document.getElementById('testProgressText').textContent = `${test.currentIndex + 1} / ${totalQuestions}`;
+    document.getElementById('testProgress').style.width = `${((test.currentIndex + 1) / totalQuestions) * 100}%`;
+
+    // 사용자 모국어 가져오기 (서비스 언어가 아닌 모국어 사용)
+    const userLanguage = await getUserNativeLanguage();
+    const textLanguage = test.language;
+    
+    console.log(`🔍 레벨테스트 번역: 텍스트 언어=${textLanguage}, 사용자 모국어=${userLanguage}`);
+    console.log(`📝 문제: ${question.word}, optionWords:`, question.optionWords);
+    
+    // 선택지를 사용자 모국어로 번역
+    let translatedOptions = question.options;
+    let correctIndex = question.correct;
+    
+    // 사용자 모국어가 한국어가 아니면 번역 필요
+    if (userLanguage && userLanguage !== 'ko') {
+        console.log('🌐 선택지 번역 시작...');
+        // 각 선택지를 사용자 언어로 번역
+        translatedOptions = await Promise.all(
+            question.options.map(async (option, idx) => {
+                // optionWords가 있으면 해당 단어로 번역
+                if (question.optionWords && question.optionWords[idx]) {
+                    const optionWord = question.optionWords[idx];
+                    if (optionWord.word) {
+                        console.log(`  선택지 ${idx + 1}: "${optionWord.word}" (${textLanguage}) -> ${userLanguage} 번역 시도`);
+                        const result = await getWordMeaningFromLanguagePair(optionWord.word, textLanguage, userLanguage);
+                        if (result && result.meaning) {
+                            console.log(`  ✅ 번역 성공: "${result.meaning}"`);
+                            return result.meaning;
+                        } else {
+                            console.log(`  ⚠️ 번역 실패: "${optionWord.word}"`);
+                        }
+                    }
+                }
+                // optionWords가 없거나 word가 비어있으면 원본 단어로 시도
+                // 정답인 경우
+                if (idx === question.correct) {
+                    console.log(`  정답 선택지 ${idx + 1}: "${question.word}" (${textLanguage}) -> ${userLanguage} 번역 시도`);
+                    const result = await getWordMeaningFromLanguagePair(question.word, textLanguage, userLanguage);
+                    if (result && result.meaning) {
+                        console.log(`  ✅ 정답 번역 성공: "${result.meaning}"`);
+                        return result.meaning;
+                    }
+                }
+                // 오답인 경우 - optionWords에서 word를 찾아서 번역 시도
+                if (question.optionWords) {
+                    // optionWords에서 현재 option과 일치하는 meaning을 가진 항목 찾기
+                    const matchingOptionWord = question.optionWords.find(ow => ow.meaning === option);
+                    if (matchingOptionWord && matchingOptionWord.word) {
+                        console.log(`  오답 선택지 ${idx + 1}: "${matchingOptionWord.word}" (${textLanguage}) -> ${userLanguage} 번역 시도`);
+                        const result = await getWordMeaningFromLanguagePair(matchingOptionWord.word, textLanguage, userLanguage);
+                        if (result && result.meaning) {
+                            console.log(`  ✅ 오답 번역 성공: "${result.meaning}"`);
+                            return result.meaning;
+                        }
+                    }
+                }
+                // 번역 실패 시 원본 사용
+                console.log(`  ⚠️ 선택지 ${idx + 1} 번역 실패, 원본 사용: "${option}"`);
+                return option;
+            })
+        );
+        
+        console.log('📋 번역된 선택지:', translatedOptions);
+        
+        // 정답 인덱스 찾기 (번역된 선택지에서)
+        const correctResult = await getWordMeaningFromLanguagePair(question.word, textLanguage, userLanguage);
+        if (correctResult && correctResult.meaning) {
+            const translatedCorrect = correctResult.meaning;
+            correctIndex = translatedOptions.findIndex(opt => opt === translatedCorrect);
+            if (correctIndex === -1) {
+                console.warn(`⚠️ 번역된 정답을 찾을 수 없음. 원본 인덱스 사용: ${question.correct}`);
+                correctIndex = question.correct; // 폴백
+            } else {
+                console.log(`✅ 정답 인덱스: ${question.correct} -> ${correctIndex}`);
+            }
+        } else {
+            console.warn(`⚠️ 정답 번역 실패. 원본 인덱스 사용: ${question.correct}`);
+        }
+    } else {
+        console.log('ℹ️ 사용자 언어가 한국어이므로 번역 불필요');
+    }
+
+    // 난이도 표시
+    const difficultyText = question.difficulty === 1 ? '초급' : question.difficulty === 2 ? '중급' : '고급';
+    const difficultyColor = question.difficulty === 1 ? '#4CAF50' : question.difficulty === 2 ? '#FF9800' : '#F44336';
 
     const questionDiv = document.getElementById('testQuestion');
     questionDiv.innerHTML = `
-        <h3>${question.question}</h3>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h3 style="margin: 0;">${question.question || '문제'}</h3>
+            <span style="padding: 0.25rem 0.75rem; background: ${difficultyColor}; color: white; border-radius: 12px; font-size: 0.85rem; font-weight: bold;">
+                ${difficultyText}
+            </span>
+        </div>
         <div class="quiz-options" style="margin-top: 1.5rem;">
-            ${question.options.map((opt, idx) => `
+            ${translatedOptions.map((opt, idx) => `
                 <div class="quiz-option" data-answer="${idx}" onclick="selectTestOption(this)">
-                    ${idx + 1}. ${opt}
+                    ${idx + 1}. ${opt || '옵션'}
                 </div>
             `).join('')}
         </div>
     `;
+    
+    // 정답 인덱스 업데이트
+    question.correct = correctIndex;
 
     document.getElementById('submitTestBtn').disabled = true;
 }
@@ -3256,8 +4221,26 @@ function submitTestAnswer() {
     if (!selected) return;
 
     const answerIndex = parseInt(selected.dataset.answer);
+    const currentQuestion = test.questions[test.currentIndex];
+    const isCorrect = answerIndex === currentQuestion.correct;
+    
     test.answers.push(answerIndex);
+    
+    // 적응형 알고리즘: 정답/오답 스트릭 업데이트
+    if (isCorrect) {
+        test.correctStreak++;
+        test.wrongStreak = 0;
+    } else {
+        test.wrongStreak++;
+        test.correctStreak = 0;
+    }
+
     test.currentIndex++;
+
+    // 다음 문제 생성 (아직 문제가 남아있으면)
+    if (test.currentIndex < test.totalQuestions) {
+        generateNextAdaptiveQuestion();
+    }
 
     setTimeout(() => {
         showTestQuestion();
@@ -3271,27 +4254,102 @@ function showTestResult() {
     }, 0);
     const percentage = Math.round((score / test.questions.length) * 100);
 
+    // 난이도별 정답률 계산
+    const difficultyStats = { easy: { correct: 0, total: 0 }, medium: { correct: 0, total: 0 }, hard: { correct: 0, total: 0 } };
+    test.questions.forEach((q, idx) => {
+        const difficulty = q.difficulty === 1 ? 'easy' : q.difficulty === 2 ? 'medium' : 'hard';
+        difficultyStats[difficulty].total++;
+        if (test.answers[idx] === q.correct) {
+            difficultyStats[difficulty].correct++;
+        }
+    });
+
     document.getElementById('testContainer').style.display = 'none';
     document.getElementById('testResult').style.display = 'block';
 
     const summary = document.getElementById('testResultSummary');
+    const accuracyRateText = typeof t === 'function' ? t('accuracyRate') : '정답률';
     summary.innerHTML = `
         <div class="result-score">${score} / ${test.questions.length}</div>
-        <div class="result-percentage">${percentage}%</div>
+        <div class="result-percentage">${accuracyRateText}: ${percentage}%</div>
     `;
 
-    // 레벨 평가
+    // 상세한 레벨 평가
     let level = '';
-    if (percentage >= 90) level = '상급';
-    else if (percentage >= 70) level = '중급';
-    else if (percentage >= 50) level = '초중급';
-    else level = '초급';
+    let levelDescription = '';
+    let recommendation = '';
+    
+    if (percentage >= 90) {
+        level = typeof t === 'function' ? t('advanced') : '상급';
+        levelDescription = typeof t === 'function' ? t('advancedDescription') : '고급 수준입니다. 어려운 문제도 잘 해결하실 수 있습니다.';
+        recommendation = typeof t === 'function' ? t('advancedRecommendation') : '고급 교재와 원어민 콘텐츠로 학습을 이어가세요.';
+    } else if (percentage >= 70) {
+        level = typeof t === 'function' ? t('intermediate') : '중급';
+        levelDescription = typeof t === 'function' ? t('intermediateDescription') : '중급 수준입니다. 기본적인 내용은 잘 이해하고 있습니다.';
+        recommendation = typeof t === 'function' ? t('intermediateRecommendation') : '중급 교재로 실력을 더욱 향상시키세요.';
+    } else if (percentage >= 50) {
+        level = typeof t === 'function' ? t('beginnerIntermediate') : '초중급';
+        levelDescription = typeof t === 'function' ? t('beginnerIntermediateDescription') : '초중급 수준입니다. 기초를 다지고 있습니다.';
+        recommendation = typeof t === 'function' ? t('beginnerIntermediateRecommendation') : '기초 교재로 기본기를 탄탄히 하세요.';
+    } else {
+        level = typeof t === 'function' ? t('beginner') : '초급';
+        levelDescription = typeof t === 'function' ? t('beginnerDescription') : '초급 수준입니다. 기초부터 차근차근 학습하세요.';
+        recommendation = typeof t === 'function' ? t('beginnerRecommendation') : '기초 단어와 문법부터 시작하세요.';
+    }
+
+    const languageName = getLanguageName(test.language);
+    const timeSpent = Math.round((Date.now() - test.startTime) / 1000);
+    const minutes = Math.floor(timeSpent / 60);
+    const seconds = timeSpent % 60;
+    const timeText = minutes > 0 ? `${minutes}분 ${seconds}초` : `${seconds}초`;
 
     const details = document.getElementById('testResultDetails');
+    const levelLabel = typeof t === 'function' ? t('expectedLevel') : '예상 레벨';
+    const languageLabel = typeof t === 'function' ? t('testLanguage') : '테스트 언어';
+    const timeLabel = typeof t === 'function' ? t('timeSpent') : '소요 시간';
+    const difficultyLabel = typeof t === 'function' ? t('difficultyBreakdown') : '난이도별 정답률';
+    
     details.innerHTML = `
-        <p><strong>예상 레벨:</strong> ${level}</p>
-        <p><strong>소요 시간:</strong> ${Math.round((Date.now() - test.startTime) / 1000)}초</p>
+        <div style="margin-bottom: 1.5rem;">
+            <p style="font-size: 1.2rem; font-weight: bold; color: var(--primary-color); margin-bottom: 0.5rem;">${levelLabel}: ${level}</p>
+            <p style="margin-bottom: 0.5rem;">${levelDescription}</p>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">${recommendation}</p>
+        </div>
+        <div style="margin-bottom: 1rem;">
+            <p><strong>${languageLabel}:</strong> ${languageName}</p>
+            <p><strong>${timeLabel}:</strong> ${timeText}</p>
+        </div>
+        <div style="margin-top: 1.5rem; padding: 1rem; background: var(--bg-secondary); border-radius: 8px;">
+            <p style="font-weight: bold; margin-bottom: 0.5rem;">${difficultyLabel}:</p>
+            <p>초급: ${difficultyStats.easy.correct} / ${difficultyStats.easy.total} (${difficultyStats.easy.total > 0 ? Math.round((difficultyStats.easy.correct / difficultyStats.easy.total) * 100) : 0}%)</p>
+            <p>중급: ${difficultyStats.medium.correct} / ${difficultyStats.medium.total} (${difficultyStats.medium.total > 0 ? Math.round((difficultyStats.medium.correct / difficultyStats.medium.total) * 100) : 0}%)</p>
+            <p>고급: ${difficultyStats.hard.correct} / ${difficultyStats.hard.total} (${difficultyStats.hard.total > 0 ? Math.round((difficultyStats.hard.correct / difficultyStats.hard.total) * 100) : 0}%)</p>
+        </div>
     `;
+
+    // 결과 저장
+    saveLevelTestResult(test, score, percentage, level);
+}
+
+// 레벨테스트 결과 저장
+function saveLevelTestResult(test, score, percentage, level) {
+    const results = JSON.parse(localStorage.getItem('levelTestResults') || '[]');
+    results.push({
+        date: new Date().toISOString(),
+        language: test.language,
+        score: score,
+        total: test.questions.length,
+        percentage: percentage,
+        level: level,
+        timeSpent: Math.round((Date.now() - test.startTime) / 1000)
+    });
+    
+    // 최근 50개만 저장
+    if (results.length > 50) {
+        results.shift();
+    }
+    
+    localStorage.setItem('levelTestResults', JSON.stringify(results));
 }
 
 // 단어장
@@ -3383,12 +4441,60 @@ function renderVocabularyList() {
         return;
     }
     
-    // 단어 리스트 렌더링
-    list.innerHTML = words.map((word, idx) => {
+    // 단어 리스트 렌더링 (비동기로 언어별 뜻 가져오기)
+    renderVocabularyListAsync(words, certification, list);
+}
+
+// 단어장 리스트를 비동기로 렌더링 (언어별 뜻 조회)
+async function renderVocabularyListAsync(words, certification, listElement) {
+    const userLanguage = getCurrentUserLanguage();
+    const textLanguage = certification.startsWith('jlpt') ? 'ja' : 'en';
+    
+    console.log(`📚 단어장 렌더링: 텍스트 언어=${textLanguage}, 사용자 언어=${userLanguage}`);
+    
+    // 먼저 로딩 상태 표시
+    listElement.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--text-secondary);">단어를 불러오는 중...</div>';
+    
+    // 모든 단어의 뜻을 병렬로 조회
+    const wordsWithMeanings = await Promise.all(words.map(async (word) => {
         const wordText = word.word || word.kanji || '';
-        const meaning = word.meaning || word.translation || '';
         const reading = word.reading || word.hiragana || '';
         const isLearned = AppState.vocabulary.some(w => w.word === wordText && w.mastered);
+        
+        // 기본 뜻 (폴백용)
+        let meaning = word.meaning || word.translation || '';
+        let meaningSource = 'default'; // 디버깅용
+        
+        // 사용자 언어가 텍스트 언어와 다르면 언어 쌍별 테이블에서 조회
+        if (userLanguage !== textLanguage) {
+            const tableName = getLanguagePairTable(textLanguage, userLanguage);
+            console.log(`🔍 단어 "${wordText}" 조회: ${tableName} 테이블에서 검색 중...`);
+            
+            const result = await getWordMeaningFromLanguagePair(wordText, textLanguage, userLanguage);
+            if (result && result.meaning) {
+                meaning = result.meaning;
+                meaningSource = 'language_pair';
+                console.log(`✅ 단어 "${wordText}": ${tableName}에서 뜻 찾음: ${meaning}`);
+            } else {
+                console.log(`⚠️ 단어 "${wordText}": ${tableName}에서 뜻을 찾지 못함. 기본 뜻 사용: ${meaning}`);
+            }
+        } else {
+            console.log(`ℹ️ 단어 "${wordText}": 같은 언어 (${textLanguage})이므로 기본 뜻 사용`);
+        }
+        
+        return {
+            wordText,
+            meaning,
+            reading,
+            isLearned,
+            originalWord: word,
+            meaningSource // 디버깅용
+        };
+    }));
+    
+    // 렌더링
+    listElement.innerHTML = wordsWithMeanings.map((item) => {
+        const { wordText, meaning, reading, isLearned } = item;
         
         return `
             <div class="vocab-item" style="border-left: ${isLearned ? '4px solid var(--success-color)' : '4px solid transparent'};">
@@ -3493,6 +4599,14 @@ function openSettingsModal() {
     document.getElementById('settingsModal').classList.add('active');
     document.getElementById('targetCertification').value = AppState.settings.targetCertification;
     document.getElementById('dailyGoal').value = AppState.settings.dailyGoal;
+    
+    // 언어 설정 초기값 설정
+    const savedLanguage = localStorage.getItem('appLanguage') || 'ko';
+    const appLanguageSelect = document.getElementById('appLanguage');
+    if (appLanguageSelect) {
+        appLanguageSelect.value = savedLanguage;
+    }
+    
     if (typeof updateAllTexts === 'function') updateAllTexts();
 }
 
@@ -3501,27 +4615,80 @@ function closeSettingsModal() {
 }
 
 function saveSettings() {
-        AppState.settings.targetCertification = document.getElementById('targetCertification').value;
-        AppState.settings.dailyGoal = parseInt(document.getElementById('dailyGoal').value);
+    AppState.settings.targetCertification = document.getElementById('targetCertification').value;
+    AppState.settings.dailyGoal = parseInt(document.getElementById('dailyGoal').value);
+    
+    // 언어 설정 저장 및 적용
+    const appLanguageSelect = document.getElementById('appLanguage');
+    let selectedLanguage = 'ko';
+    if (appLanguageSelect) {
+        selectedLanguage = appLanguageSelect.value || 'ko';
+        console.log(`💾 언어 설정 저장: ${selectedLanguage}`);
         
-        // TTS 설정 저장
-        const ttsRate = document.getElementById('ttsRate');
-        const ttsPitch = document.getElementById('ttsPitch');
-        const ttsVolume = document.getElementById('ttsVolume');
-        if (ttsRate) AppState.settings.ttsRate = parseFloat(ttsRate.value);
-        if (ttsPitch) AppState.settings.ttsPitch = parseFloat(ttsPitch.value);
-        if (ttsVolume) AppState.settings.ttsVolume = parseFloat(ttsVolume.value);
+        // localStorage에 직접 저장 (가장 확실한 방법)
+        localStorage.setItem('appLanguage', selectedLanguage);
+        
+        // 언어 설정 저장 및 적용
+        if (typeof setLanguage === 'function') {
+            setLanguage(selectedLanguage);
+            console.log('✅ setLanguage 함수 호출 완료:', selectedLanguage);
+        } else {
+            // setLanguage 함수가 없으면 직접 저장
+            console.log('⚠️ setLanguage 함수가 없음. localStorage에만 저장됨');
+            if (typeof updateAllTexts === 'function') {
+                updateAllTexts();
+            }
+        }
+        
+        // 저장 확인
+        const saved = localStorage.getItem('appLanguage');
+        console.log(`✅ localStorage 저장 확인: ${saved}`);
+    }
+    
+    // TTS 설정 저장
+    const ttsRate = document.getElementById('ttsRate');
+    const ttsPitch = document.getElementById('ttsPitch');
+    const ttsVolume = document.getElementById('ttsVolume');
+    if (ttsRate) AppState.settings.ttsRate = parseFloat(ttsRate.value);
+    if (ttsPitch) AppState.settings.ttsPitch = parseFloat(ttsPitch.value);
+    if (ttsVolume) AppState.settings.ttsVolume = parseFloat(ttsVolume.value);
     
     AppState.dailyProgress.goal = AppState.settings.dailyGoal;
     
     saveData();
     closeSettingsModal();
+    
+    // UI 업데이트 (언어 변경 후)
     updateUI();
+    updateAuthUI();
+    
+    // 모든 텍스트 업데이트 (언어 변경 반영)
+    if (typeof updateAllTexts === 'function') {
+        updateAllTexts();
+    }
+    
+    // 현재 페이지 다시 표시하여 텍스트 업데이트
+    showPage(AppState.currentPage);
+    
+    // 독해 페이지인 경우 지문 다시 표시하여 호버 기능 업데이트
+    if (AppState.currentPage === 'reading' && AppState.currentReadingPassage) {
+        displayReadingPassage(AppState.currentReadingPassage);
+    }
     
     // 단어장 페이지가 활성화되어 있으면 새로고침
     if (AppState.currentPage === 'vocabulary') {
         renderVocabularyList();
     }
+    
+    // 저장 완료 메시지
+    const langNames = {
+        'ko': '한국어',
+        'ja': '日本語',
+        'en': 'English',
+        'zh': '中文'
+    };
+    const langName = langNames[selectedLanguage] || selectedLanguage;
+    showToast(`설정이 저장되었습니다. (서비스 언어: ${langName})`, 'success', 2000);
 }
 
 // 진행상황 페이지 업데이트
@@ -3752,12 +4919,24 @@ async function handleLogin() {
         });
 
         if (error) {
-            errorDiv.textContent = error.message || (typeof t === 'function' ? t('emailOrPasswordIncorrect') : '이메일 또는 비밀번호가 올바르지 않습니다.');
+            console.error('로그인 오류:', error);
+            
+            // 더 자세한 오류 메시지 제공
+            let errorMessage = error.message;
+            if (error.message && error.message.includes('Email not confirmed')) {
+                errorMessage = '이메일 확인이 필요합니다. 이메일을 확인해주세요.';
+            } else if (error.message && error.message.includes('Invalid login credentials')) {
+                errorMessage = '이메일 또는 비밀번호가 올바르지 않습니다.';
+            } else if (error.message && error.message.includes('User not found')) {
+                errorMessage = '등록되지 않은 이메일입니다.';
+            }
+            
+            errorDiv.textContent = errorMessage || (typeof t === 'function' ? t('emailOrPasswordIncorrect') : '이메일 또는 비밀번호가 올바르지 않습니다.');
             errorDiv.style.display = 'block';
             return;
         }
 
-        if (data.user) {
+        if (data.user && data.session) {
             // 프로필 정보 가져오기
             const { data: profile } = await supabase
                 .from('profiles')
@@ -3775,6 +4954,10 @@ async function handleLogin() {
             updateAuthUI();
             await loadData(); // 사용자 데이터 로드
             closeModal('loginModal');
+            enablePageAccess(); // 페이지 접근 허용
+            await checkOnboardingStatus(); // 온보딩 상태 확인
+            enablePageAccess(); // 페이지 접근 허용
+            await checkOnboardingStatus(); // 온보딩 상태 확인
         }
     } catch (error) {
         console.error('로그인 오류:', error);
@@ -3841,24 +5024,45 @@ async function handleSignup() {
             options: {
                 data: {
                     username: username
-                }
+                },
+                emailRedirectTo: window.location.origin // 이메일 확인 후 리다이렉트 URL
             }
         });
 
         if (error) {
+            console.error('회원가입 오류:', error);
             errorDiv.textContent = error.message || (typeof t === 'function' ? t('signupError') : '회원가입 중 오류가 발생했습니다.');
             errorDiv.style.display = 'block';
             return;
         }
 
-        if (data.user) {
+        // 이메일 확인이 필요한 경우 처리
+        if (data.user && !data.session) {
+            // 이메일 확인이 필요한 경우
+            errorDiv.innerHTML = `
+                <p style="color: var(--info-color); margin-bottom: 0.5rem;">
+                    회원가입이 완료되었습니다!<br>
+                    이메일 확인 링크를 클릭해주세요. (${email})
+                </p>
+                <p style="font-size: 0.9rem; color: var(--text-secondary);">
+                    이메일을 확인한 후 다시 로그인해주세요.
+                </p>
+            `;
+            errorDiv.style.display = 'block';
+            return;
+        }
+
+        if (data.user && data.session) {
             // 프로필은 트리거로 자동 생성되지만, 사용자명을 확실히 설정
+            // 회원가입 시 기본값 설정 (온보딩 완료 전까지는 null이 아닌 기본값)
             const { error: profileError } = await supabase
                 .from('profiles')
                 .upsert({
                     id: data.user.id,
                     username: username,
-                    email: email
+                    email: email,
+                    native_language: null, // 온보딩에서 설정
+                    certifications: [] // 온보딩에서 설정
                 });
 
             if (profileError) {
@@ -3877,7 +5081,8 @@ async function handleSignup() {
             await loadData(); // 사용자 데이터 로드
             closeModal('signupModal');
             
-            alert(typeof t === 'function' ? t('signupSuccess') : '회원가입이 완료되었습니다!');
+            // 회원가입 직후 온보딩 시작 (페이지 접근은 온보딩 완료 후)
+            showOnboardingNativeLanguageModal();
         }
     } catch (error) {
         console.error('회원가입 오류:', error);
@@ -4091,6 +5296,240 @@ async function handleAccountDeletion() {
     }
 }
 
+// 온보딩 관련 함수들
+async function checkOnboardingStatus() {
+    if (!AppState.currentUser || !window.supabaseClient) return;
+    
+    const supabase = window.supabaseClient;
+    const userId = AppState.currentUser.id;
+    
+    try {
+        // 프로필에서 모국어와 자격증 확인
+        const { data: profile, error } = await supabase
+            .from('profiles')
+            .select('native_language, certifications')
+            .eq('id', userId)
+            .single();
+        
+        if (error && error.code !== 'PGRST116') {
+            console.error('온보딩 상태 확인 오류:', error);
+            return;
+        }
+        
+        // 모국어가 없으면 온보딩 시작
+        if (!profile || !profile.native_language) {
+            showOnboardingNativeLanguageModal();
+            return;
+        }
+        
+        // 자격증이 없으면 자격증 선택 모달 표시
+        if (!profile.certifications || profile.certifications.length === 0) {
+            showOnboardingCertificationModal();
+            return;
+        }
+        
+        // 온보딩 완료 - 자격증 정보를 AppState에 저장
+        if (profile.certifications && profile.certifications.length > 0) {
+            // 첫 번째 자격증을 기본 목표로 설정
+            AppState.settings.targetCertification = profile.certifications[0];
+        }
+    } catch (error) {
+        console.error('온보딩 상태 확인 중 오류:', error);
+    }
+}
+
+function disablePageAccess() {
+    // 모든 페이지 숨기기
+    document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+    });
+    
+    // 네비게이션 버튼 비활성화
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.style.pointerEvents = 'none';
+        btn.style.opacity = '0.5';
+    });
+    
+    // 헤더의 설정 버튼만 활성화 (로그인 모달은 열 수 있도록)
+    const settingsBtn = document.getElementById('settingsBtn');
+    if (settingsBtn) {
+        settingsBtn.style.pointerEvents = 'auto';
+        settingsBtn.style.opacity = '1';
+    }
+}
+
+function enablePageAccess() {
+    // 네비게이션 버튼 활성화
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+        btn.style.pointerEvents = 'auto';
+        btn.style.opacity = '1';
+    });
+    
+    // 홈 페이지 표시
+    showPage('home');
+}
+
+function showOnboardingNativeLanguageModal() {
+    const modal = document.getElementById('onboardingNativeLanguageModal');
+    if (modal) {
+        modal.classList.add('active');
+        const errorDiv = document.getElementById('nativeLanguageError');
+        if (errorDiv) errorDiv.style.display = 'none';
+        
+        // 페이지 접근 제한 (온보딩 완료 전까지)
+        disablePageAccess();
+    }
+}
+
+async function showOnboardingCertificationModal() {
+    const modal = document.getElementById('onboardingCertificationModal');
+    if (modal) {
+        modal.classList.add('active');
+        const errorDiv = document.getElementById('certificationError');
+        if (errorDiv) errorDiv.style.display = 'none';
+        
+        // 페이지 접근 제한 (온보딩 완료 전까지)
+        disablePageAccess();
+        
+        // 기존 선택된 자격증 표시 (있는 경우)
+        if (window.supabaseClient && AppState.currentUser) {
+            try {
+                const { data: profile } = await window.supabaseClient
+                    .from('profiles')
+                    .select('certifications')
+                    .eq('id', AppState.currentUser.id)
+                    .single();
+                
+                if (profile && profile.certifications && profile.certifications.length > 0) {
+                    profile.certifications.forEach(cert => {
+                        const checkbox = document.querySelector(`input[name="certification"][value="${cert}"]`);
+                        if (checkbox) checkbox.checked = true;
+                    });
+                }
+            } catch (error) {
+                console.error('자격증 정보 로드 오류:', error);
+            }
+        }
+    }
+}
+
+async function saveNativeLanguage() {
+    const nativeLanguageSelect = document.getElementById('nativeLanguage');
+    if (!nativeLanguageSelect) return;
+    
+    const nativeLanguage = nativeLanguageSelect.value;
+    const errorDiv = document.getElementById('nativeLanguageError');
+    
+    if (!nativeLanguage) {
+        if (errorDiv) {
+            errorDiv.textContent = '모국어를 선택해주세요.';
+            errorDiv.style.display = 'block';
+        }
+        return;
+    }
+    
+    if (!AppState.currentUser || !window.supabaseClient) {
+        if (errorDiv) {
+            errorDiv.textContent = '로그인이 필요합니다.';
+            errorDiv.style.display = 'block';
+        }
+        return;
+    }
+    
+    const supabase = window.supabaseClient;
+    const userId = AppState.currentUser.id;
+    
+    try {
+        const { error } = await supabase
+            .from('profiles')
+            .update({ native_language: nativeLanguage })
+            .eq('id', userId);
+        
+        if (error) {
+            console.error('모국어 저장 오류:', error);
+            if (errorDiv) {
+                errorDiv.textContent = '모국어 저장 중 오류가 발생했습니다.';
+                errorDiv.style.display = 'block';
+            }
+            return;
+        }
+        
+        // 다음 단계로 이동
+        closeModal('onboardingNativeLanguageModal');
+        await showOnboardingCertificationModal();
+    } catch (error) {
+        console.error('모국어 저장 중 예외:', error);
+        if (errorDiv) {
+            errorDiv.textContent = '모국어 저장 중 오류가 발생했습니다.';
+            errorDiv.style.display = 'block';
+        }
+    }
+}
+
+async function saveCertifications() {
+    const checkboxes = document.querySelectorAll('input[name="certification"]:checked');
+    const errorDiv = document.getElementById('certificationError');
+    
+    if (checkboxes.length === 0) {
+        if (errorDiv) {
+            errorDiv.textContent = '최소 하나의 자격증을 선택해주세요.';
+            errorDiv.style.display = 'block';
+        }
+        return;
+    }
+    
+    if (!AppState.currentUser || !window.supabaseClient) {
+        if (errorDiv) {
+            errorDiv.textContent = '로그인이 필요합니다.';
+            errorDiv.style.display = 'block';
+        }
+        return;
+    }
+    
+    const supabase = window.supabaseClient;
+    const userId = AppState.currentUser.id;
+    
+    const certifications = Array.from(checkboxes).map(cb => cb.value);
+    
+    try {
+        const { error } = await supabase
+            .from('profiles')
+            .update({ certifications: certifications })
+            .eq('id', userId);
+        
+        if (error) {
+            console.error('자격증 저장 오류:', error);
+            if (errorDiv) {
+                errorDiv.textContent = '자격증 저장 중 오류가 발생했습니다.';
+                errorDiv.style.display = 'block';
+            }
+            return;
+        }
+        
+        // AppState에 저장
+        AppState.settings.targetCertification = certifications[0];
+        
+        // 온보딩 완료
+        closeModal('onboardingCertificationModal');
+        enablePageAccess(); // 온보딩 완료 후 페이지 접근 허용
+        showToast('온보딩이 완료되었습니다! 학습을 시작할 수 있습니다.', 'success');
+        
+        // 페이지 새로고침하여 학습 기능 활성화
+        updateUI();
+    } catch (error) {
+        console.error('자격증 저장 중 예외:', error);
+        if (errorDiv) {
+            errorDiv.textContent = '자격증 저장 중 오류가 발생했습니다.';
+            errorDiv.style.display = 'block';
+        }
+    }
+}
+
+function goBackToNativeLanguage() {
+    closeModal('onboardingCertificationModal');
+    showOnboardingNativeLanguageModal();
+}
+
 // 전역 함수 (HTML에서 호출)
 window.showPage = showPage;
 window.startMockTest = startMockTest;
@@ -4111,4 +5550,7 @@ window.selectFlashcardOption = selectFlashcardOption;
 window.showWordDetail = showWordDetail;
 window.searchFromHistory = searchFromHistory;
 window.deleteWord = deleteWord;
+window.saveNativeLanguage = saveNativeLanguage;
+window.saveCertifications = saveCertifications;
+window.goBackToNativeLanguage = goBackToNativeLanguage;
 

@@ -21,7 +21,8 @@ const translations = {
         totalWords: "총 단어",
         learnedWords: "학습한 단어",
         quizScore: "퀴즈 정답률",
-        studyStreak: "연속 학습일",
+        accuracyRate: "정답률",
+        studyStreak: "연속 학습일", 
         startLearning: "📚 학습 시작하기",
         startQuiz: "✏️ 퀴즈 풀기",
         
@@ -36,6 +37,12 @@ const translations = {
         word: "단어",
         whatIsMeaning: "이 단어의 뜻은?",
         whatIsMeaningOfWord: '"{word}"의 의미는?',
+        correctGrammar: "다음 중 올바른 문법은?",
+        wordMeaning: "다음 단어의 의미는?",
+        meaning1: "의미 1",
+        meaning2: "의미 2",
+        meaning3: "의미 3",
+        meaning4: "의미 4",
         previous: "◀ 이전",
         next: "다음 ▶",
         know: "알고 있음 ✓",
@@ -90,6 +97,38 @@ const translations = {
         submitAnswer: "답안 제출",
         testResult: "시험 결과",
         retryTest: "다시 풀기",
+        testLanguage: "테스트 언어",
+        expectedLevel: "예상 레벨",
+        timeSpent: "소요 시간",
+        difficultyBreakdown: "난이도별 정답률",
+        advanced: "상급",
+        intermediate: "중급",
+        beginnerIntermediate: "초중급",
+        beginner: "초급",
+        advancedDescription: "고급 수준입니다. 어려운 문제도 잘 해결하실 수 있습니다.",
+        intermediateDescription: "중급 수준입니다. 기본적인 내용은 잘 이해하고 있습니다.",
+        beginnerIntermediateDescription: "초중급 수준입니다. 기초를 다지고 있습니다.",
+        beginnerDescription: "초급 수준입니다. 기초부터 차근차근 학습하세요.",
+        advancedRecommendation: "고급 교재와 원어민 콘텐츠로 학습을 이어가세요.",
+        intermediateRecommendation: "중급 교재로 실력을 더욱 향상시키세요.",
+        beginnerIntermediateRecommendation: "기초 교재로 기본기를 탄탄히 하세요.",
+        beginnerRecommendation: "기초 단어와 문법부터 시작하세요.",
+        testLanguage: "테스트 언어",
+        expectedLevel: "예상 레벨",
+        timeSpent: "소요 시간",
+        difficultyBreakdown: "난이도별 정답률",
+        advanced: "상급",
+        intermediate: "중급",
+        beginnerIntermediate: "초중급",
+        beginner: "초급",
+        advancedDescription: "고급 수준입니다. 어려운 문제도 잘 해결하실 수 있습니다.",
+        intermediateDescription: "중급 수준입니다. 기본적인 내용은 잘 이해하고 있습니다.",
+        beginnerIntermediateDescription: "초중급 수준입니다. 기초를 다지고 있습니다.",
+        beginnerDescription: "초급 수준입니다. 기초부터 차근차근 학습하세요.",
+        advancedRecommendation: "고급 교재와 원어민 콘텐츠로 학습을 이어가세요.",
+        intermediateRecommendation: "중급 교재로 실력을 더욱 향상시키세요.",
+        beginnerIntermediateRecommendation: "기초 교재로 기본기를 탄탄히 하세요.",
+        beginnerRecommendation: "기초 단어와 문법부터 시작하세요.",
         
         // 진행상황 페이지
         learningProgress: "📊 학습 진행상황",
@@ -235,7 +274,8 @@ const translations = {
         welcomeMessage: "外国語学習を始めましょう。",
         totalWords: "総単語数",
         learnedWords: "学習した単語",
-        quizScore: "クイズ正答率",
+        quizScore: "クイズ正解率",
+        accuracyRate: "正解率",
         studyStreak: "連続学習日数",
         startLearning: "📚 学習を始める",
         startQuiz: "✏️ クイズを解く",
@@ -251,6 +291,12 @@ const translations = {
         word: "単語",
         whatIsMeaning: "この単語の意味は？",
         whatIsMeaningOfWord: '"{word}"の意味は？',
+        correctGrammar: "次のうち正しい文法は？",
+        wordMeaning: "次の単語の意味は？",
+        meaning1: "意味 1",
+        meaning2: "意味 2",
+        meaning3: "意味 3",
+        meaning4: "意味 4",
         previous: "◀ 前へ",
         next: "次へ ▶",
         know: "知っている ✓",
@@ -305,6 +351,22 @@ const translations = {
         submitAnswer: "回答を提出",
         testResult: "試験結果",
         retryTest: "もう一度解く",
+        testLanguage: "テスト言語",
+        expectedLevel: "予想レベル",
+        timeSpent: "所要時間",
+        difficultyBreakdown: "難易度別正答率",
+        advanced: "上級",
+        intermediate: "中級",
+        beginnerIntermediate: "初中級",
+        beginner: "初級",
+        advancedDescription: "上級レベルです。難しい問題もよく解決できます。",
+        intermediateDescription: "中級レベルです。基本的な内容はよく理解しています。",
+        beginnerIntermediateDescription: "初中級レベルです。基礎を固めています。",
+        beginnerDescription: "初級レベルです。基礎から着実に学習してください。",
+        advancedRecommendation: "上級教材とネイティブコンテンツで学習を続けてください。",
+        intermediateRecommendation: "中級教材で実力をさらに向上させてください。",
+        beginnerIntermediateRecommendation: "基礎教材で基本をしっかりと固めてください。",
+        beginnerRecommendation: "基礎単語と文法から始めてください。",
         
         // 進捗状況ページ
         learningProgress: "📊 学習進捗状況",
@@ -451,6 +513,7 @@ const translations = {
         totalWords: "Total Words",
         learnedWords: "Learned Words",
         quizScore: "Quiz Score",
+        accuracyRate: "Accuracy Rate",
         studyStreak: "Study Streak",
         startLearning: "📚 Start Learning",
         startQuiz: "✏️ Take Quiz",
@@ -466,6 +529,12 @@ const translations = {
         word: "Word",
         whatIsMeaning: "What is the meaning of this word?",
         whatIsMeaningOfWord: 'What is the meaning of "{word}"?',
+        correctGrammar: "Which of the following is correct grammar?",
+        wordMeaning: "What is the meaning of the following word?",
+        meaning1: "Meaning 1",
+        meaning2: "Meaning 2",
+        meaning3: "Meaning 3",
+        meaning4: "Meaning 4",
         previous: "◀ Previous",
         next: "Next ▶",
         know: "Know ✓",
@@ -520,6 +589,22 @@ const translations = {
         submitAnswer: "Submit Answer",
         testResult: "Test Result",
         retryTest: "Retry Test",
+        testLanguage: "Test Language",
+        expectedLevel: "Expected Level",
+        timeSpent: "Time Spent",
+        difficultyBreakdown: "Accuracy by Difficulty",
+        advanced: "Advanced",
+        intermediate: "Intermediate",
+        beginnerIntermediate: "Upper Beginner",
+        beginner: "Beginner",
+        advancedDescription: "You are at an advanced level. You can solve difficult problems well.",
+        intermediateDescription: "You are at an intermediate level. You understand basic content well.",
+        beginnerIntermediateDescription: "You are at an upper beginner level. You are building your foundation.",
+        beginnerDescription: "You are at a beginner level. Please learn step by step from the basics.",
+        advancedRecommendation: "Continue learning with advanced materials and native content.",
+        intermediateRecommendation: "Improve your skills further with intermediate materials.",
+        beginnerIntermediateRecommendation: "Build a solid foundation with basic materials.",
+        beginnerRecommendation: "Start with basic words and grammar.",
         
         // Progress Page
         learningProgress: "📊 Learning Progress",
@@ -598,6 +683,7 @@ const translations = {
         totalWords: "总单词数",
         learnedWords: "已学单词",
         quizScore: "测验正确率",
+        accuracyRate: "正确率",
         studyStreak: "连续学习天数",
         startLearning: "📚 开始学习",
         startQuiz: "✏️ 做测验",
@@ -613,6 +699,12 @@ const translations = {
         word: "单词",
         whatIsMeaning: "这个单词的意思是什么？",
         whatIsMeaningOfWord: '"{word}"的意思是什么？',
+        correctGrammar: "下列哪一个是正确的语法？",
+        wordMeaning: "下列单词的意思是什么？",
+        meaning1: "意思 1",
+        meaning2: "意思 2",
+        meaning3: "意思 3",
+        meaning4: "意思 4",
         previous: "◀ 上一个",
         next: "下一个 ▶",
         know: "知道 ✓",
@@ -666,6 +758,22 @@ const translations = {
         submitAnswer: "提交答案",
         testResult: "考试结果",
         retryTest: "重做",
+        testLanguage: "测试语言",
+        expectedLevel: "预期水平",
+        timeSpent: "所用时间",
+        difficultyBreakdown: "难度正确率",
+        advanced: "高级",
+        intermediate: "中级",
+        beginnerIntermediate: "初中级",
+        beginner: "初级",
+        advancedDescription: "您处于高级水平。您可以很好地解决困难的问题。",
+        intermediateDescription: "您处于中级水平。您很好地理解基本内容。",
+        beginnerIntermediateDescription: "您处于初中级水平。您正在建立基础。",
+        beginnerDescription: "您处于初级水平。请从基础开始逐步学习。",
+        advancedRecommendation: "继续使用高级教材和母语内容学习。",
+        intermediateRecommendation: "使用中级教材进一步提高您的技能。",
+        beginnerIntermediateRecommendation: "使用基础教材建立坚实的基础。",
+        beginnerRecommendation: "从基础单词和语法开始。",
         
         // 学习进度页面
         learningProgress: "📊 学习进度",
@@ -822,10 +930,10 @@ function updateAllTexts() {
     document.getElementById('accountBtn')?.setAttribute('title', t('account'));
     document.getElementById('settingsBtn')?.setAttribute('title', t('settings'));
     
-    // 언어 선택 드롭다운 옵션 업데이트
-    const languageSelector = document.getElementById('languageSelector');
-    if (languageSelector) {
-        Array.from(languageSelector.options).forEach(option => {
+    // 언어 선택 드롭다운 옵션 업데이트 (설정 모달의 appLanguage)
+    const appLanguageSelect = document.getElementById('appLanguage');
+    if (appLanguageSelect) {
+        Array.from(appLanguageSelect.options).forEach(option => {
             const value = option.value;
             if (value === 'ko') option.textContent = '🇰🇷 ' + t('korean');
             else if (value === 'ja') option.textContent = '🇯🇵 ' + t('japanese');
@@ -1158,20 +1266,15 @@ function updateAllTexts() {
     if (dictionaryFeatureDesc) dictionaryFeatureDesc.innerHTML = t('dictionaryFeatureDesc').replace(/\n/g, '<br>');
     if (saveSettingsBtn) saveSettingsBtn.textContent = t('save');
     
-    // 모의고사 페이지
-    const mockTestPageHeader = document.querySelector('#mocktest-page .page-header h2');
+    // 모의고사 페이지 (추가 요소들)
     const mockTestCardTitle = document.querySelector('.test-type-card[data-test="mock"] h3');
     const mockTestCardDesc = document.querySelector('.test-type-card[data-test="mock"] p');
     const levelTestCardTitle = document.querySelector('.test-type-card[data-test="level"] h3');
     const levelTestCardDesc = document.querySelector('.test-type-card[data-test="level"] p');
-    const mockTestStartBtn = document.querySelector('.test-type-card[data-test="mock"] .btn');
-    const levelTestStartBtn = document.querySelector('.test-type-card[data-test="level"] .btn');
-    if (mockTestPageHeader) mockTestPageHeader.textContent = t('mockTest');
+    // mockTestPageHeader는 위에서 이미 선언되었으므로 재선언하지 않음
     if (mockTestCardTitle) mockTestCardTitle.textContent = t('mockTest');
     if (mockTestCardDesc) mockTestCardDesc.textContent = t('mockTestDesc');
     if (levelTestCardTitle) levelTestCardTitle.textContent = t('levelTest');
     if (levelTestCardDesc) levelTestCardDesc.textContent = t('levelTestDesc');
-    if (mockTestStartBtn) mockTestStartBtn.textContent = t('start');
-    if (levelTestStartBtn) levelTestStartBtn.textContent = t('start');
 }
 

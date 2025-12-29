@@ -6,7 +6,10 @@
  */
 
 module.exports = {
-    SUPABASE_URL: 'https://your-project-id.supabase.co',
-    SUPABASE_ANON_KEY: 'your-anon-key-here'
+    SUPABASE_URL: 'https://cvqdlrtfycqbtzekkmkv.supabase.co',
+    SUPABASE_ANON_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2cWRscnRmeWNxYnR6ZWtrbWt2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM3MjMwOTAsImV4cCI6MjA3OTI5OTA5MH0.W38de0RfvjuFXeGEl8AlP_lrlLgo4VPQHr_uOsdb6AQ',
+    // 마이그레이션 스크립트 실행 시 필요 (RLS 정책 우회)
+    // Supabase 대시보드 > Settings > API > service_role 키 복사
+    SUPABASE_SERVICE_ROLE_KEY: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImN2cWRscnRmeWNxYnR6ZWtrbWt2Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2MzcyMzA5MCwiZXhwIjoyMDc5Mjk5MDkwfQ.UCIdra_Gvr2ED9GtEqiZ2jT8wCGCRkone_Ii5Qv9etE'
 };
 

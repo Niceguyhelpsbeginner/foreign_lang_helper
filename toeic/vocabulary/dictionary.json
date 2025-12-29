@@ -6,8 +6,14 @@
       "pronunciation": "əˈkɑːmədeɪt",
       "type": "verb",
       "example": "The hotel can accommodate up to 500 guests.",
-      "synonyms": ["house", "lodge", "fit"],
-      "level": "intermediate"
+      "synonyms": [
+        "house",
+        "lodge",
+        "fit"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "容纳，适应",
+      "japaneseMeaning": "収容する、適応させる"
     },
     {
       "word": "accomplish",
@@ -15,8 +21,14 @@
       "pronunciation": "əˈkɑːmplɪʃ",
       "type": "verb",
       "example": "We need to accomplish our goals by the end of the quarter.",
-      "synonyms": ["achieve", "complete", "fulfill"],
-      "level": "intermediate"
+      "synonyms": [
+        "achieve",
+        "complete",
+        "fulfill"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "完成，达成",
+      "japaneseMeaning": "達成する、完成する"
     },
     {
       "word": "accurate",
@@ -24,8 +36,14 @@
       "pronunciation": "ˈækjərət",
       "type": "adjective",
       "example": "Please provide accurate information about your expenses.",
-      "synonyms": ["precise", "correct", "exact"],
-      "level": "intermediate"
+      "synonyms": [
+        "precise",
+        "correct",
+        "exact"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "准确的",
+      "japaneseMeaning": "正確な"
     },
     {
       "word": "acquire",
@@ -33,8 +51,14 @@
       "pronunciation": "əˈkwaɪər",
       "type": "verb",
       "example": "The company plans to acquire a smaller competitor.",
-      "synonyms": ["obtain", "gain", "purchase"],
-      "level": "intermediate"
+      "synonyms": [
+        "obtain",
+        "gain",
+        "purchase"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "获得，收购",
+      "japaneseMeaning": "獲得する、買収する"
     },
     {
       "word": "adequate",
@@ -42,8 +66,14 @@
       "pronunciation": "ˈædɪkwət",
       "type": "adjective",
       "example": "We have adequate resources to complete the project.",
-      "synonyms": ["sufficient", "enough", "suitable"],
-      "level": "intermediate"
+      "synonyms": [
+        "sufficient",
+        "enough",
+        "suitable"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "足够的，适当的",
+      "japaneseMeaning": "十分な、適切な"
     },
     {
       "word": "adjacent",
@@ -51,8 +81,14 @@
       "pronunciation": "əˈdʒeɪsənt",
       "type": "adjective",
       "example": "The parking lot is adjacent to the main building.",
-      "synonyms": ["next to", "neighboring", "adjoining"],
-      "level": "intermediate"
+      "synonyms": [
+        "next to",
+        "neighboring",
+        "adjoining"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "相邻的，邻近的",
+      "japaneseMeaning": "隣接した、隣の"
     },
     {
       "word": "adjust",
@@ -60,8 +96,14 @@
       "pronunciation": "əˈdʒʌst",
       "type": "verb",
       "example": "Please adjust the temperature to your preference.",
-      "synonyms": ["modify", "adapt", "regulate"],
-      "level": "intermediate"
+      "synonyms": [
+        "modify",
+        "adapt",
+        "regulate"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "调整，适应",
+      "japaneseMeaning": "調整する、適応する"
     },
     {
       "word": "administration",
@@ -69,8 +111,14 @@
       "pronunciation": "ədˌmɪnɪˈstreɪʃən",
       "type": "noun",
       "example": "The administration of the company is handled by the executive team.",
-      "synonyms": ["management", "government", "supervision"],
-      "level": "intermediate"
+      "synonyms": [
+        "management",
+        "government",
+        "supervision"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "管理，行政",
+      "japaneseMeaning": "管理、行政"
     },
     {
       "word": "adverse",
@@ -78,8 +126,14 @@
       "pronunciation": "ˈædvɜːrs",
       "type": "adjective",
       "example": "The adverse weather conditions delayed the flight.",
-      "synonyms": ["unfavorable", "harmful", "negative"],
-      "level": "intermediate"
+      "synonyms": [
+        "unfavorable",
+        "harmful",
+        "negative"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "不利的，逆效果的",
+      "japaneseMeaning": "不利な、逆効果の"
     },
     {
       "word": "advocate",
@@ -87,8 +141,14 @@
       "pronunciation": "ˈædvəkeɪt",
       "type": "verb/noun",
       "example": "She advocates for environmental protection.",
-      "synonyms": ["support", "champion", "promote"],
-      "level": "intermediate"
+      "synonyms": [
+        "support",
+        "champion",
+        "promote"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "拥护，支持者",
+      "japaneseMeaning": "擁護する、支持者"
     },
     {
       "word": "affect",
@@ -96,8 +156,14 @@
       "pronunciation": "əˈfekt",
       "type": "verb",
       "example": "The new policy will affect all employees.",
-      "synonyms": ["influence", "impact", "change"],
-      "level": "intermediate"
+      "synonyms": [
+        "influence",
+        "impact",
+        "change"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "影响",
+      "japaneseMeaning": "影響を与える"
     },
     {
       "word": "aggregate",
@@ -105,8 +171,14 @@
       "pronunciation": "ˈæɡrɪɡət",
       "type": "noun/adjective",
       "example": "The aggregate sales for the year exceeded expectations.",
-      "synonyms": ["total", "combined", "sum"],
-      "level": "advanced"
+      "synonyms": [
+        "total",
+        "combined",
+        "sum"
+      ],
+      "level": "advanced",
+      "chineseMeaning": "合计，总计",
+      "japaneseMeaning": "合計、総計"
     },
     {
       "word": "allocate",
@@ -114,8 +186,14 @@
       "pronunciation": "ˈæləkeɪt",
       "type": "verb",
       "example": "We need to allocate more resources to this project.",
-      "synonyms": ["assign", "distribute", "apportion"],
-      "level": "intermediate"
+      "synonyms": [
+        "assign",
+        "distribute",
+        "apportion"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "分配",
+      "japaneseMeaning": "割り当てる"
     },
     {
       "word": "alternative",
@@ -123,8 +201,14 @@
       "pronunciation": "ɔːlˈtɜːrnətɪv",
       "type": "noun/adjective",
       "example": "We need to find an alternative solution.",
-      "synonyms": ["option", "choice", "substitute"],
-      "level": "intermediate"
+      "synonyms": [
+        "option",
+        "choice",
+        "substitute"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "替代，替代的",
+      "japaneseMeaning": "代替、代替の"
     },
     {
       "word": "amend",
@@ -132,8 +216,14 @@
       "pronunciation": "əˈmend",
       "type": "verb",
       "example": "The contract needs to be amended before signing.",
-      "synonyms": ["modify", "revise", "correct"],
-      "level": "intermediate"
+      "synonyms": [
+        "modify",
+        "revise",
+        "correct"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "",
+      "japaneseMeaning": ""
     },
     {
       "word": "anticipate",
@@ -141,8 +231,14 @@
       "pronunciation": "ænˈtɪsɪpeɪt",
       "type": "verb",
       "example": "We anticipate a significant increase in sales next quarter.",
-      "synonyms": ["expect", "foresee", "predict"],
-      "level": "intermediate"
+      "synonyms": [
+        "expect",
+        "foresee",
+        "predict"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "",
+      "japaneseMeaning": ""
     },
     {
       "word": "apparent",
@@ -150,8 +246,14 @@
       "pronunciation": "əˈpærənt",
       "type": "adjective",
       "example": "It was apparent that the meeting would be postponed.",
-      "synonyms": ["obvious", "clear", "evident"],
-      "level": "intermediate"
+      "synonyms": [
+        "obvious",
+        "clear",
+        "evident"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "明显的，明白的",
+      "japaneseMeaning": "明らかな、明白な"
     },
     {
       "word": "appreciate",
@@ -159,8 +261,14 @@
       "pronunciation": "əˈpriːʃieɪt",
       "type": "verb",
       "example": "I appreciate your help with this project.",
-      "synonyms": ["value", "recognize", "grate"],
-      "level": "intermediate"
+      "synonyms": [
+        "value",
+        "recognize",
+        "grate"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "",
+      "japaneseMeaning": ""
     },
     {
       "word": "approach",
@@ -168,8 +276,14 @@
       "pronunciation": "əˈproʊtʃ",
       "type": "verb/noun",
       "example": "We need a different approach to solve this problem.",
-      "synonyms": ["method", "way", "strategy"],
-      "level": "intermediate"
+      "synonyms": [
+        "method",
+        "way",
+        "strategy"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "接近，方法",
+      "japaneseMeaning": "接近する、方法"
     },
     {
       "word": "appropriate",
@@ -177,8 +291,14 @@
       "pronunciation": "əˈproʊpriət",
       "type": "adjective",
       "example": "Please wear appropriate attire for the meeting.",
-      "synonyms": ["suitable", "fitting", "proper"],
-      "level": "intermediate"
+      "synonyms": [
+        "suitable",
+        "fitting",
+        "proper"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "适当的，合适的",
+      "japaneseMeaning": "適切な、適した"
     },
     {
       "word": "approximate",
@@ -186,8 +306,14 @@
       "pronunciation": "əˈprɑːksɪmət",
       "type": "adjective",
       "example": "The approximate cost is around $500.",
-      "synonyms": ["rough", "estimated", "near"],
-      "level": "intermediate"
+      "synonyms": [
+        "rough",
+        "estimated",
+        "near"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "大约的，近似值",
+      "japaneseMeaning": "おおよその、近似値"
     },
     {
       "word": "arbitrary",
@@ -195,8 +321,14 @@
       "pronunciation": "ˈɑːrbɪtreri",
       "type": "adjective",
       "example": "The selection process seemed arbitrary.",
-      "synonyms": ["random", "whimsical", "capricious"],
-      "level": "advanced"
+      "synonyms": [
+        "random",
+        "whimsical",
+        "capricious"
+      ],
+      "level": "advanced",
+      "chineseMeaning": "任意的，武断的",
+      "japaneseMeaning": "任意の、独断的な"
     },
     {
       "word": "assess",
@@ -204,8 +336,14 @@
       "pronunciation": "əˈses",
       "type": "verb",
       "example": "We need to assess the situation before making a decision.",
-      "synonyms": ["evaluate", "judge", "measure"],
-      "level": "intermediate"
+      "synonyms": [
+        "evaluate",
+        "judge",
+        "measure"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "",
+      "japaneseMeaning": ""
     },
     {
       "word": "asset",
@@ -213,8 +351,14 @@
       "pronunciation": "ˈæset",
       "type": "noun",
       "example": "Real estate is considered a valuable asset.",
-      "synonyms": ["property", "resource", "possession"],
-      "level": "intermediate"
+      "synonyms": [
+        "property",
+        "resource",
+        "possession"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "资产，财产",
+      "japaneseMeaning": "資産、財産"
     },
     {
       "word": "assume",
@@ -222,8 +366,14 @@
       "pronunciation": "əˈsuːm",
       "type": "verb",
       "example": "Let's assume that the project will be completed on time.",
-      "synonyms": ["presume", "suppose", "take for granted"],
-      "level": "intermediate"
+      "synonyms": [
+        "presume",
+        "suppose",
+        "take for granted"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "假设，推定",
+      "japaneseMeaning": "仮定する、推定する"
     },
     {
       "word": "assure",
@@ -231,8 +381,14 @@
       "pronunciation": "əˈʃʊr",
       "type": "verb",
       "example": "I can assure you that the quality is excellent.",
-      "synonyms": ["guarantee", "promise", "confirm"],
-      "level": "intermediate"
+      "synonyms": [
+        "guarantee",
+        "promise",
+        "confirm"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "保证，确信",
+      "japaneseMeaning": "保証する、確信させる"
     },
     {
       "word": "attach",
@@ -240,8 +396,14 @@
       "pronunciation": "əˈtætʃ",
       "type": "verb",
       "example": "Please attach the document to your email.",
-      "synonyms": ["connect", "fasten", "join"],
-      "level": "intermediate"
+      "synonyms": [
+        "connect",
+        "fasten",
+        "join"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "附加，贴上",
+      "japaneseMeaning": "添付する、付ける"
     },
     {
       "word": "attain",
@@ -249,8 +411,14 @@
       "pronunciation": "əˈteɪn",
       "type": "verb",
       "example": "We hope to attain our sales target this year.",
-      "synonyms": ["achieve", "reach", "obtain"],
-      "level": "intermediate"
+      "synonyms": [
+        "achieve",
+        "reach",
+        "obtain"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "达成，获得",
+      "japaneseMeaning": "達成する、獲得する"
     },
     {
       "word": "attribute",
@@ -258,8 +426,14 @@
       "pronunciation": "ˈætrɪbjuːt",
       "type": "noun",
       "example": "Leadership is an important attribute for managers.",
-      "synonyms": ["characteristic", "quality", "feature"],
-      "level": "intermediate"
+      "synonyms": [
+        "characteristic",
+        "quality",
+        "feature"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "属性，特征",
+      "japaneseMeaning": "属性、特徴"
     },
     {
       "word": "authorize",
@@ -267,8 +441,14 @@
       "pronunciation": "ˈɔːθəraɪz",
       "type": "verb",
       "example": "Only managers can authorize expenses over $1000.",
-      "synonyms": ["approve", "permit", "sanction"],
-      "level": "intermediate"
+      "synonyms": [
+        "approve",
+        "permit",
+        "sanction"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "授权，批准",
+      "japaneseMeaning": "承認する、権限を与える"
     },
     {
       "word": "available",
@@ -276,8 +456,14 @@
       "pronunciation": "əˈveɪləbəl",
       "type": "adjective",
       "example": "The product will be available next month.",
-      "synonyms": ["accessible", "obtainable", "ready"],
-      "level": "intermediate"
+      "synonyms": [
+        "accessible",
+        "obtainable",
+        "ready"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "可用的，可获得的",
+      "japaneseMeaning": "利用可能な、使用できる"
     },
     {
       "word": "retreat",
@@ -285,8 +471,14 @@
       "pronunciation": "rɪˈtriːt",
       "type": "noun",
       "example": "The company retreat will be held next month.",
-      "synonyms": ["conference", "resort", "meeting"],
-      "level": "intermediate"
+      "synonyms": [
+        "conference",
+        "resort",
+        "meeting"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "静修，撤退",
+      "japaneseMeaning": "会議、リトリート"
     },
     {
       "word": "employees",
@@ -294,8 +486,14 @@
       "pronunciation": "ɪmˈplɔɪiːz",
       "type": "noun",
       "example": "All employees are required to attend the meeting.",
-      "synonyms": ["staff", "workers", "personnel"],
-      "level": "intermediate"
+      "synonyms": [
+        "staff",
+        "workers",
+        "personnel"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "员工",
+      "japaneseMeaning": "従業員"
     },
     {
       "word": "attend",
@@ -303,8 +501,14 @@
       "pronunciation": "əˈtend",
       "type": "verb",
       "example": "Please confirm if you will attend the event.",
-      "synonyms": ["participate", "join", "be present"],
-      "level": "intermediate"
+      "synonyms": [
+        "participate",
+        "join",
+        "be present"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "出席",
+      "japaneseMeaning": "出席する"
     },
     {
       "word": "activities",
@@ -312,8 +516,14 @@
       "pronunciation": "ækˈtɪvɪtiz",
       "type": "noun",
       "example": "Various activities are planned for the weekend.",
-      "synonyms": ["events", "programs", "actions"],
-      "level": "intermediate"
+      "synonyms": [
+        "events",
+        "programs",
+        "actions"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "",
+      "japaneseMeaning": ""
     },
     {
       "word": "accommodations",
@@ -321,8 +531,14 @@
       "pronunciation": "əˌkɑːməˈdeɪʃənz",
       "type": "noun",
       "example": "Accommodations will be arranged in double-occupancy rooms.",
-      "synonyms": ["lodging", "housing", "rooms"],
-      "level": "intermediate"
+      "synonyms": [
+        "lodging",
+        "housing",
+        "rooms"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "",
+      "japaneseMeaning": ""
     },
     {
       "word": "transportation",
@@ -330,8 +546,14 @@
       "pronunciation": "ˌtrænspɔːrˈteɪʃən",
       "type": "noun",
       "example": "Transportation will be provided from the main office.",
-      "synonyms": ["transport", "conveyance", "travel"],
-      "level": "intermediate"
+      "synonyms": [
+        "transport",
+        "conveyance",
+        "travel"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "交通，运输",
+      "japaneseMeaning": "交通、輸送"
     },
     {
       "word": "amenities",
@@ -339,8 +561,14 @@
       "pronunciation": "əˈmenɪtiz",
       "type": "noun",
       "example": "The resort offers various amenities including a fitness center.",
-      "synonyms": ["facilities", "services", "features"],
-      "level": "intermediate"
+      "synonyms": [
+        "facilities",
+        "services",
+        "features"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "",
+      "japaneseMeaning": ""
     },
     {
       "word": "participants",
@@ -348,8 +576,14 @@
       "pronunciation": "pɑːrˈtɪsɪpənts",
       "type": "noun",
       "example": "All participants will receive a certificate.",
-      "synonyms": ["attendees", "members", "contributors"],
-      "level": "intermediate"
+      "synonyms": [
+        "attendees",
+        "members",
+        "contributors"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "参与者",
+      "japaneseMeaning": "参加者"
     },
     {
       "word": "workshops",
@@ -357,8 +591,14 @@
       "pronunciation": "ˈwɜːrkʃɑːps",
       "type": "noun",
       "example": "Participants will engage in workshops covering various topics.",
-      "synonyms": ["seminars", "sessions", "training"],
-      "level": "intermediate"
+      "synonyms": [
+        "seminars",
+        "sessions",
+        "training"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "研讨会，讲习班",
+      "japaneseMeaning": "ワークショップ、セミナー"
     },
     {
       "word": "communication",
@@ -366,8 +606,14 @@
       "pronunciation": "kəˌmjuːnɪˈkeɪʃən",
       "type": "noun",
       "example": "Effective communication is essential in business.",
-      "synonyms": ["interaction", "dialogue", "exchange"],
-      "level": "intermediate"
+      "synonyms": [
+        "interaction",
+        "dialogue",
+        "exchange"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "沟通，交流",
+      "japaneseMeaning": "コミュニケーション、意思疎通"
     },
     {
       "word": "management",
@@ -375,8 +621,14 @@
       "pronunciation": "ˈmænɪdʒmənt",
       "type": "noun",
       "example": "Project management requires careful planning.",
-      "synonyms": ["administration", "supervision", "control"],
-      "level": "intermediate"
+      "synonyms": [
+        "administration",
+        "supervision",
+        "control"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "管理，经营",
+      "japaneseMeaning": "管理、経営"
     },
     {
       "word": "recreational",
@@ -384,8 +636,14 @@
       "pronunciation": "ˌrekriˈeɪʃənəl",
       "type": "adjective",
       "example": "There will be recreational activities including hiking.",
-      "synonyms": ["leisure", "entertainment", "fun"],
-      "level": "intermediate"
+      "synonyms": [
+        "leisure",
+        "entertainment",
+        "fun"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "娱乐的",
+      "japaneseMeaning": "レクリエーションの"
     },
     {
       "word": "entertainment",
@@ -393,8 +651,14 @@
       "pronunciation": "ˌentərˈteɪnmənt",
       "type": "noun",
       "example": "Evening entertainment will be provided.",
-      "synonyms": ["amusement", "recreation", "diversion"],
-      "level": "intermediate"
+      "synonyms": [
+        "amusement",
+        "recreation",
+        "diversion"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "娱乐",
+      "japaneseMeaning": "娯楽、エンターテインメント"
     },
     {
       "word": "presentation",
@@ -402,8 +666,14 @@
       "pronunciation": "ˌprezənˈteɪʃən",
       "type": "noun",
       "example": "The final day will conclude with a presentation by the CEO.",
-      "synonyms": ["speech", "talk", "demonstration"],
-      "level": "intermediate"
+      "synonyms": [
+        "speech",
+        "talk",
+        "demonstration"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "演示，展示",
+      "japaneseMeaning": "発表、プレゼンテーション"
     },
     {
       "word": "initiatives",
@@ -411,8 +681,14 @@
       "pronunciation": "ɪˈnɪʃɪətɪvz",
       "type": "noun",
       "example": "The company's strategic initiatives were outlined.",
-      "synonyms": ["plans", "projects", "programs"],
-      "level": "intermediate"
+      "synonyms": [
+        "plans",
+        "projects",
+        "programs"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "计划，倡议",
+      "japaneseMeaning": "計画、イニシアチブ"
     },
     {
       "word": "restrictions",
@@ -420,8 +696,14 @@
       "pronunciation": "rɪˈstrɪkʃənz",
       "type": "noun",
       "example": "Please indicate any dietary restrictions.",
-      "synonyms": ["limitations", "constraints", "rules"],
-      "level": "intermediate"
+      "synonyms": [
+        "limitations",
+        "constraints",
+        "rules"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "限制",
+      "japaneseMeaning": "制限"
     },
     {
       "word": "departments",
@@ -429,8 +711,14 @@
       "pronunciation": "dɪˈpɑːrtmənts",
       "type": "noun",
       "example": "Collaboration among departments is important.",
-      "synonyms": ["divisions", "sections", "units"],
-      "level": "intermediate"
+      "synonyms": [
+        "divisions",
+        "sections",
+        "units"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "部门",
+      "japaneseMeaning": "部門"
     },
     {
       "word": "extension",
@@ -438,8 +726,14 @@
       "pronunciation": "ɪkˈstenʃən",
       "type": "noun",
       "example": "Contact us at extension 2341.",
-      "synonyms": ["phone number", "line", "number"],
-      "level": "intermediate"
+      "synonyms": [
+        "phone number",
+        "line",
+        "number"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "分机号",
+      "japaneseMeaning": "内線番号"
     },
     {
       "word": "annual",
@@ -447,8 +741,14 @@
       "pronunciation": "ˈænjuəl",
       "type": "adjective",
       "example": "The annual company retreat will be held next month.",
-      "synonyms": ["yearly", "year-end", "per year"],
-      "level": "intermediate"
+      "synonyms": [
+        "yearly",
+        "year-end",
+        "per year"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "年度的，每年的",
+      "japaneseMeaning": "年間の、毎年の"
     },
     {
       "word": "strategic",
@@ -456,8 +756,14 @@
       "pronunciation": "strəˈtiːdʒɪk",
       "type": "adjective",
       "example": "Strategic planning sessions are important for the company.",
-      "synonyms": ["tactical", "planned", "calculated"],
-      "level": "intermediate"
+      "synonyms": [
+        "tactical",
+        "planned",
+        "calculated"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "战略的",
+      "japaneseMeaning": "戦略的な"
     },
     {
       "word": "strengthen",
@@ -465,8 +771,14 @@
       "pronunciation": "ˈstreŋθən",
       "type": "verb",
       "example": "The retreat aims to strengthen collaboration among departments.",
-      "synonyms": ["reinforce", "enhance", "fortify"],
-      "level": "intermediate"
+      "synonyms": [
+        "reinforce",
+        "enhance",
+        "fortify"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "加强",
+      "japaneseMeaning": "強化する"
     },
     {
       "word": "collaboration",
@@ -474,8 +786,14 @@
       "pronunciation": "kəˌlæbəˈreɪʃən",
       "type": "noun",
       "example": "Collaboration among departments is essential.",
-      "synonyms": ["cooperation", "partnership", "teamwork"],
-      "level": "intermediate"
+      "synonyms": [
+        "cooperation",
+        "partnership",
+        "teamwork"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "合作，协作",
+      "japaneseMeaning": "協力、協業"
     },
     {
       "word": "align",
@@ -483,8 +801,14 @@
       "pronunciation": "əˈlaɪn",
       "type": "verb",
       "example": "We need to align everyone with the company's goals.",
-      "synonyms": ["adjust", "coordinate", "synchronize"],
-      "level": "intermediate"
+      "synonyms": [
+        "adjust",
+        "coordinate",
+        "synchronize"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "",
+      "japaneseMeaning": ""
     },
     {
       "word": "upcoming",
@@ -492,8 +816,14 @@
       "pronunciation": "ˈʌpkʌmɪŋ",
       "type": "adjective",
       "example": "The upcoming fiscal year will bring new challenges.",
-      "synonyms": ["forthcoming", "approaching", "future"],
-      "level": "intermediate"
+      "synonyms": [
+        "forthcoming",
+        "approaching",
+        "future"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "即将到来的",
+      "japaneseMeaning": "来る、予定の"
     },
     {
       "word": "fiscal",
@@ -501,8 +831,14 @@
       "pronunciation": "ˈfɪskəl",
       "type": "adjective",
       "example": "The fiscal year ends in December.",
-      "synonyms": ["financial", "budgetary", "economic"],
-      "level": "intermediate"
+      "synonyms": [
+        "financial",
+        "budgetary",
+        "economic"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "财政的，会计的",
+      "japaneseMeaning": "財政の、会計の"
     },
     {
       "word": "notify",
@@ -510,8 +846,14 @@
       "pronunciation": "ˈnoʊtɪfaɪ",
       "type": "verb",
       "example": "Please notify the Human Resources department.",
-      "synonyms": ["inform", "tell", "alert"],
-      "level": "intermediate"
+      "synonyms": [
+        "inform",
+        "tell",
+        "alert"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "通知",
+      "japaneseMeaning": "知らせる、通知する"
     },
     {
       "word": "various",
@@ -519,8 +861,14 @@
       "pronunciation": "ˈveriəs",
       "type": "adjective",
       "example": "The resort offers various amenities.",
-      "synonyms": ["diverse", "different", "multiple"],
-      "level": "intermediate"
+      "synonyms": [
+        "diverse",
+        "different",
+        "multiple"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "各种各样的",
+      "japaneseMeaning": "様々な"
     },
     {
       "word": "arranged",
@@ -528,8 +876,14 @@
       "pronunciation": "əˈreɪndʒd",
       "type": "verb",
       "example": "Accommodations will be arranged in double-occupancy rooms.",
-      "synonyms": ["organized", "prepared", "set up"],
-      "level": "intermediate"
+      "synonyms": [
+        "organized",
+        "prepared",
+        "set up"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "",
+      "japaneseMeaning": ""
     },
     {
       "word": "engage",
@@ -537,8 +891,14 @@
       "pronunciation": "ɪnˈɡeɪdʒ",
       "type": "verb",
       "example": "Participants will engage in workshops.",
-      "synonyms": ["participate", "involve", "take part"],
-      "level": "intermediate"
+      "synonyms": [
+        "participate",
+        "involve",
+        "take part"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "",
+      "japaneseMeaning": ""
     },
     {
       "word": "covering",
@@ -546,8 +906,14 @@
       "pronunciation": "ˈkʌvərɪŋ",
       "type": "verb",
       "example": "Workshops covering topics such as communication.",
-      "synonyms": ["including", "dealing with", "encompassing"],
-      "level": "intermediate"
+      "synonyms": [
+        "including",
+        "dealing with",
+        "encompassing"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "覆盖，包含",
+      "japaneseMeaning": "カバーする、含む"
     },
     {
       "word": "effective",
@@ -555,8 +921,14 @@
       "pronunciation": "ɪˈfektɪv",
       "type": "adjective",
       "example": "Effective communication is essential.",
-      "synonyms": ["efficient", "successful", "productive"],
-      "level": "intermediate"
+      "synonyms": [
+        "efficient",
+        "successful",
+        "productive"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "有效的",
+      "japaneseMeaning": "効果的な"
     },
     {
       "word": "excellence",
@@ -564,8 +936,14 @@
       "pronunciation": "ˈeksələns",
       "type": "noun",
       "example": "Customer service excellence is our goal.",
-      "synonyms": ["superiority", "quality", "distinction"],
-      "level": "intermediate"
+      "synonyms": [
+        "superiority",
+        "quality",
+        "distinction"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "卓越，优秀",
+      "japaneseMeaning": "優秀さ、卓越"
     },
     {
       "word": "conclude",
@@ -573,8 +951,14 @@
       "pronunciation": "kənˈkluːd",
       "type": "verb",
       "example": "The final day will conclude with a presentation.",
-      "synonyms": ["finish", "end", "complete"],
-      "level": "intermediate"
+      "synonyms": [
+        "finish",
+        "end",
+        "complete"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "得出结论，结束",
+      "japaneseMeaning": "結論を出す、終了する"
     },
     {
       "word": "outlining",
@@ -582,8 +966,14 @@
       "pronunciation": "ˈaʊtlaɪnɪŋ",
       "type": "verb",
       "example": "The CEO outlining the company's vision.",
-      "synonyms": ["summarizing", "describing", "sketching"],
-      "level": "intermediate"
+      "synonyms": [
+        "summarizing",
+        "describing",
+        "sketching"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "概述",
+      "japaneseMeaning": "概要を説明する"
     },
     {
       "word": "vision",
@@ -591,8 +981,14 @@
       "pronunciation": "ˈvɪʒən",
       "type": "noun",
       "example": "The company's vision and strategic initiatives.",
-      "synonyms": ["goal", "dream", "perspective"],
-      "level": "intermediate"
+      "synonyms": [
+        "goal",
+        "dream",
+        "perspective"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "愿景，展望",
+      "japaneseMeaning": "ビジョン、展望"
     },
     {
       "word": "confirm",
@@ -600,8 +996,14 @@
       "pronunciation": "kənˈfɜːrm",
       "type": "verb",
       "example": "Please confirm your attendance by February 28th.",
-      "synonyms": ["verify", "validate", "acknowledge"],
-      "level": "intermediate"
+      "synonyms": [
+        "verify",
+        "validate",
+        "acknowledge"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "确认",
+      "japaneseMeaning": "確認する"
     },
     {
       "word": "attendance",
@@ -609,8 +1011,14 @@
       "pronunciation": "əˈtendəns",
       "type": "noun",
       "example": "Please confirm your attendance.",
-      "synonyms": ["presence", "participation", "appearance"],
-      "level": "intermediate"
+      "synonyms": [
+        "presence",
+        "participation",
+        "appearance"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "",
+      "japaneseMeaning": ""
     },
     {
       "word": "indicate",
@@ -618,8 +1026,14 @@
       "pronunciation": "ˈɪndɪkeɪt",
       "type": "verb",
       "example": "Please indicate any dietary restrictions.",
-      "synonyms": ["show", "specify", "denote"],
-      "level": "intermediate"
+      "synonyms": [
+        "show",
+        "specify",
+        "denote"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "表明，显示",
+      "japaneseMeaning": "示す、表示する"
     },
     {
       "word": "dietary",
@@ -627,8 +1041,14 @@
       "pronunciation": "ˈdaɪəteri",
       "type": "adjective",
       "example": "Please indicate any dietary restrictions.",
-      "synonyms": ["nutritional", "food-related", "diet"],
-      "level": "intermediate"
+      "synonyms": [
+        "nutritional",
+        "food-related",
+        "diet"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "饮食的，膳食的",
+      "japaneseMeaning": "食事の、食事療法の"
     },
     {
       "word": "crucial",
@@ -636,8 +1056,14 @@
       "pronunciation": "ˈkruːʃəl",
       "type": "adjective",
       "example": "Effective time management is crucial for success.",
-      "synonyms": ["critical", "essential", "vital"],
-      "level": "intermediate"
+      "synonyms": [
+        "critical",
+        "essential",
+        "vital"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "关键的，决定性的",
+      "japaneseMeaning": "重要な、決定的な"
     },
     {
       "word": "fast-paced",
@@ -645,8 +1071,14 @@
       "pronunciation": "fæst peɪst",
       "type": "adjective",
       "example": "Today's fast-paced business environment.",
-      "synonyms": ["rapid", "quick", "hectic"],
-      "level": "intermediate"
+      "synonyms": [
+        "rapid",
+        "quick",
+        "hectic"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "快节奏的",
+      "japaneseMeaning": "高速の"
     },
     {
       "word": "struggle",
@@ -654,8 +1086,14 @@
       "pronunciation": "ˈstrʌɡəl",
       "type": "verb",
       "example": "Many professionals struggle with balancing tasks.",
-      "synonyms": ["fight", "battle", "have difficulty"],
-      "level": "intermediate"
+      "synonyms": [
+        "fight",
+        "battle",
+        "have difficulty"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "挣扎，困难",
+      "japaneseMeaning": "苦労する、困難に直面する"
     },
     {
       "word": "balancing",
@@ -663,8 +1101,14 @@
       "pronunciation": "ˈbælənsɪŋ",
       "type": "verb",
       "example": "Balancing multiple tasks is challenging.",
-      "synonyms": ["managing", "coordinating", "harmonizing"],
-      "level": "intermediate"
+      "synonyms": [
+        "managing",
+        "coordinating",
+        "harmonizing"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "",
+      "japaneseMeaning": ""
     },
     {
       "word": "deadlines",
@@ -672,8 +1116,14 @@
       "pronunciation": "ˈdedlaɪnz",
       "type": "noun",
       "example": "Meeting deadlines is important.",
-      "synonyms": ["due dates", "time limits", "cutoffs"],
-      "level": "intermediate"
+      "synonyms": [
+        "due dates",
+        "time limits",
+        "cutoffs"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "截止日期，期限",
+      "japaneseMeaning": "締切、期限"
     },
     {
       "word": "implementing",
@@ -681,8 +1131,14 @@
       "pronunciation": "ˈɪmplɪmentɪŋ",
       "type": "verb",
       "example": "By implementing a few key strategies.",
-      "synonyms": ["executing", "applying", "carrying out"],
-      "level": "intermediate"
+      "synonyms": [
+        "executing",
+        "applying",
+        "carrying out"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "",
+      "japaneseMeaning": ""
     },
     {
       "word": "strategies",
@@ -690,8 +1146,14 @@
       "pronunciation": "ˈstrætədʒiz",
       "type": "noun",
       "example": "A few key strategies can improve productivity.",
-      "synonyms": ["plans", "approaches", "methods"],
-      "level": "intermediate"
+      "synonyms": [
+        "plans",
+        "approaches",
+        "methods"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "策略",
+      "japaneseMeaning": "戦略"
     },
     {
       "word": "significantly",
@@ -699,8 +1161,14 @@
       "pronunciation": "sɪɡˈnɪfɪkəntli",
       "type": "adverb",
       "example": "You can significantly improve your productivity.",
-      "synonyms": ["considerably", "substantially", "greatly"],
-      "level": "intermediate"
+      "synonyms": [
+        "considerably",
+        "substantially",
+        "greatly"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "显著地，大幅地",
+      "japaneseMeaning": "大幅に、かなり"
     },
     {
       "word": "productivity",
@@ -708,8 +1176,14 @@
       "pronunciation": "ˌprɑːdʌkˈtɪvɪti",
       "type": "noun",
       "example": "Improve your productivity and reduce stress.",
-      "synonyms": ["efficiency", "output", "performance"],
-      "level": "intermediate"
+      "synonyms": [
+        "efficiency",
+        "output",
+        "performance"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "生产力",
+      "japaneseMeaning": "生産性"
     },
     {
       "word": "prioritize",
@@ -717,8 +1191,14 @@
       "pronunciation": "praɪˈɔːrɪtaɪz",
       "type": "verb",
       "example": "Prioritize your tasks based on urgency.",
-      "synonyms": ["rank", "order", "focus on"],
-      "level": "intermediate"
+      "synonyms": [
+        "rank",
+        "order",
+        "focus on"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "确定优先级",
+      "japaneseMeaning": "優先順位を付ける"
     },
     {
       "word": "urgency",
@@ -726,8 +1206,14 @@
       "pronunciation": "ˈɜːrdʒənsi",
       "type": "noun",
       "example": "Tasks based on urgency and importance.",
-      "synonyms": ["emergency", "priority", "immediacy"],
-      "level": "intermediate"
+      "synonyms": [
+        "emergency",
+        "priority",
+        "immediacy"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "紧急",
+      "japaneseMeaning": "緊急"
     },
     {
       "word": "importance",
@@ -735,8 +1221,14 @@
       "pronunciation": "ɪmˈpɔːrtəns",
       "type": "noun",
       "example": "Urgency and importance determine priority.",
-      "synonyms": ["significance", "value", "relevance"],
-      "level": "intermediate"
+      "synonyms": [
+        "significance",
+        "value",
+        "relevance"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "重要性",
+      "japaneseMeaning": "重要性"
     },
     {
       "word": "categorizes",
@@ -744,8 +1236,14 @@
       "pronunciation": "ˈkætəɡəraɪzɪz",
       "type": "verb",
       "example": "The Eisenhower Matrix categorizes tasks.",
-      "synonyms": ["classifies", "groups", "organizes"],
-      "level": "intermediate"
+      "synonyms": [
+        "classifies",
+        "groups",
+        "organizes"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "分类",
+      "japaneseMeaning": "分類する"
     },
     {
       "word": "quadrants",
@@ -753,8 +1251,14 @@
       "pronunciation": "ˈkwɑːdrənts",
       "type": "noun",
       "example": "Tasks into four quadrants.",
-      "synonyms": ["sections", "areas", "divisions"],
-      "level": "intermediate"
+      "synonyms": [
+        "sections",
+        "areas",
+        "divisions"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "象限",
+      "japaneseMeaning": "象限"
     },
     {
       "word": "urgent",
@@ -762,8 +1266,14 @@
       "pronunciation": "ˈɜːrdʒənt",
       "type": "adjective",
       "example": "Urgent and important tasks.",
-      "synonyms": ["critical", "pressing", "immediate"],
-      "level": "intermediate"
+      "synonyms": [
+        "critical",
+        "pressing",
+        "immediate"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "紧急的",
+      "japaneseMeaning": "緊急の"
     },
     {
       "word": "critical",
@@ -771,8 +1281,14 @@
       "pronunciation": "ˈkrɪtɪkəl",
       "type": "adjective",
       "example": "Less critical items.",
-      "synonyms": ["crucial", "essential", "vital"],
-      "level": "intermediate"
+      "synonyms": [
+        "crucial",
+        "essential",
+        "vital"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "关键的，批判的",
+      "japaneseMeaning": "重要な、批判的な"
     },
     {
       "word": "eliminate",
@@ -780,8 +1296,14 @@
       "pronunciation": "ɪˈlɪmɪneɪt",
       "type": "verb",
       "example": "Eliminate distractions during focused work.",
-      "synonyms": ["remove", "get rid of", "eradicate"],
-      "level": "intermediate"
+      "synonyms": [
+        "remove",
+        "get rid of",
+        "eradicate"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "消除",
+      "japaneseMeaning": "排除する"
     },
     {
       "word": "distractions",
@@ -789,8 +1311,14 @@
       "pronunciation": "dɪˈstrækʃənz",
       "type": "noun",
       "example": "Eliminate distractions during focused work periods.",
-      "synonyms": ["interruptions", "disruptions", "diversions"],
-      "level": "intermediate"
+      "synonyms": [
+        "interruptions",
+        "disruptions",
+        "diversions"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "干扰因素",
+      "japaneseMeaning": "気を散らすもの"
     },
     {
       "word": "focused",
@@ -798,8 +1326,14 @@
       "pronunciation": "ˈfoʊkəst",
       "type": "adjective",
       "example": "Focused work periods.",
-      "synonyms": ["concentrated", "attentive", "directed"],
-      "level": "intermediate"
+      "synonyms": [
+        "concentrated",
+        "attentive",
+        "directed"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "专注的",
+      "japaneseMeaning": "集中した"
     },
     {
       "word": "periods",
@@ -807,8 +1341,14 @@
       "pronunciation": "ˈpɪriədz",
       "type": "noun",
       "example": "Focused work periods.",
-      "synonyms": ["times", "intervals", "sessions"],
-      "level": "intermediate"
+      "synonyms": [
+        "times",
+        "intervals",
+        "sessions"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "期间",
+      "japaneseMeaning": "期間"
     },
     {
       "word": "unnecessary",
@@ -816,8 +1356,14 @@
       "pronunciation": "ʌnˈnesəseri",
       "type": "adjective",
       "example": "Turn off unnecessary notifications.",
-      "synonyms": ["unneeded", "redundant", "superfluous"],
-      "level": "intermediate"
+      "synonyms": [
+        "unneeded",
+        "redundant",
+        "superfluous"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "不必要的",
+      "japaneseMeaning": "不要な"
     },
     {
       "word": "notifications",
@@ -825,8 +1371,14 @@
       "pronunciation": "ˌnoʊtɪfɪˈkeɪʃənz",
       "type": "noun",
       "example": "Turn off unnecessary notifications.",
-      "synonyms": ["alerts", "messages", "announcements"],
-      "level": "intermediate"
+      "synonyms": [
+        "alerts",
+        "messages",
+        "announcements"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "通知",
+      "japaneseMeaning": "通知"
     },
     {
       "word": "irrelevant",
@@ -834,8 +1386,14 @@
       "pronunciation": "ɪˈreləvənt",
       "type": "adjective",
       "example": "Close irrelevant browser tabs.",
-      "synonyms": ["unrelated", "unconnected", "inapplicable"],
-      "level": "intermediate"
+      "synonyms": [
+        "unrelated",
+        "unconnected",
+        "inapplicable"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "无关的",
+      "japaneseMeaning": "無関係な"
     },
     {
       "word": "dedicated",
@@ -843,8 +1401,14 @@
       "pronunciation": "ˈdedɪkeɪtɪd",
       "type": "adjective",
       "example": "Create a dedicated workspace.",
-      "synonyms": ["devoted", "committed", "specialized"],
-      "level": "intermediate"
+      "synonyms": [
+        "devoted",
+        "committed",
+        "specialized"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "专用的，专注的",
+      "japaneseMeaning": "専用の、献身的な"
     },
     {
       "word": "workspace",
@@ -852,8 +1416,14 @@
       "pronunciation": "ˈwɜːrkspeɪs",
       "type": "noun",
       "example": "Create a dedicated workspace free from interruptions.",
-      "synonyms": ["work area", "office space", "desk"],
-      "level": "intermediate"
+      "synonyms": [
+        "work area",
+        "office space",
+        "desk"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "工作空间",
+      "japaneseMeaning": "作業空間"
     },
     {
       "word": "interruptions",
@@ -861,8 +1431,14 @@
       "pronunciation": "ˌɪntəˈrʌpʃənz",
       "type": "noun",
       "example": "Workspace free from interruptions.",
-      "synonyms": ["disturbances", "disruptions", "breaks"],
-      "level": "intermediate"
+      "synonyms": [
+        "disturbances",
+        "disruptions",
+        "breaks"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "中断，干扰",
+      "japaneseMeaning": "中断、妨害"
     },
     {
       "word": "refocus",
@@ -870,8 +1446,14 @@
       "pronunciation": "riːˈfoʊkəs",
       "type": "verb",
       "example": "It takes 23 minutes to refocus after being distracted.",
-      "synonyms": ["reconcentrate", "regain focus", "recenter"],
-      "level": "intermediate"
+      "synonyms": [
+        "reconcentrate",
+        "regain focus",
+        "recenter"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "重新聚焦",
+      "japaneseMeaning": "再集中する"
     },
     {
       "word": "distracted",
@@ -879,8 +1461,14 @@
       "pronunciation": "dɪˈstræktɪd",
       "type": "adjective",
       "example": "After being distracted.",
-      "synonyms": ["unfocused", "preoccupied", "diverted"],
-      "level": "intermediate"
+      "synonyms": [
+        "unfocused",
+        "preoccupied",
+        "diverted"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "分心的，被打扰的",
+      "japaneseMeaning": "気が散った、邪魔された"
     },
     {
       "word": "protecting",
@@ -888,8 +1476,14 @@
       "pronunciation": "prəˈtektɪŋ",
       "type": "verb",
       "example": "Protecting your concentration time is essential.",
-      "synonyms": ["guarding", "preserving", "safeguarding"],
-      "level": "intermediate"
+      "synonyms": [
+        "guarding",
+        "preserving",
+        "safeguarding"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "保护",
+      "japaneseMeaning": "保護する"
     },
     {
       "word": "concentration",
@@ -897,8 +1491,14 @@
       "pronunciation": "ˌkɑːnsənˈtreɪʃən",
       "type": "noun",
       "example": "Protecting your concentration time.",
-      "synonyms": ["focus", "attention", "absorption"],
-      "level": "intermediate"
+      "synonyms": [
+        "focus",
+        "attention",
+        "absorption"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "集中",
+      "japaneseMeaning": "集中"
     },
     {
       "word": "essential",
@@ -906,8 +1506,14 @@
       "pronunciation": "ɪˈsenʃəl",
       "type": "adjective",
       "example": "Protecting your concentration time is essential.",
-      "synonyms": ["necessary", "crucial", "vital"],
-      "level": "intermediate"
+      "synonyms": [
+        "necessary",
+        "crucial",
+        "vital"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "必要的",
+      "japaneseMeaning": "必須の"
     },
     {
       "word": "blocking",
@@ -915,8 +1521,14 @@
       "pronunciation": "ˈblɑːkɪŋ",
       "type": "verb",
       "example": "Use time-blocking techniques.",
-      "synonyms": ["scheduling", "allocating", "reserving"],
-      "level": "intermediate"
+      "synonyms": [
+        "scheduling",
+        "allocating",
+        "reserving"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "",
+      "japaneseMeaning": ""
     },
     {
       "word": "techniques",
@@ -924,8 +1536,14 @@
       "pronunciation": "tekˈniːks",
       "type": "noun",
       "example": "Time-blocking techniques.",
-      "synonyms": ["methods", "approaches", "strategies"],
-      "level": "intermediate"
+      "synonyms": [
+        "methods",
+        "approaches",
+        "strategies"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "技巧",
+      "japaneseMeaning": "技術"
     },
     {
       "word": "schedule",
@@ -933,8 +1551,14 @@
       "pronunciation": "ˈskedʒuːl",
       "type": "verb",
       "example": "Schedule specific periods for different types of work.",
-      "synonyms": ["plan", "arrange", "organize"],
-      "level": "intermediate"
+      "synonyms": [
+        "plan",
+        "arrange",
+        "organize"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "安排日程",
+      "japaneseMeaning": "スケジュールを組む"
     },
     {
       "word": "specific",
@@ -942,8 +1566,14 @@
       "pronunciation": "spəˈsɪfɪk",
       "type": "adjective",
       "example": "Schedule specific periods.",
-      "synonyms": ["particular", "exact", "precise"],
-      "level": "intermediate"
+      "synonyms": [
+        "particular",
+        "exact",
+        "precise"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "具体的",
+      "japaneseMeaning": "具体的な"
     },
     {
       "word": "allocate",
@@ -951,8 +1581,14 @@
       "pronunciation": "ˈæləkeɪt",
       "type": "verb",
       "example": "Allocate blocks of time for deep work.",
-      "synonyms": ["assign", "distribute", "apportion"],
-      "level": "intermediate"
+      "synonyms": [
+        "assign",
+        "distribute",
+        "apportion"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "分配",
+      "japaneseMeaning": "割り当てる"
     },
     {
       "word": "blocks",
@@ -960,8 +1596,14 @@
       "pronunciation": "blɑːks",
       "type": "noun",
       "example": "Allocate blocks of time.",
-      "synonyms": ["periods", "sessions", "chunks"],
-      "level": "intermediate"
+      "synonyms": [
+        "periods",
+        "sessions",
+        "chunks"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "块，区间",
+      "japaneseMeaning": "ブロック、区間"
     },
     {
       "word": "deep",
@@ -969,8 +1611,14 @@
       "pronunciation": "diːp",
       "type": "adjective",
       "example": "Blocks of time for deep work.",
-      "synonyms": ["intensive", "focused", "concentrated"],
-      "level": "intermediate"
+      "synonyms": [
+        "intensive",
+        "focused",
+        "concentrated"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "",
+      "japaneseMeaning": ""
     },
     {
       "word": "maintain",
@@ -978,8 +1626,14 @@
       "pronunciation": "meɪnˈteɪn",
       "type": "verb",
       "example": "This approach helps you maintain momentum.",
-      "synonyms": ["keep", "preserve", "sustain"],
-      "level": "intermediate"
+      "synonyms": [
+        "keep",
+        "preserve",
+        "sustain"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "维持",
+      "japaneseMeaning": "維持する"
     },
     {
       "word": "momentum",
@@ -987,8 +1641,14 @@
       "pronunciation": "moʊˈmentəm",
       "type": "noun",
       "example": "Maintain momentum.",
-      "synonyms": ["drive", "force", "impetus"],
-      "level": "intermediate"
+      "synonyms": [
+        "drive",
+        "force",
+        "impetus"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "动力，势头",
+      "japaneseMeaning": "推進力、モメンタム"
     },
     {
       "word": "prevents",
@@ -996,8 +1656,14 @@
       "pronunciation": "prɪˈvents",
       "type": "verb",
       "example": "Prevents tasks from expanding.",
-      "synonyms": ["stops", "hinders", "blocks"],
-      "level": "intermediate"
+      "synonyms": [
+        "stops",
+        "hinders",
+        "blocks"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "防止",
+      "japaneseMeaning": "防ぐ"
     },
     {
       "word": "expanding",
@@ -1005,8 +1671,14 @@
       "pronunciation": "ɪkˈspændɪŋ",
       "type": "verb",
       "example": "Tasks from expanding to fill available time.",
-      "synonyms": ["growing", "increasing", "extending"],
-      "level": "intermediate"
+      "synonyms": [
+        "growing",
+        "increasing",
+        "extending"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "扩展",
+      "japaneseMeaning": "拡大する"
     },
     {
       "word": "overcommitting",
@@ -1014,8 +1686,14 @@
       "pronunciation": "ˌoʊvərkəˈmɪtɪŋ",
       "type": "verb",
       "example": "Overcommitting leads to burnout.",
-      "synonyms": ["overpromising", "overextending", "overloading"],
-      "level": "intermediate"
+      "synonyms": [
+        "overpromising",
+        "overextending",
+        "overloading"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "过度承诺",
+      "japaneseMeaning": "過度に約束する"
     },
     {
       "word": "burnout",
@@ -1023,8 +1701,14 @@
       "pronunciation": "ˈbɜːrnaʊt",
       "type": "noun",
       "example": "Overcommitting leads to burnout.",
-      "synonyms": ["exhaustion", "fatigue", "stress"],
-      "level": "intermediate"
+      "synonyms": [
+        "exhaustion",
+        "fatigue",
+        "stress"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "倦怠，疲劳",
+      "japaneseMeaning": "燃え尽き、疲労"
     },
     {
       "word": "evaluate",
@@ -1032,8 +1716,14 @@
       "pronunciation": "ɪˈvæljueɪt",
       "type": "verb",
       "example": "Evaluate each request against your priorities.",
-      "synonyms": ["assess", "judge", "analyze"],
-      "level": "intermediate"
+      "synonyms": [
+        "assess",
+        "judge",
+        "analyze"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "评估",
+      "japaneseMeaning": "評価する"
     },
     {
       "word": "priorities",
@@ -1041,8 +1731,14 @@
       "pronunciation": "praɪˈɔːrɪtiz",
       "type": "noun",
       "example": "Against your current priorities.",
-      "synonyms": ["goals", "objectives", "concerns"],
-      "level": "intermediate"
+      "synonyms": [
+        "goals",
+        "objectives",
+        "concerns"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "优先级",
+      "japaneseMeaning": "優先順位"
     },
     {
       "word": "consistently",
@@ -1050,8 +1746,14 @@
       "pronunciation": "kənˈsɪstəntli",
       "type": "adverb",
       "example": "By consistently applying these strategies.",
-      "synonyms": ["regularly", "steadily", "uniformly"],
-      "level": "intermediate"
+      "synonyms": [
+        "regularly",
+        "steadily",
+        "uniformly"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "一致地",
+      "japaneseMeaning": "一貫して"
     },
     {
       "word": "applying",
@@ -1059,8 +1761,14 @@
       "pronunciation": "əˈplaɪɪŋ",
       "type": "verb",
       "example": "Consistently applying these strategies.",
-      "synonyms": ["using", "implementing", "employing"],
-      "level": "intermediate"
+      "synonyms": [
+        "using",
+        "implementing",
+        "employing"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "",
+      "japaneseMeaning": ""
     },
     {
       "word": "transform",
@@ -1068,8 +1776,14 @@
       "pronunciation": "trænsˈfɔːrm",
       "type": "verb",
       "example": "Transform your workday.",
-      "synonyms": ["change", "convert", "alter"],
-      "level": "intermediate"
+      "synonyms": [
+        "change",
+        "convert",
+        "alter"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "转变",
+      "japaneseMeaning": "変える"
     },
     {
       "word": "workday",
@@ -1077,8 +1791,14 @@
       "pronunciation": "ˈwɜːrkdeɪ",
       "type": "noun",
       "example": "Transform your workday.",
-      "synonyms": ["working day", "business day", "office hours"],
-      "level": "intermediate"
+      "synonyms": [
+        "working day",
+        "business day",
+        "office hours"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "工作日",
+      "japaneseMeaning": "労働日"
     },
     {
       "word": "achieve",
@@ -1086,8 +1806,14 @@
       "pronunciation": "əˈtʃiːv",
       "type": "verb",
       "example": "Achieve better results with less stress.",
-      "synonyms": ["accomplish", "attain", "reach"],
-      "level": "intermediate"
+      "synonyms": [
+        "accomplish",
+        "attain",
+        "reach"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "",
+      "japaneseMeaning": ""
     },
     {
       "word": "required",
@@ -1095,8 +1821,14 @@
       "pronunciation": "rɪˈkwaɪərd",
       "type": "adjective",
       "example": "All employees are required to attend.",
-      "synonyms": ["necessary", "mandatory", "obligatory"],
-      "level": "intermediate"
+      "synonyms": [
+        "necessary",
+        "mandatory",
+        "obligatory"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "必需的，要求的",
+      "japaneseMeaning": "必要な、要求される"
     },
     {
       "word": "includes",
@@ -1104,8 +1836,14 @@
       "pronunciation": "ɪnˈkluːdz",
       "type": "verb",
       "example": "The event includes team-building activities.",
-      "synonyms": ["contains", "involves", "comprises"],
-      "level": "intermediate"
+      "synonyms": [
+        "contains",
+        "involves",
+        "comprises"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "包括",
+      "japaneseMeaning": "含む"
     },
     {
       "word": "opportunities",
@@ -1113,8 +1851,14 @@
       "pronunciation": "ˌɑːpərˈtuːnɪtiz",
       "type": "noun",
       "example": "Networking opportunities are available.",
-      "synonyms": ["chances", "prospects", "openings"],
-      "level": "intermediate"
+      "synonyms": [
+        "chances",
+        "prospects",
+        "openings"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "机会",
+      "japaneseMeaning": "機会"
     },
     {
       "word": "prefer",
@@ -1122,8 +1866,14 @@
       "pronunciation": "prɪˈfɜːr",
       "type": "verb",
       "example": "Employees who prefer to drive.",
-      "synonyms": ["like better", "choose", "favor"],
-      "level": "intermediate"
+      "synonyms": [
+        "like better",
+        "choose",
+        "favor"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "偏好",
+      "japaneseMeaning": "好む"
     },
     {
       "word": "vehicles",
@@ -1131,8 +1881,14 @@
       "pronunciation": "ˈviːɪkəlz",
       "type": "noun",
       "example": "Drive their own vehicles.",
-      "synonyms": ["cars", "automobiles", "transport"],
-      "level": "intermediate"
+      "synonyms": [
+        "cars",
+        "automobiles",
+        "transport"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "车辆",
+      "japaneseMeaning": "車両"
     },
     {
       "word": "fitness",
@@ -1140,8 +1896,14 @@
       "pronunciation": "ˈfɪtnəs",
       "type": "noun",
       "example": "A fitness center is available.",
-      "synonyms": ["health", "strength", "condition"],
-      "level": "intermediate"
+      "synonyms": [
+        "health",
+        "strength",
+        "condition"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "健康，体能",
+      "japaneseMeaning": "健康、体力"
     },
     {
       "word": "multiple",
@@ -1149,8 +1911,14 @@
       "pronunciation": "ˈmʌltɪpəl",
       "type": "adjective",
       "example": "Multiple dining options.",
-      "synonyms": ["many", "various", "several"],
-      "level": "intermediate"
+      "synonyms": [
+        "many",
+        "various",
+        "several"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "多个的",
+      "japaneseMeaning": "複数の"
     },
     {
       "word": "occupancy",
@@ -1158,8 +1926,14 @@
       "pronunciation": "ˈɑːkjəpənsi",
       "type": "noun",
       "example": "Double-occupancy rooms.",
-      "synonyms": ["occupation", "tenancy", "residence"],
-      "level": "intermediate"
+      "synonyms": [
+        "occupation",
+        "tenancy",
+        "residence"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "占用，容纳",
+      "japaneseMeaning": "占有、収容"
     },
     {
       "word": "requested",
@@ -1167,8 +1941,14 @@
       "pronunciation": "rɪˈkwestɪd",
       "type": "verb",
       "example": "Single rooms can be requested.",
-      "synonyms": ["asked for", "sought", "applied for"],
-      "level": "intermediate"
+      "synonyms": [
+        "asked for",
+        "sought",
+        "applied for"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "被请求的",
+      "japaneseMeaning": "要求された"
     },
     {
       "word": "topics",
@@ -1176,8 +1956,14 @@
       "pronunciation": "ˈtɑːpɪks",
       "type": "noun",
       "example": "Workshops covering topics such as communication.",
-      "synonyms": ["subjects", "themes", "issues"],
-      "level": "intermediate"
+      "synonyms": [
+        "subjects",
+        "themes",
+        "issues"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "主题",
+      "japaneseMeaning": "トピック"
     },
     {
       "word": "customer",
@@ -1185,8 +1971,14 @@
       "pronunciation": "ˈkʌstəmər",
       "type": "noun",
       "example": "Customer service excellence.",
-      "synonyms": ["client", "buyer", "consumer"],
-      "level": "intermediate"
+      "synonyms": [
+        "client",
+        "buyer",
+        "consumer"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "顾客",
+      "japaneseMeaning": "顧客"
     },
     {
       "word": "hiking",
@@ -1194,8 +1986,14 @@
       "pronunciation": "ˈhaɪkɪŋ",
       "type": "noun",
       "example": "Recreational activities including hiking.",
-      "synonyms": ["trekking", "walking", "climbing"],
-      "level": "intermediate"
+      "synonyms": [
+        "trekking",
+        "walking",
+        "climbing"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "",
+      "japaneseMeaning": ""
     },
     {
       "word": "sports",
@@ -1203,8 +2001,14 @@
       "pronunciation": "spɔːrts",
       "type": "noun",
       "example": "Team sports and evening entertainment.",
-      "synonyms": ["athletics", "games", "competitions"],
-      "level": "intermediate"
+      "synonyms": [
+        "athletics",
+        "games",
+        "competitions"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "运动",
+      "japaneseMeaning": "スポーツ"
     },
     {
       "word": "special",
@@ -1212,8 +2016,14 @@
       "pronunciation": "ˈspeʃəl",
       "type": "adjective",
       "example": "Special accommodations needed.",
-      "synonyms": ["particular", "unique", "exceptional"],
-      "level": "intermediate"
+      "synonyms": [
+        "particular",
+        "unique",
+        "exceptional"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "特别的",
+      "japaneseMeaning": "特別な"
     },
     {
       "word": "information",
@@ -1221,8 +2031,14 @@
       "pronunciation": "ˌɪnfərˈmeɪʃən",
       "type": "noun",
       "example": "For more information, contact us.",
-      "synonyms": ["data", "details", "facts"],
-      "level": "intermediate"
+      "synonyms": [
+        "data",
+        "details",
+        "facts"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "信息",
+      "japaneseMeaning": "情報"
     },
     {
       "word": "contact",
@@ -1230,8 +2046,14 @@
       "pronunciation": "ˈkɑːntækt",
       "type": "verb",
       "example": "Contact Sarah Johnson for more information.",
-      "synonyms": ["reach", "get in touch", "communicate"],
-      "level": "intermediate"
+      "synonyms": [
+        "reach",
+        "get in touch",
+        "communicate"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "联系",
+      "japaneseMeaning": "連絡する"
     },
     {
       "word": "environment",
@@ -1239,8 +2061,14 @@
       "pronunciation": "ɪnˈvaɪrənmənt",
       "type": "noun",
       "example": "Today's fast-paced business environment.",
-      "synonyms": ["surroundings", "atmosphere", "setting"],
-      "level": "intermediate"
+      "synonyms": [
+        "surroundings",
+        "atmosphere",
+        "setting"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "环境",
+      "japaneseMeaning": "環境"
     },
     {
       "word": "professionals",
@@ -1248,8 +2076,14 @@
       "pronunciation": "prəˈfeʃənəlz",
       "type": "noun",
       "example": "Many professionals struggle with balancing tasks.",
-      "synonyms": ["experts", "specialists", "practitioners"],
-      "level": "intermediate"
+      "synonyms": [
+        "experts",
+        "specialists",
+        "practitioners"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "专业人士",
+      "japaneseMeaning": "専門家"
     },
     {
       "word": "tasks",
@@ -1257,8 +2091,14 @@
       "pronunciation": "tæsks",
       "type": "noun",
       "example": "Balancing multiple tasks.",
-      "synonyms": ["jobs", "assignments", "duties"],
-      "level": "intermediate"
+      "synonyms": [
+        "jobs",
+        "assignments",
+        "duties"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "任务",
+      "japaneseMeaning": "タスク"
     },
     {
       "word": "meeting",
@@ -1266,8 +2106,14 @@
       "pronunciation": "ˈmiːtɪŋ",
       "type": "verb/noun",
       "example": "Meeting deadlines is important.",
-      "synonyms": ["encountering", "fulfilling", "conference"],
-      "level": "intermediate"
+      "synonyms": [
+        "encountering",
+        "fulfilling",
+        "conference"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "会议，见面",
+      "japaneseMeaning": "会議、会うこと"
     },
     {
       "word": "however",
@@ -1275,8 +2121,14 @@
       "pronunciation": "haʊˈevər",
       "type": "adverb",
       "example": "However, by implementing strategies.",
-      "synonyms": ["nevertheless", "but", "yet"],
-      "level": "intermediate"
+      "synonyms": [
+        "nevertheless",
+        "but",
+        "yet"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "然而",
+      "japaneseMeaning": "しかし"
     },
     {
       "word": "improve",
@@ -1284,8 +2136,14 @@
       "pronunciation": "ɪmˈpruːv",
       "type": "verb",
       "example": "Improve your productivity.",
-      "synonyms": ["enhance", "better", "upgrade"],
-      "level": "intermediate"
+      "synonyms": [
+        "enhance",
+        "better",
+        "upgrade"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "改善",
+      "japaneseMeaning": "改善する"
     },
     {
       "word": "reduce",
@@ -1293,8 +2151,14 @@
       "pronunciation": "rɪˈduːs",
       "type": "verb",
       "example": "Reduce stress.",
-      "synonyms": ["decrease", "lower", "minimize"],
-      "level": "intermediate"
+      "synonyms": [
+        "decrease",
+        "lower",
+        "minimize"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "减少",
+      "japaneseMeaning": "減らす"
     },
     {
       "word": "stress",
@@ -1302,8 +2166,14 @@
       "pronunciation": "stres",
       "type": "noun",
       "example": "Reduce stress.",
-      "synonyms": ["pressure", "tension", "anxiety"],
-      "level": "intermediate"
+      "synonyms": [
+        "pressure",
+        "tension",
+        "anxiety"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "压力",
+      "japaneseMeaning": "ストレス"
     },
     {
       "word": "useful",
@@ -1311,8 +2181,14 @@
       "pronunciation": "ˈjuːsfəl",
       "type": "adjective",
       "example": "A useful tool.",
-      "synonyms": ["helpful", "beneficial", "practical"],
-      "level": "intermediate"
+      "synonyms": [
+        "helpful",
+        "beneficial",
+        "practical"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "有用的",
+      "japaneseMeaning": "有用な"
     },
     {
       "word": "tool",
@@ -1320,8 +2196,14 @@
       "pronunciation": "tuːl",
       "type": "noun",
       "example": "The Eisenhower Matrix is a useful tool.",
-      "synonyms": ["instrument", "device", "method"],
-      "level": "intermediate"
+      "synonyms": [
+        "instrument",
+        "device",
+        "method"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "",
+      "japaneseMeaning": ""
     },
     {
       "word": "focus",
@@ -1329,8 +2211,14 @@
       "pronunciation": "ˈfoʊkəs",
       "type": "verb",
       "example": "Focus on completing tasks.",
-      "synonyms": ["concentrate", "center", "direct"],
-      "level": "intermediate"
+      "synonyms": [
+        "concentrate",
+        "center",
+        "direct"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "",
+      "japaneseMeaning": ""
     },
     {
       "word": "completing",
@@ -1338,8 +2226,14 @@
       "pronunciation": "kəmˈpliːtɪŋ",
       "type": "verb",
       "example": "Completing tasks in the first two categories.",
-      "synonyms": ["finishing", "accomplishing", "ending"],
-      "level": "intermediate"
+      "synonyms": [
+        "finishing",
+        "accomplishing",
+        "ending"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "",
+      "japaneseMeaning": ""
     },
     {
       "word": "categories",
@@ -1347,8 +2241,14 @@
       "pronunciation": "ˈkætəɡɔːriz",
       "type": "noun",
       "example": "Tasks in the first two categories.",
-      "synonyms": ["groups", "classes", "types"],
-      "level": "intermediate"
+      "synonyms": [
+        "groups",
+        "classes",
+        "types"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "类别",
+      "japaneseMeaning": "カテゴリー"
     },
     {
       "word": "moving",
@@ -1356,8 +2256,14 @@
       "pronunciation": "ˈmuːvɪŋ",
       "type": "verb",
       "example": "Before moving to less critical items.",
-      "synonyms": ["shifting", "transferring", "proceeding"],
-      "level": "intermediate"
+      "synonyms": [
+        "shifting",
+        "transferring",
+        "proceeding"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "移动的",
+      "japaneseMeaning": "移動する"
     },
     {
       "word": "items",
@@ -1365,8 +2271,14 @@
       "pronunciation": "ˈaɪtəmz",
       "type": "noun",
       "example": "Less critical items.",
-      "synonyms": ["things", "objects", "elements"],
-      "level": "intermediate"
+      "synonyms": [
+        "things",
+        "objects",
+        "elements"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "项目",
+      "japaneseMeaning": "項目"
     },
     {
       "word": "work",
@@ -1374,8 +2286,14 @@
       "pronunciation": "wɜːrk",
       "type": "noun",
       "example": "Focused work periods.",
-      "synonyms": ["labor", "job", "task"],
-      "level": "intermediate"
+      "synonyms": [
+        "labor",
+        "job",
+        "task"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "工作",
+      "japaneseMeaning": "仕事、作業"
     },
     {
       "word": "close",
@@ -1383,8 +2301,14 @@
       "pronunciation": "kloʊz",
       "type": "verb",
       "example": "Close irrelevant browser tabs.",
-      "synonyms": ["shut", "seal", "end"],
-      "level": "intermediate"
+      "synonyms": [
+        "shut",
+        "seal",
+        "end"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "关闭",
+      "japaneseMeaning": "閉じる"
     },
     {
       "word": "browser",
@@ -1392,8 +2316,14 @@
       "pronunciation": "ˈbraʊzər",
       "type": "noun",
       "example": "Close irrelevant browser tabs.",
-      "synonyms": ["web browser", "internet browser", "navigator"],
-      "level": "intermediate"
+      "synonyms": [
+        "web browser",
+        "internet browser",
+        "navigator"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "浏览器",
+      "japaneseMeaning": "ブラウザ"
     },
     {
       "word": "tabs",
@@ -1401,8 +2331,14 @@
       "pronunciation": "tæbz",
       "type": "noun",
       "example": "Close irrelevant browser tabs.",
-      "synonyms": ["windows", "panels", "sections"],
-      "level": "intermediate"
+      "synonyms": [
+        "windows",
+        "panels",
+        "sections"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "标签",
+      "japaneseMeaning": "タブ"
     },
     {
       "word": "create",
@@ -1410,8 +2346,14 @@
       "pronunciation": "kriˈeɪt",
       "type": "verb",
       "example": "Create a dedicated workspace.",
-      "synonyms": ["make", "build", "establish"],
-      "level": "intermediate"
+      "synonyms": [
+        "make",
+        "build",
+        "establish"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "创造",
+      "japaneseMeaning": "作る"
     },
     {
       "word": "free",
@@ -1419,8 +2361,14 @@
       "pronunciation": "friː",
       "type": "adjective",
       "example": "Workspace free from interruptions.",
-      "synonyms": ["unrestricted", "available", "unoccupied"],
-      "level": "intermediate"
+      "synonyms": [
+        "unrestricted",
+        "available",
+        "unoccupied"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "自由的，免费的",
+      "japaneseMeaning": "自由な、無料の"
     },
     {
       "word": "research",
@@ -1428,8 +2376,14 @@
       "pronunciation": "rɪˈsɜːrtʃ",
       "type": "noun",
       "example": "Research shows that it takes 23 minutes.",
-      "synonyms": ["study", "investigation", "inquiry"],
-      "level": "intermediate"
+      "synonyms": [
+        "study",
+        "investigation",
+        "inquiry"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "研究",
+      "japaneseMeaning": "研究"
     },
     {
       "word": "shows",
@@ -1437,8 +2391,14 @@
       "pronunciation": "ʃoʊz",
       "type": "verb",
       "example": "Research shows that it takes 23 minutes.",
-      "synonyms": ["demonstrates", "indicates", "reveals"],
-      "level": "intermediate"
+      "synonyms": [
+        "demonstrates",
+        "indicates",
+        "reveals"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "显示",
+      "japaneseMeaning": "示す"
     },
     {
       "word": "takes",
@@ -1446,8 +2406,14 @@
       "pronunciation": "teɪks",
       "type": "verb",
       "example": "It takes 23 minutes to refocus.",
-      "synonyms": ["requires", "needs", "demands"],
-      "level": "intermediate"
+      "synonyms": [
+        "requires",
+        "needs",
+        "demands"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "花费",
+      "japaneseMeaning": "かかる"
     },
     {
       "word": "average",
@@ -1455,8 +2421,14 @@
       "pronunciation": "ˈævərɪdʒ",
       "type": "adjective",
       "example": "An average of 23 minutes.",
-      "synonyms": ["typical", "normal", "mean"],
-      "level": "intermediate"
+      "synonyms": [
+        "typical",
+        "normal",
+        "mean"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "平均的",
+      "japaneseMeaning": "平均の"
     },
     {
       "word": "minutes",
@@ -1464,8 +2436,14 @@
       "pronunciation": "ˈmɪnɪts",
       "type": "noun",
       "example": "23 minutes to refocus.",
-      "synonyms": ["moments", "time", "periods"],
-      "level": "intermediate"
+      "synonyms": [
+        "moments",
+        "time",
+        "periods"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "分钟",
+      "japaneseMeaning": "分"
     },
     {
       "word": "after",
@@ -1473,8 +2451,14 @@
       "pronunciation": "ˈæftər",
       "type": "preposition",
       "example": "After being distracted.",
-      "synonyms": ["following", "subsequent to", "later"],
-      "level": "intermediate"
+      "synonyms": [
+        "following",
+        "subsequent to",
+        "later"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "",
+      "japaneseMeaning": ""
     },
     {
       "word": "being",
@@ -1482,8 +2466,14 @@
       "pronunciation": "ˈbiːɪŋ",
       "type": "noun",
       "example": "After being distracted.",
-      "synonyms": ["existence", "presence", "state"],
-      "level": "intermediate"
+      "synonyms": [
+        "existence",
+        "presence",
+        "state"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "",
+      "japaneseMeaning": ""
     },
     {
       "word": "use",
@@ -1491,8 +2481,14 @@
       "pronunciation": "juːz",
       "type": "verb",
       "example": "Use time-blocking techniques.",
-      "synonyms": ["utilize", "employ", "apply"],
-      "level": "intermediate"
+      "synonyms": [
+        "utilize",
+        "employ",
+        "apply"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "使用",
+      "japaneseMeaning": "使う"
     },
     {
       "word": "different",
@@ -1500,8 +2496,14 @@
       "pronunciation": "ˈdɪfərənt",
       "type": "adjective",
       "example": "Different types of work.",
-      "synonyms": ["distinct", "various", "separate"],
-      "level": "intermediate"
+      "synonyms": [
+        "distinct",
+        "various",
+        "separate"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "不同的",
+      "japaneseMeaning": "異なる"
     },
     {
       "word": "types",
@@ -1509,8 +2511,14 @@
       "pronunciation": "taɪps",
       "type": "noun",
       "example": "Different types of work.",
-      "synonyms": ["kinds", "categories", "varieties"],
-      "level": "intermediate"
+      "synonyms": [
+        "kinds",
+        "categories",
+        "varieties"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "类型",
+      "japaneseMeaning": "タイプ"
     },
     {
       "word": "meetings",
@@ -1518,8 +2526,14 @@
       "pronunciation": "ˈmiːtɪŋz",
       "type": "noun",
       "example": "Allocate blocks of time for meetings.",
-      "synonyms": ["conferences", "sessions", "gatherings"],
-      "level": "intermediate"
+      "synonyms": [
+        "conferences",
+        "sessions",
+        "gatherings"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "会议",
+      "japaneseMeaning": "会議"
     },
     {
       "word": "responses",
@@ -1527,8 +2541,14 @@
       "pronunciation": "rɪˈspɑːnsɪz",
       "type": "noun",
       "example": "Email responses.",
-      "synonyms": ["replies", "answers", "reactions"],
-      "level": "intermediate"
+      "synonyms": [
+        "replies",
+        "answers",
+        "reactions"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "响应",
+      "japaneseMeaning": "応答"
     },
     {
       "word": "breaks",
@@ -1536,8 +2556,14 @@
       "pronunciation": "breɪks",
       "type": "noun",
       "example": "Allocate blocks of time for breaks.",
-      "synonyms": ["rests", "pauses", "intermissions"],
-      "level": "intermediate"
+      "synonyms": [
+        "rests",
+        "pauses",
+        "intermissions"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "",
+      "japaneseMeaning": ""
     },
     {
       "word": "helps",
@@ -1545,8 +2571,14 @@
       "pronunciation": "helps",
       "type": "verb",
       "example": "This approach helps you maintain momentum.",
-      "synonyms": ["assists", "aids", "supports"],
-      "level": "intermediate"
+      "synonyms": [
+        "assists",
+        "aids",
+        "supports"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "",
+      "japaneseMeaning": ""
     },
     {
       "word": "fill",
@@ -1554,8 +2586,14 @@
       "pronunciation": "fɪl",
       "type": "verb",
       "example": "Tasks from expanding to fill available time.",
-      "synonyms": ["occupy", "complete", "satisfy"],
-      "level": "intermediate"
+      "synonyms": [
+        "occupy",
+        "complete",
+        "satisfy"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "",
+      "japaneseMeaning": ""
     },
     {
       "word": "finally",
@@ -1563,8 +2601,14 @@
       "pronunciation": "ˈfaɪnəli",
       "type": "adverb",
       "example": "Finally, learn to say no.",
-      "synonyms": ["lastly", "ultimately", "in conclusion"],
-      "level": "intermediate"
+      "synonyms": [
+        "lastly",
+        "ultimately",
+        "in conclusion"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "最后",
+      "japaneseMeaning": "最後に"
     },
     {
       "word": "learn",
@@ -1572,8 +2616,14 @@
       "pronunciation": "lɜːrn",
       "type": "verb",
       "example": "Learn to say no.",
-      "synonyms": ["study", "acquire", "master"],
-      "level": "intermediate"
+      "synonyms": [
+        "study",
+        "acquire",
+        "master"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "学习",
+      "japaneseMeaning": "学ぶ"
     },
     {
       "word": "say",
@@ -1581,8 +2631,14 @@
       "pronunciation": "seɪ",
       "type": "verb",
       "example": "Learn to say no.",
-      "synonyms": ["speak", "tell", "express"],
-      "level": "intermediate"
+      "synonyms": [
+        "speak",
+        "tell",
+        "express"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "",
+      "japaneseMeaning": ""
     },
     {
       "word": "requests",
@@ -1590,8 +2646,14 @@
       "pronunciation": "rɪˈkwests",
       "type": "noun",
       "example": "Non-essential requests.",
-      "synonyms": ["asks", "appeals", "petitions"],
-      "level": "intermediate"
+      "synonyms": [
+        "asks",
+        "appeals",
+        "petitions"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "请求",
+      "japaneseMeaning": "要求"
     },
     {
       "word": "while",
@@ -1599,8 +2661,14 @@
       "pronunciation": "waɪl",
       "type": "conjunction",
       "example": "While being helpful is valuable.",
-      "synonyms": ["during", "as", "whereas"],
-      "level": "intermediate"
+      "synonyms": [
+        "during",
+        "as",
+        "whereas"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "当...时",
+      "japaneseMeaning": "間"
     },
     {
       "word": "helpful",
@@ -1608,8 +2676,14 @@
       "pronunciation": "ˈhelpfəl",
       "type": "adjective",
       "example": "Being helpful is valuable.",
-      "synonyms": ["useful", "beneficial", "assisting"],
-      "level": "intermediate"
+      "synonyms": [
+        "useful",
+        "beneficial",
+        "assisting"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "有帮助的",
+      "japaneseMeaning": "役立つ"
     },
     {
       "word": "valuable",
@@ -1617,8 +2691,14 @@
       "pronunciation": "ˈvæljuəbəl",
       "type": "adjective",
       "example": "Being helpful is valuable.",
-      "synonyms": ["precious", "important", "worthwhile"],
-      "level": "intermediate"
+      "synonyms": [
+        "precious",
+        "important",
+        "worthwhile"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "有价值的",
+      "japaneseMeaning": "価値のある"
     },
     {
       "word": "leads",
@@ -1626,8 +2706,14 @@
       "pronunciation": "liːdz",
       "type": "verb",
       "example": "Overcommitting leads to burnout.",
-      "synonyms": ["results in", "causes", "brings about"],
-      "level": "intermediate"
+      "synonyms": [
+        "results in",
+        "causes",
+        "brings about"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "引导，导致",
+      "japaneseMeaning": "導く、もたらす"
     },
     {
       "word": "poor",
@@ -1635,8 +2721,14 @@
       "pronunciation": "pʊr",
       "type": "adjective",
       "example": "Poor quality work.",
-      "synonyms": ["bad", "inferior", "substandard"],
-      "level": "intermediate"
+      "synonyms": [
+        "bad",
+        "inferior",
+        "substandard"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "差的，贫穷的",
+      "japaneseMeaning": "悪い、貧しい"
     },
     {
       "word": "quality",
@@ -1644,8 +2736,14 @@
       "pronunciation": "ˈkwɑːlɪti",
       "type": "noun",
       "example": "Poor quality work.",
-      "synonyms": ["standard", "excellence", "grade"],
-      "level": "intermediate"
+      "synonyms": [
+        "standard",
+        "excellence",
+        "grade"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "质量",
+      "japaneseMeaning": "品質"
     },
     {
       "word": "each",
@@ -1653,8 +2751,14 @@
       "pronunciation": "iːtʃ",
       "type": "determiner",
       "example": "Evaluate each request.",
-      "synonyms": ["every", "individual", "per"],
-      "level": "intermediate"
+      "synonyms": [
+        "every",
+        "individual",
+        "per"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "",
+      "japaneseMeaning": ""
     },
     {
       "word": "request",
@@ -1662,8 +2766,14 @@
       "pronunciation": "rɪˈkwest",
       "type": "noun",
       "example": "Evaluate each request.",
-      "synonyms": ["appeal", "ask", "petition"],
-      "level": "intermediate"
+      "synonyms": [
+        "appeal",
+        "ask",
+        "petition"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "请求",
+      "japaneseMeaning": "要求"
     },
     {
       "word": "against",
@@ -1671,8 +2781,14 @@
       "pronunciation": "əˈɡenst",
       "type": "preposition",
       "example": "Against your current priorities.",
-      "synonyms": ["versus", "opposed to", "contrary to"],
-      "level": "intermediate"
+      "synonyms": [
+        "versus",
+        "opposed to",
+        "contrary to"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "",
+      "japaneseMeaning": ""
     },
     {
       "word": "current",
@@ -1680,8 +2796,14 @@
       "pronunciation": "ˈkɜːrənt",
       "type": "adjective",
       "example": "Your current priorities.",
-      "synonyms": ["present", "ongoing", "existing"],
-      "level": "intermediate"
+      "synonyms": [
+        "present",
+        "ongoing",
+        "existing"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "当前的",
+      "japaneseMeaning": "現在の"
     },
     {
       "word": "only",
@@ -1689,8 +2811,14 @@
       "pronunciation": "ˈoʊnli",
       "type": "adverb",
       "example": "Only accept those that align.",
-      "synonyms": ["solely", "exclusively", "merely"],
-      "level": "intermediate"
+      "synonyms": [
+        "solely",
+        "exclusively",
+        "merely"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "只有",
+      "japaneseMeaning": "のみ"
     },
     {
       "word": "accept",
@@ -1698,8 +2826,14 @@
       "pronunciation": "ækˈsept",
       "type": "verb",
       "example": "Only accept those that align.",
-      "synonyms": ["take", "receive", "agree to"],
-      "level": "intermediate"
+      "synonyms": [
+        "take",
+        "receive",
+        "agree to"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "",
+      "japaneseMeaning": ""
     },
     {
       "word": "those",
@@ -1707,8 +2841,14 @@
       "pronunciation": "ðoʊz",
       "type": "pronoun",
       "example": "Only accept those that align.",
-      "synonyms": ["these", "them", "ones"],
-      "level": "intermediate"
+      "synonyms": [
+        "these",
+        "them",
+        "ones"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "那些",
+      "japaneseMeaning": "それら"
     },
     {
       "word": "these",
@@ -1716,8 +2856,14 @@
       "pronunciation": "ðiːz",
       "type": "pronoun",
       "example": "By consistently applying these strategies.",
-      "synonyms": ["those", "them", "ones"],
-      "level": "intermediate"
+      "synonyms": [
+        "those",
+        "them",
+        "ones"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "这些",
+      "japaneseMeaning": "これら"
     },
     {
       "word": "better",
@@ -1725,8 +2871,14 @@
       "pronunciation": "ˈbetər",
       "type": "adjective",
       "example": "Achieve better results.",
-      "synonyms": ["superior", "improved", "preferable"],
-      "level": "intermediate"
+      "synonyms": [
+        "superior",
+        "improved",
+        "preferable"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "更好的",
+      "japaneseMeaning": "より良い"
     },
     {
       "word": "results",
@@ -1734,9 +2886,14 @@
       "pronunciation": "rɪˈzʌlts",
       "type": "noun",
       "example": "Achieve better results.",
-      "synonyms": ["outcomes", "consequences", "findings"],
-      "level": "intermediate"
+      "synonyms": [
+        "outcomes",
+        "consequences",
+        "findings"
+      ],
+      "level": "intermediate",
+      "chineseMeaning": "结果",
+      "japaneseMeaning": "結果"
     }
   ]
 }
-

@@ -114,6 +114,14 @@ async function migrateWords() {
     console.log('\n3. TOEIC 영어 단어 마이그레이션 중...');
     const toeicWords = readJsonFile('./toeic/vocabulary/dictionary.json');
     if (toeicWords && toeicWords.words) {
+        // 샘플 데이터 확인 (디버깅)
+        if (toeicWords.words.length > 0) {
+            const sample = toeicWords.words[0];
+            console.log(`  샘플 단어: ${sample.word}`);
+            console.log(`  - chineseMeaning: ${sample.chineseMeaning || '(없음)'}`);
+            console.log(`  - japaneseMeaning: ${sample.japaneseMeaning || '(없음)'}`);
+        }
+        
         const wordsToInsert = toeicWords.words.map(word => ({
             word: word.word,
             meaning: word.meaning,
@@ -124,8 +132,17 @@ async function migrateWords() {
             level: word.level || 'intermediate',
             kanji_components: null,
             example: word.example || null,
-            synonyms: word.synonyms || null
+            synonyms: word.synonyms || null,
+            // 빈 문자열도 유지하도록 수정 (null이 아닌 빈 문자열로 저장)
+            chinese_meaning: word.chineseMeaning !== undefined && word.chineseMeaning !== null ? word.chineseMeaning : null,
+            japanese_meaning: word.japaneseMeaning !== undefined && word.japaneseMeaning !== null ? word.japaneseMeaning : null
         }));
+        
+        // 번역이 있는 단어 개수 확인
+        const withChinese = wordsToInsert.filter(w => w.chinese_meaning && w.chinese_meaning.trim() !== '').length;
+        const withJapanese = wordsToInsert.filter(w => w.japanese_meaning && w.japanese_meaning.trim() !== '').length;
+        console.log(`  중국어 뜻이 있는 단어: ${withChinese}개`);
+        console.log(`  일본어 뜻이 있는 단어: ${withJapanese}개`);
 
         // 배치로 나누어서 삽입
         const batchSize = 100;

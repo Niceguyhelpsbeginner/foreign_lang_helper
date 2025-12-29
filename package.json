@@ -9,5 +9,7 @@
   "dependencies": {
     "@supabase/supabase-js": "^2.39.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "puppeteer": "^24.34.0"
+  }
 }
