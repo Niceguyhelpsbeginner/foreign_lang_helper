@@ -20,7 +20,8 @@
 - 画像からテキストを抽出して音声で読み上げる機能により、復習を効率化したいと考えた
 - 複数のデバイスで学習データを同期できるようにしたいと考えた
 -　特に直ぐに単語の意味を調べることではなく、マウスカーソルを上に置くだけで意味を調べることができるならと思って作りました。
-<img width="695" height="793" alt="単語ホバー機能のスクリーンショット - 読解文内の単語にマウスをホバーすると意味が表示される機能" src="https://github.com/user-attachments/assets/0ad5473d-1884-484f-8a2e-00272bfc9efb" />
+<img width="1445" height="868" alt="image" src="https://github.com/user-attachments/assets/b9b04333-74ac-488d-9a34-61b06d58b7b4" />
+
 
 
 **ニーズ：**
