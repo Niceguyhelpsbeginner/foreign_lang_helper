@@ -100,6 +100,7 @@
 - **JavaScript (Vanilla)**：フレームワークを使わない純粋なJavaScript実装
   - ES6+の機能を活用（async/await、アロー関数、分割代入など）
   - モジュール化されたコード構造
+<img width="1404" height="834" alt="image" src="https://github.com/user-attachments/assets/ee878118-e771-4a47-9bf5-fc8b0c49501d" />
 
 ### バックエンド・データベース
 - **Supabase**：BaaS（Backend as a Service）
