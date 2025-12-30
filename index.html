@@ -181,13 +181,13 @@
                 <div id="vocabularyStats" style="margin: 1rem 0; padding: 1rem; background: var(--bg-secondary); border-radius: 8px; display: none;">
                     <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
                         <div>
-                            <strong>총 단어 수:</strong> <span id="totalWordCount">0</span>
+                            <strong id="vocabTotalWordCountLabel">총 단어 수:</strong> <span id="totalWordCount">0</span>
                         </div>
                         <div>
-                            <strong>학습한 단어:</strong> <span id="learnedWordCount">0</span>
+                            <strong id="vocabLearnedWordCountLabel">학습한 단어:</strong> <span id="learnedWordCount">0</span>
                         </div>
                         <div>
-                            <strong>학습률:</strong> <span id="learningRate">0%</span>
+                            <strong id="vocabLearningRateLabel">학습률:</strong> <span id="learningRate">0%</span>
                         </div>
                     </div>
                 </div>
@@ -283,7 +283,7 @@
                         <h3>레벨테스트</h3>
                         <p>나의 실력을 측정해보세요</p>
                         <div style="margin: 1rem 0;">
-                            <label for="levelTestLanguage" style="display: block; margin-bottom: 0.5rem; font-size: 0.9rem;">테스트 언어:</label>
+                            <label for="levelTestLanguage" style="display: block; margin-bottom: 0.5rem; font-size: 0.9rem;">테스트 자격증증:</label>
                             <select id="levelTestLanguage" style="width: 100%; padding: 0.5rem; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-primary); color: var(--text-primary);">
                                 <option value="ja">🇯🇵 일본어</option>
                                 <option value="en">🇺🇸 영어</option>
@@ -321,26 +321,26 @@
                 </div>
                 <div class="progress-stats">
                     <div class="progress-card">
-                        <h3>전체 통계</h3>
+                        <h3 id="progressOverallStats">전체 통계</h3>
                         <div class="stat-item">
-                            <span>총 학습 단어:</span>
+                            <span id="progressTotalLearningWordsLabel">총 학습 단어:</span>
                             <span id="progressTotalWords">0</span>
                         </div>
                         <div class="stat-item">
-                            <span>완전히 학습한 단어:</span>
+                            <span id="progressFullyLearnedWordsLabel">완전히 학습한 단어:</span>
                             <span id="progressLearnedWords">0</span>
                         </div>
                         <div class="stat-item">
-                            <span>학습 중인 단어:</span>
+                            <span id="progressLearningInProgressWordsLabel">학습 중인 단어:</span>
                             <span id="progressLearningWords">0</span>
                         </div>
                     </div>
                     <div class="progress-card">
-                        <h3>언어별 통계</h3>
+                        <h3 id="progressLanguageStats">언어별 통계</h3>
                         <div id="languageStats"></div>
                     </div>
                     <div class="progress-card">
-                        <h3>최근 학습 활동</h3>
+                        <h3 id="progressRecentActivity">최근 학습 활동</h3>
                         <div id="recentActivity"></div>
                     </div>
                 </div>

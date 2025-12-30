@@ -4722,12 +4722,14 @@ function updateProgressPage() {
     // 최근 활동
     const recentActivity = AppState.searchHistory.slice(0, 5);
     const activityDiv = document.getElementById('recentActivity');
+    const noActivityText = typeof t === 'function' ? t('noRecentActivity') : '최근 활동이 없습니다.';
+    const searchedText = typeof t === 'function' ? t('searched') : '검색';
     if (recentActivity.length === 0) {
-        activityDiv.innerHTML = '<p style="color: var(--text-secondary);">최근 활동이 없습니다.</p>';
+        activityDiv.innerHTML = `<p style="color: var(--text-secondary);">${noActivityText}</p>`;
     } else {
         activityDiv.innerHTML = recentActivity.map(entry => `
             <div class="stat-item">
-                <span>${entry.query || entry.word} 검색</span>
+                <span>${entry.query || entry.word} ${searchedText}</span>
                 <span>${new Date(entry.date).toLocaleDateString()}</span>
             </div>
         `).join('');
@@ -4735,13 +4737,43 @@ function updateProgressPage() {
 }
 
 function getLanguageName(code) {
-    const names = {
-        'en': '영어',
-        'ja': '일본어',
-        'zh': '중국어',
-        'es': '스페인어'
-    };
-    return names[code] || code;
+    // 현재 언어에 맞게 언어명 반환
+    const currentLang = localStorage.getItem('appLanguage') || 'ko';
+    
+    if (currentLang === 'ja') {
+        const names = {
+            'en': '英語',
+            'ja': '日本語',
+            'zh': '中国語',
+            'es': 'スペイン語'
+        };
+        return names[code] || code;
+    } else if (currentLang === 'en') {
+        const names = {
+            'en': 'English',
+            'ja': 'Japanese',
+            'zh': 'Chinese',
+            'es': 'Spanish'
+        };
+        return names[code] || code;
+    } else if (currentLang === 'zh') {
+        const names = {
+            'en': '英语',
+            'ja': '日语',
+            'zh': '中文',
+            'es': '西班牙语'
+        };
+        return names[code] || code;
+    } else {
+        // 한국어 (기본)
+        const names = {
+            'en': '영어',
+            'ja': '일본어',
+            'zh': '중국어',
+            'es': '스페인어'
+        };
+        return names[code] || code;
+    }
 }
 
 // 사용자 데이터 로드 (Supabase Auth 세션 확인)

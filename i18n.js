@@ -252,7 +252,16 @@ const translations = {
         clickToPin: "💡 클릭하여 고정",
         clickToUnpin: "💡 다시 클릭하여 고정 해제",
         onYomiExamples: "음독 예시:",
-        kunYomiExamples: "훈독 예시:"
+        kunYomiExamples: "훈독 예시:",
+        // 진행상황 페이지
+        overallStats: "전체 통계",
+        totalLearningWords: "총 학습 단어:",
+        fullyLearnedWords: "완전히 학습한 단어:",
+        learningInProgressWords: "학습 중인 단어:",
+        languageStats: "언어별 통계",
+        recentLearningActivity: "최근 학습 활동",
+        noRecentActivity: "최근 활동이 없습니다.",
+        searched: "검색"
     },
     ja: {
         // ヘッダー
@@ -490,7 +499,16 @@ const translations = {
         clickToPin: "💡 クリックして固定",
         clickToUnpin: "💡 もう一度クリックして固定解除",
         onYomiExamples: "音読み例：",
-        kunYomiExamples: "訓読み例："
+        kunYomiExamples: "訓読み例：",
+        // 進捗ページ
+        overallStats: "全体統計",
+        totalLearningWords: "総学習単語：",
+        fullyLearnedWords: "完全に学習した単語：",
+        learningInProgressWords: "学習中の単語：",
+        languageStats: "言語別統計",
+        recentLearningActivity: "最近の学習活動",
+        noRecentActivity: "最近の活動がありません。",
+        searched: "検索"
     },
     en: {
         // Header
@@ -650,6 +668,15 @@ const translations = {
         clickToUnpin: "💡 Click again to unpin",
         onYomiExamples: "On-yomi examples:",
         kunYomiExamples: "Kun-yomi examples:",
+        // Progress page
+        overallStats: "Overall Statistics",
+        totalLearningWords: "Total Learning Words:",
+        fullyLearnedWords: "Fully Learned Words:",
+        learningInProgressWords: "Words in Progress:",
+        languageStats: "Language Statistics",
+        recentLearningActivity: "Recent Learning Activity",
+        noRecentActivity: "No recent activity.",
+        searched: "searched",
         loginRequired: "Login required.",
         selectCertificationPrompt: "Please select a target certification",
         noSearchResults: "No search results found.",
@@ -897,7 +924,16 @@ const translations = {
         clickToPin: "💡 点击固定",
         clickToUnpin: "💡 再次点击取消固定",
         onYomiExamples: "音读例子：",
-        kunYomiExamples: "训读例子："
+        kunYomiExamples: "训读例子：",
+        // 进度页面
+        overallStats: "整体统计",
+        totalLearningWords: "总学习单词：",
+        fullyLearnedWords: "完全学习的单词：",
+        learningInProgressWords: "学习中的单词：",
+        languageStats: "语言统计",
+        recentLearningActivity: "最近学习活动",
+        noRecentActivity: "最近没有活动。",
+        searched: "搜索"
     }
 };
 
@@ -1063,6 +1099,14 @@ function updateAllTexts() {
     if (searchWordInput) searchWordInput.placeholder = t('searchWord');
     if (refreshVocabBtn) refreshVocabBtn.textContent = t('refresh');
     
+    // 단어장 통계 라벨
+    const vocabTotalWordCountLabel = document.getElementById('vocabTotalWordCountLabel');
+    const vocabLearnedWordCountLabel = document.getElementById('vocabLearnedWordCountLabel');
+    const vocabLearningRateLabel = document.getElementById('vocabLearningRateLabel');
+    if (vocabTotalWordCountLabel) vocabTotalWordCountLabel.textContent = t('totalWordCount');
+    if (vocabLearnedWordCountLabel) vocabLearnedWordCountLabel.textContent = t('learnedWordCount');
+    if (vocabLearningRateLabel) vocabLearningRateLabel.textContent = t('learningRate');
+    
     // 사전 페이지
     const dictPageHeader = document.querySelector('#dictionary-page .page-header h2');
     const dictSearchInput = document.getElementById('dictSearchInput');
@@ -1111,11 +1155,35 @@ function updateAllTexts() {
     if (testResultH3) testResultH3.textContent = t('testResult');
     if (retryTestBtn) retryTestBtn.textContent = t('retryTest');
     
+    // 레벨테스트 언어 선택 드롭다운
+    const levelTestLanguageSelect = document.getElementById('levelTestLanguage');
+    const levelTestLanguageLabel = document.querySelector('label[for="levelTestLanguage"]');
+    if (levelTestLanguageLabel) levelTestLanguageLabel.textContent = t('testLanguage') + ':';
+    if (levelTestLanguageSelect) {
+        Array.from(levelTestLanguageSelect.options).forEach(option => {
+            const value = option.value;
+            if (value === 'ja') option.textContent = '🇯🇵 ' + t('japanese');
+            else if (value === 'en') option.textContent = '🇺🇸 ' + t('english');
+            else if (value === 'zh') option.textContent = '🇨🇳 ' + t('chinese');
+            else if (value === 'ko') option.textContent = '🇰🇷 ' + t('korean');
+        });
+    }
+    
     // 진행상황 페이지
     const progressPageHeader = document.querySelector('#progress-page .page-header h2');
-    const overallStatsH3 = document.querySelector('#progress-page .progress-card h3');
+    const progressOverallStats = document.getElementById('progressOverallStats');
+    const progressTotalLearningWordsLabel = document.getElementById('progressTotalLearningWordsLabel');
+    const progressFullyLearnedWordsLabel = document.getElementById('progressFullyLearnedWordsLabel');
+    const progressLearningInProgressWordsLabel = document.getElementById('progressLearningInProgressWordsLabel');
+    const progressLanguageStats = document.getElementById('progressLanguageStats');
+    const progressRecentActivity = document.getElementById('progressRecentActivity');
     if (progressPageHeader) progressPageHeader.textContent = t('learningProgress');
-    if (overallStatsH3) overallStatsH3.textContent = t('overallStats');
+    if (progressOverallStats) progressOverallStats.textContent = t('overallStats');
+    if (progressTotalLearningWordsLabel) progressTotalLearningWordsLabel.textContent = t('totalLearningWords');
+    if (progressFullyLearnedWordsLabel) progressFullyLearnedWordsLabel.textContent = t('fullyLearnedWords');
+    if (progressLearningInProgressWordsLabel) progressLearningInProgressWordsLabel.textContent = t('learningInProgressWords');
+    if (progressLanguageStats) progressLanguageStats.textContent = t('languageStats');
+    if (progressRecentActivity) progressRecentActivity.textContent = t('recentLearningActivity');
     
     // 로그인 모달
     const loginModalTitle = document.querySelector('#loginModal .modal-header h3');
