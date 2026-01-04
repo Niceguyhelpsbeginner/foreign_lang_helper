@@ -37,12 +37,12 @@ jobs:
       - name: Build project
         run: npm run build
 
-      # 5. GitHub Pages로 배포 (루트 디렉토리의 정적 파일 배포)
+      # 5. GitHub Pages로 배포 (루트 디렉토리 배포, 불필요한 파일 제외)
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./  # 루트 디렉토리 배포
+          publish_dir: ./
           keep_files: false
           exclude_assets: |
             node_modules
@@ -55,9 +55,23 @@ jobs:
             *.bat
             *.ps1
             test
-            jlpt/jlptN3
-            jlpt/jlptN4
-            jlpt/jlptN5
+            migrate_data.js
+            check_supabase_data.js
+            check_translations.js
+            add_translations_to_toeic.js
+            add_reverse_direction_data.js
+            migrate_to_language_pairs.js
+            generate_pdf.js
+            generate_pdf_puppeteer.js
+            server-example.js
+            supabase_config.js.example
+            google_vision_config.js
+            gemini_config.js
+            pdf-config.json
+            pdf-style.css
+            setup-git.ps1
+            start-server.bat
+            start-server.ps1
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
 
