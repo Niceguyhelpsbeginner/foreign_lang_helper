@@ -6,18 +6,26 @@ on:
     branches:
       - main
 
+# GitHub Pages에 쓰기 권한 부여
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. 레포지토리 체크아웃
+      # 1. 레포지토리 체크아웃 (fetch-depth: 0으로 전체 히스토리 가져오기)
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       # 2. Node.js 설치
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
 
@@ -35,5 +43,18 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./  # 루트 디렉토리 배포
-          exclude_assets: 'node_modules,dist,.git'
+          exclude_assets: |
+            node_modules
+            dist
+            .git
+            .github
+            *.md
+            *.sql
+            *.js.example
+            *.bat
+            *.ps1
+            test
+            jlpt/jlptN3
+            jlpt/jlptN4
+            jlpt/jlptN5
 
