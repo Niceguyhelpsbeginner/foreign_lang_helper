@@ -583,11 +583,12 @@ async function loadDictionary() {
             return;
         }
 
-        // 데이터 구조 변환 (단일 한자만 사용)
+        // 데이터 구조 변환
         const singleCharactersList = (japaneseWords || []).filter(w => w.type === 'kanji');
+        const compoundWordsList = (japaneseWords || []).filter(w => w.type === 'word' && w.kanji_components && w.kanji_components.length > 1);
 
-        // 합성어는 사용하지 않음 (단일 한자만 사용)
-        AppState.compoundWords = { words: [] };
+        // 합성어와 단일 한자 모두 사용
+        AppState.compoundWords = { words: compoundWordsList };
         AppState.singleCharacters = { words: singleCharactersList };
         AppState.toeicDictionary = { words: englishWords || [] };
         AppState.topikDictionary = { words: koreanWords || [] };
@@ -611,9 +612,6 @@ async function loadDictionary() {
 // JSON 파일에서 사전 로드 (폴백)
 async function loadDictionaryFromJSON() {
     try {
-        // 합성어는 사용하지 않음 (단일 한자만 사용)
-        AppState.compoundWords = { words: [] };
-        
         // 일본어 단일 한자 사전 로드 (상용한자 2136자)
         const singleResponse = await fetch('jlpt/vocabulary/single_character.json');
         if (singleResponse.ok) {
@@ -622,6 +620,16 @@ async function loadDictionaryFromJSON() {
         } else {
             console.warn('단일 한자 사전 파일을 찾을 수 없습니다.');
             AppState.singleCharacters = { words: [] };
+        }
+        
+        // 합성어 사전 로드
+        const compoundResponse = await fetch('jlpt/vocabulary/compound_word.json');
+        if (compoundResponse.ok) {
+            const compoundData = await compoundResponse.json();
+            AppState.compoundWords = compoundData;
+        } else {
+            console.warn('합성어 사전 파일을 찾을 수 없습니다.');
+            AppState.compoundWords = { words: [] };
         }
         
         // TOEIC 사전 로드
@@ -1148,8 +1156,6 @@ function showWordDetail(word, lang) {
 
 // 한자 호버 기능 - 본문의 모든 한자를 hoverable로 만들기
 function addKanjiHover(container) {
-
-    let paragraph = ""
     // 컨테이너가 없으면 종료
     if (!container) {
         console.warn('컨테이너가 없습니다.');
@@ -1164,9 +1170,18 @@ function addKanjiHover(container) {
     }
     
     // 이미 처리된 경우 건너뛰기 (중복 호출 방지)
+    // 단, innerHTML이 변경된 경우에는 다시 처리할 수 있도록 허용
     if (textBody.dataset && textBody.dataset.kanjiProcessed === 'true') {
-        console.log('이미 처리된 본문입니다. (중복 호출 방지)');
-        return;
+        // 이미 처리된 노드가 있는지 확인
+        const hasProcessedNodes = textBody.querySelector('.kanji-word-hoverable, .kanji-compound-hoverable');
+        if (hasProcessedNodes) {
+            console.log('이미 처리된 본문입니다. (중복 호출 방지)');
+            return;
+        } else {
+            // 처리된 노드가 없으면 처리 상태를 초기화하고 다시 처리
+            console.log('처리 상태가 true이지만 처리된 노드가 없습니다. 다시 처리합니다.');
+            textBody.dataset.kanjiProcessed = 'false';
+        }
     }
     
     // 처리 시작 표시
@@ -1174,6 +1189,23 @@ function addKanjiHover(container) {
     
     console.log('=== addKanjiHover 호출됨 ===');
     console.log('text-body 내용:', textBody.innerHTML.substring(0, 100));
+    
+    // 합성어 데이터 맵 생성 (빠른 검색을 위해, 길이순으로 정렬하여 긴 단어를 먼저 매칭)
+    const compoundWordsList = [];
+    if (AppState.compoundWords?.words) {
+        AppState.compoundWords.words.forEach(wordData => {
+            if (wordData.word && (wordData.kanjiComponents || wordData.kanji_components) && 
+                (wordData.kanjiComponents?.length > 1 || wordData.kanji_components?.length > 1)) {
+                compoundWordsList.push(wordData);
+            }
+        });
+    }
+    // 길이순으로 정렬 (긴 단어를 먼저)
+    compoundWordsList.sort((a, b) => (b.word?.length || 0) - (a.word?.length || 0));
+    const compoundWordMap = new Map();
+    compoundWordsList.forEach(wordData => {
+        compoundWordMap.set(wordData.word, wordData);
+    });
     
     // 한자 데이터 맵 생성 (빠른 검색을 위해)
     const kanjiMap = new Map();
@@ -1183,7 +1215,7 @@ function addKanjiHover(container) {
         });
     }
     
-    if (kanjiMap.size === 0) {
+    if (kanjiMap.size === 0 && compoundWordMap.size === 0) {
         console.warn('한자 데이터가 없습니다.');
         return;
     }
@@ -1200,7 +1232,7 @@ function addKanjiHover(container) {
     // 1개의 p태그 찾아냄.
     paragraphs.forEach((p, pIndex) => {
         // 이미 한자 hoverable이 있는 경우 건너뛰기 (중복 처리 방지)
-        if (p.querySelector('.kanji-word-hoverable')) {
+        if (p.querySelector('.kanji-word-hoverable') || p.querySelector('.kanji-compound-hoverable')) {
             console.log(`[<p> 태그 ${pIndex + 1}] 이미 처리된 태그입니다.`);
             return;
         }
@@ -1221,10 +1253,13 @@ function addKanjiHover(container) {
             NodeFilter.SHOW_TEXT,
             {
                 acceptNode: function(node) {
-                    // 부모가 이미 hoverable인 경우 건너뛰기
+                    // 부모가 이미 hoverable인 경우 건너뛰기 (합성어 또는 단일 한자)
                     let parent = node.parentNode;
                     while (parent && parent !== p) {
-                        if (parent.classList && parent.classList.contains('kanji-word-hoverable')) {
+                        if (parent.classList && (
+                            parent.classList.contains('kanji-word-hoverable') || 
+                            parent.classList.contains('kanji-compound-hoverable')
+                        )) {
                             return NodeFilter.FILTER_REJECT;
                         }
                         parent = parent.parentNode;
@@ -1246,79 +1281,189 @@ function addKanjiHover(container) {
         
         console.log(`[<p> 태그 ${pIndex + 1}] ${textNodes.length}개의 텍스트 노드를 찾았습니다.`);
         
-        // 각 텍스트 노드를 처리 (뒤에서부터)
-        textNodes.reverse().forEach(({ node: textNode, text }) => {
+        // 각 텍스트 노드를 처리 (앞에서부터 순서대로)
+        textNodes.forEach(({ node: textNode, text }, textNodeIndex) => {
             if (!textNode.parentNode) return;
             
+            console.log(`\n[텍스트 노드 ${textNodeIndex + 1}/${textNodes.length}] 처리 시작`);
+            console.log('원본 텍스트 노드 내용:', text.substring(0, 100) + (text.length > 100 ? '...' : ''));
+            console.log('원본 텍스트 노드 길이:', text.length);
+            
+            const fragment = document.createDocumentFragment();
+            let lastIndex = 0;
+            let processedIndices = new Set(); // 이미 처리된 인덱스 추적
+            
+            // 1단계: 합성어 먼저 찾기 (긴 단어부터)
+            const compoundMatches = [];
+            for (const [compoundWord, compoundData] of compoundWordMap.entries()) {
+                let searchIndex = 0;
+                while (true) {
+                    const index = text.indexOf(compoundWord, searchIndex);
+                    if (index === -1) break;
+                    
+                    // 이미 처리된 범위인지 확인
+                    let isOverlapping = false;
+                    for (let i = index; i < index + compoundWord.length; i++) {
+                        if (processedIndices.has(i)) {
+                            isOverlapping = true;
+                            break;
+                        }
+                    }
+                    
+                    if (!isOverlapping) {
+                        compoundMatches.push({
+                            word: compoundWord,
+                            index: index,
+                            data: compoundData,
+                            length: compoundWord.length
+                        });
+                        
+                        // 처리된 인덱스 표시
+                        for (let i = index; i < index + compoundWord.length; i++) {
+                            processedIndices.add(i);
+                        }
+                    }
+                    
+                    searchIndex = index + 1;
+                }
+            }
+            
+            // 합성어를 인덱스 순으로 정렬 (앞에서부터)
+            compoundMatches.sort((a, b) => a.index - b.index);
+            
+            console.log(`[텍스트 노드 ${textNodeIndex + 1}] 합성어 매칭: ${compoundMatches.length}개`);
+            if (compoundMatches.length > 0) {
+                console.log('합성어 매칭 목록:', compoundMatches.map(m => `${m.word}(${m.index})`).join(', '));
+            }
+            
+            // 2단계: 단일 한자 찾기 (합성어에 포함되지 않은 것만)
             const kanjiRegex = /[\u4E00-\u9FAF\u3400-\u4DBF]/g;
-            const matches = [];
+            const singleKanjiMatches = [];
             let match;
             
-            // 모든 한자 위치 찾기
             while ((match = kanjiRegex.exec(text)) !== null) {
                 const kanji = match[0];
                 const index = match.index;
                 
-                // 한자 데이터가 있는 경우만 처리
-                if (kanjiMap.has(kanji)) {
-                    matches.push({
+                // 이미 처리된 인덱스인지 확인
+                if (!processedIndices.has(index) && kanjiMap.has(kanji)) {
+                    singleKanjiMatches.push({
                         kanji: kanji,
                         index: index,
                         data: kanjiMap.get(kanji)
                     });
+                    processedIndices.add(index);
                 }
             }
             
-            // 한자가 있으면 span으로 감싸기 (class만 추가)
-            if (matches.length > 0) {
-                if (!textNode.parentNode) return;
-                
-                const fragment = document.createDocumentFragment();
-                let lastIndex = 0;
-                
-                // 뒤에서부터 처리
-                matches.reverse().forEach(({ kanji, index, data }) => {
-                    // 한자 앞의 텍스트 추가
-                    if (index > lastIndex) {
-                        fragment.appendChild(document.createTextNode(text.substring(lastIndex, index)));
+            // 단일 한자를 앞에서부터 정렬
+            singleKanjiMatches.sort((a, b) => a.index - b.index);
+            
+            console.log(`[텍스트 노드 ${textNodeIndex + 1}] 단일 한자 매칭: ${singleKanjiMatches.length}개`);
+            if (singleKanjiMatches.length > 0) {
+                console.log('단일 한자 매칭 목록:', singleKanjiMatches.map(m => `${m.kanji}(${m.index})`).join(', '));
+            }
+            
+            // 모든 매칭을 합치고 인덱스 순으로 정렬 (앞에서부터)
+            const allMatches = [...compoundMatches, ...singleKanjiMatches].sort((a, b) => a.index - b.index);
+            
+            console.log(`[텍스트 노드 ${textNodeIndex + 1}] 전체 매칭: ${allMatches.length}개`);
+            
+            // 앞에서부터 순서대로 처리
+            allMatches.forEach((match, matchIndex) => {
+                // 매칭 앞의 텍스트 추가
+                if (match.index > lastIndex) {
+                    const beforeText = text.substring(lastIndex, match.index);
+                    if (beforeText) {
+                        fragment.appendChild(document.createTextNode(beforeText));
+                        console.log(`[텍스트 노드 ${textNodeIndex + 1}] 매칭 ${matchIndex + 1} 앞 텍스트 추가: "${beforeText.substring(0, 50)}"`);
                     }
-                    
-                    // 한자를 span으로 감싸기 (class만 추가)
+                }
+                
+                // 합성어인 경우
+                if (match.word) {
                     const span = document.createElement('span');
-                    span.className = 'kanji-word-hoverable';
-                    span.textContent = kanji;
-                    span.setAttribute('data-word', kanji);
-                    span.setAttribute('data-meaning', data.meaning || '');
-                    span.setAttribute('data-reading', data.hiragana || data.pronunciation || '');
-                    span.setAttribute('data-on-yomi', JSON.stringify(data.onYomi || []));
-                    span.setAttribute('data-kun-yomi', JSON.stringify(data.kunYomi || []));
-                    span.setAttribute('data-explanation', data.explanation || '');
-                    span.setAttribute('data-jlpt-level', data.jlptLevel || '');
-                    span.setAttribute('data-on-yomi-words', JSON.stringify(data.onYomiWords || []));
-                    span.setAttribute('data-kun-yomi-words', JSON.stringify(data.kunYomiWords || []));
+                    span.className = 'kanji-compound-hoverable';
+                    span.textContent = match.word;
+                    span.setAttribute('data-word', match.word);
+                    span.setAttribute('data-meaning', match.data.meaning || '');
+                    span.setAttribute('data-reading', match.data.hiragana || match.data.pronunciation || '');
+                    span.setAttribute('data-kanji-components', JSON.stringify(match.data.kanjiComponents || match.data.kanji_components || []));
+                    span.setAttribute('data-is-compound', 'true');
                     
                     fragment.appendChild(span);
-                    lastIndex = index + 1;
-                });
-                
-                // 마지막 한자 뒤의 텍스트 추가
-                if (lastIndex < text.length) {
-                    fragment.appendChild(document.createTextNode(text.substring(lastIndex)));
+                    lastIndex = match.index + match.length;
+                    console.log(`[텍스트 노드 ${textNodeIndex + 1}] 합성어 span 추가: "${match.word}" (인덱스 ${match.index}-${match.index + match.length})`);
+                } 
+                // 단일 한자인 경우
+                else if (match.kanji) {
+                    const span = document.createElement('span');
+                    span.className = 'kanji-word-hoverable';
+                    span.textContent = match.kanji;
+                    span.setAttribute('data-word', match.kanji);
+                    span.setAttribute('data-meaning', match.data.meaning || '');
+                    span.setAttribute('data-reading', match.data.hiragana || match.data.pronunciation || '');
+                    span.setAttribute('data-on-yomi', JSON.stringify(match.data.onYomi || []));
+                    span.setAttribute('data-kun-yomi', JSON.stringify(match.data.kunYomi || []));
+                    span.setAttribute('data-explanation', match.data.explanation || '');
+                    span.setAttribute('data-jlpt-level', match.data.jlptLevel || '');
+                    span.setAttribute('data-on-yomi-words', JSON.stringify(match.data.onYomiWords || []));
+                    span.setAttribute('data-kun-yomi-words', JSON.stringify(match.data.kunYomiWords || []));
+                    span.setAttribute('data-is-compound', 'false');
+                    
+                    fragment.appendChild(span);
+                    lastIndex = match.index + 1;
+                    console.log(`[텍스트 노드 ${textNodeIndex + 1}] 단일 한자 span 추가: "${match.kanji}" (인덱스 ${match.index})`);
                 }
-                
-                // 원본 텍스트 노드를 fragment로 교체
-                if (textNode.parentNode) {
-                    try {
-                        textNode.parentNode.replaceChild(fragment, textNode);
-                        console.log("반복문속의 텍스트노드",textNode.textContent)
-                        paragraph += textNode.textContent
-                    } catch (e) {
-                        console.error('텍스트 노드 교체 오류:', e);
-                    }
+            });
+            
+            // 매칭이 없는 경우 원본 텍스트 노드를 그대로 유지 (교체하지 않음)
+            if (compoundMatches.length === 0 && singleKanjiMatches.length === 0) {
+                console.log(`[텍스트 노드 ${textNodeIndex + 1}] 매칭 없음, 원본 유지`);
+                return;
+            }
+            
+            // 마지막 매칭 뒤의 텍스트 추가
+            if (lastIndex < text.length) {
+                const afterText = text.substring(lastIndex);
+                if (afterText) {
+                    fragment.appendChild(document.createTextNode(afterText));
+                    console.log(`[텍스트 노드 ${textNodeIndex + 1}] 마지막 매칭 뒤 텍스트 추가: "${afterText.substring(0, 50)}"`);
                 }
             }
+            
+            // fragment 내용 확인
+            const fragmentClone = fragment.cloneNode(true);
+            const tempDiv = document.createElement('div');
+            tempDiv.appendChild(fragmentClone);
+            console.log(`[텍스트 노드 ${textNodeIndex + 1}] fragment 내용:`, tempDiv.innerHTML.substring(0, 300) + '...');
+            console.log(`[텍스트 노드 ${textNodeIndex + 1}] fragment 텍스트:`, tempDiv.textContent.substring(0, 200) + '...');
+            
+            // 원본 텍스트 노드를 fragment로 교체
+            // textNode가 여전히 DOM에 연결되어 있는지 확인
+            if (textNode.parentNode && textNode.parentNode.contains(textNode)) {
+                try {
+                    const parentNode = textNode.parentNode; // 교체 전 부모 노드 저장
+                    console.log(`[텍스트 노드 ${textNodeIndex + 1}] 교체 전 원본 텍스트:`, textNode.textContent.substring(0, 100));
+                    console.log(`[텍스트 노드 ${textNodeIndex + 1}] 교체 전 부모 innerHTML:`, parentNode.innerHTML.substring(0, 300));
+                    
+                    // 원본 텍스트 노드를 fragment로 교체 (원본은 자동으로 제거됨)
+                    // replaceChild는 첫 번째 자식 노드를 반환하므로 이를 저장
+                    const firstReplacedNode = parentNode.replaceChild(fragment, textNode);
+                    
+                    console.log(`[텍스트 노드 ${textNodeIndex + 1}] 교체 완료`);
+                    // 교체 후에는 parentNode를 사용 (textNode.parentNode는 null이 됨)
+                    console.log(`[텍스트 노드 ${textNodeIndex + 1}] 교체 후 부모 innerHTML:`, parentNode.innerHTML.substring(0, 500) + '...');
+                } catch (e) {
+                    console.error(`[텍스트 노드 ${textNodeIndex + 1}] 텍스트 노드 교체 오류:`, e);
+                    console.error('textNode:', textNode);
+                    console.error('textNode.parentNode:', textNode.parentNode);
+                }
+            } else {
+                // 이미 제거된 노드이거나 부모가 없는 경우
+                console.warn(`[텍스트 노드 ${textNodeIndex + 1}] 텍스트 노드가 이미 제거되었거나 부모가 없습니다.`);
+            }
         });
-        textNode.textContent = paragraph
         // 찾은 한자들을 콘솔에 출력
         const foundKanji = [];
         p.querySelectorAll('.kanji-word-hoverable').forEach(span => {
@@ -1330,224 +1475,273 @@ function addKanjiHover(container) {
     });
     
     // 이벤트 연결
-    attachKanjiHoverEvents(textBody);
+    attachSingleKanjiHoverEvents(textBody);
+    attachCompoundWordHoverEvents(textBody);
     
     console.log('=== 한자 호버 처리 완료 (툴팁 기능 활성화) ===');
+    console.log('최종 textBody.innerHTML:', textBody.innerHTML.substring(0, 1000) + '...');
+    console.log('최종 textBody.textContent:', textBody.textContent.substring(0, 500) + '...');
 }
 
-// 한자 호버 이벤트 연결 (툴팁 표시)
-function attachKanjiHoverEvents(container) {
-    const kanjiSpans = container.querySelectorAll('.kanji-word-hoverable');
-    console.log(`한자 호버 이벤트 연결: ${kanjiSpans.length}개의 한자를 찾았습니다.`);
+// 합성어 호버 이벤트 연결 (tippy.js 사용)
+async function attachCompoundWordHoverEvents(container) {
+    const compoundSpans = container.querySelectorAll('.kanji-compound-hoverable');
+    console.log(`합성어 호버 이벤트 연결: ${compoundSpans.length}개의 합성어를 찾았습니다.`);
     
-    kanjiSpans.forEach(span => {
+    if (typeof tippy === 'undefined') {
+        console.warn('tippy.js가 로드되지 않았습니다. 합성어 툴팁을 사용할 수 없습니다.');
+        return;
+    }
+    
+    compoundSpans.forEach(async (span) => {
         // 이미 이벤트가 연결된 경우 건너뛰기
-        if (span.dataset.eventsAttached === 'true') {
+        if (span.dataset.tippyAttached === 'true') {
             return;
         }
         
-        // 호버 이벤트 추가
-        span.addEventListener('mouseenter', showWordKanjiTooltip);
-        span.addEventListener('mouseleave', (e) => {
-            if (span.dataset.clicking === 'true') {
-                return;
-            }
-            hideWordKanjiTooltip();
-        });
+        const compoundWord = span.getAttribute('data-word');
+        let meaning = span.getAttribute('data-meaning');
+        const reading = span.getAttribute('data-reading') || '';
+        const kanjiComponents = JSON.parse(span.getAttribute('data-kanji-components') || '[]');
         
-        span.addEventListener('mousedown', (e) => {
-            span.dataset.clicking = 'true';
-        });
+        // 텍스트 언어는 일본어
+        const textLanguage = 'ja';
         
-        span.addEventListener('click', (e) => {
-            e.stopPropagation();
-            setTimeout(() => {
-                span.dataset.clicking = 'false';
-            }, 100);
-            
-            let tooltip = document.querySelector('.word-kanji-tooltip:not(.pinned)');
-            const wordText = span.getAttribute('data-word');
-            
-            if (!tooltip || tooltip.getAttribute('data-word') !== wordText) {
-                const fakeEvent = { target: span };
-                showWordKanjiTooltip(fakeEvent);
-                tooltip = document.querySelector('.word-kanji-tooltip:not(.pinned)');
+        // 사용자가 선택한 언어 가져오기
+        const userLanguage = getCurrentUserLanguage();
+        
+        // 언어 쌍별 테이블에서 뜻 가져오기 (사용자 언어가 일본어가 아닌 경우)
+        if (userLanguage !== 'ja') {
+            const result = await getWordMeaningFromLanguagePair(compoundWord, textLanguage, userLanguage);
+            if (result && result.meaning) {
+                meaning = result.meaning;
             }
+        }
+        
+        // 각 한자의 뜻 가져오기
+        const kanjiMeanings = [];
+        for (const kanji of kanjiComponents) {
+            let kanjiMeaning = '';
+            const kanjiData = AppState.singleCharacters?.words?.find(w => w.word === kanji);
             
-            if (tooltip && tooltip.getAttribute('data-word') === wordText) {
-                tooltip.classList.add('pinned');
-                const hint = tooltip.querySelector('.tooltip-hint');
-                if (hint) {
-                    hint.textContent = typeof t === 'function' ? t('clickToUnpin') : '💡 다시 클릭하여 고정 해제';
-                }
-            } else {
-                const pinnedTooltip = document.querySelector('.word-kanji-tooltip.pinned');
-                if (pinnedTooltip && pinnedTooltip.getAttribute('data-word') === wordText) {
-                    pinnedTooltip.classList.remove('pinned');
-                    const hint = pinnedTooltip.querySelector('.tooltip-hint');
-                    if (hint) {
-                        hint.textContent = typeof t === 'function' ? t('clickToPin') : '💡 클릭하여 고정';
+            if (kanjiData) {
+                kanjiMeaning = kanjiData.meaning || '';
+                
+                // 언어 쌍별 테이블에서 뜻 가져오기
+                if (userLanguage !== 'ja') {
+                    const result = await getWordMeaningFromLanguagePair(kanji, textLanguage, userLanguage);
+                    if (result && result.meaning) {
+                        kanjiMeaning = result.meaning;
                     }
-                    hideWordKanjiTooltip();
                 }
+            }
+            
+            kanjiMeanings.push({
+                kanji: kanji,
+                meaning: kanjiMeaning || '의미 없음'
+            });
+        }
+        
+        // 첫 번째 툴팁 내용 구성 (합성어 전체의 뜻)
+        let firstTooltipContent = `<div style="font-size: 1.2rem; font-weight: bold; margin-bottom: 0.5rem;">${compoundWord}</div>`;
+        
+        if (meaning) {
+            firstTooltipContent += `<div style="font-size: 1rem; margin-bottom: 0.5rem; color: #4CAF50;">${meaning}</div>`;
+        }
+        
+        if (reading) {
+            firstTooltipContent += `<div style="font-size: 0.9rem; margin-bottom: 0.5rem; color: rgba(255,255,255,0.9);">읽기: ${reading}</div>`;
+        }
+        
+        // 각 한자에 대한 클릭 가능한 영역 추가
+        firstTooltipContent += `<div style="margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid rgba(255,255,255,0.2);">`;
+        firstTooltipContent += `<div style="font-size: 0.85rem; color: rgba(255,255,255,0.8); margin-bottom: 0.5rem;">각 한자의 뜻:</div>`;
+        
+        kanjiMeanings.forEach((item, index) => {
+            firstTooltipContent += `<span class="inner-kanji-target" data-kanji="${item.kanji}" data-meaning="${item.meaning}" style="display: inline-block; margin: 0.2rem; padding: 0.3rem 0.5rem; background: rgba(255,255,255,0.1); border-radius: 4px; cursor: pointer; transition: background 0.2s;">${item.kanji}</span>`;
+        });
+        
+        firstTooltipContent += `</div>`;
+        
+        // tippy.js로 첫 번째 툴팁 생성
+        tippy(span, {
+            content: firstTooltipContent,
+            allowHTML: true,
+            interactive: true,
+            placement: 'top',
+            theme: 'light-border',
+            maxWidth: 350,
+            
+            // 툴팁이 생성되어 DOM에 나타날 때 실행되는 콜백
+            onShown(instance) {
+                // 툴팁 내부에 생긴 '.inner-kanji-target'을 찾아 두 번째 툴팁을 바인딩
+                const innerTargets = instance.popper.querySelectorAll('.inner-kanji-target');
+                
+                innerTargets.forEach(innerTarget => {
+                    if (!innerTarget._tippy) {
+                        const kanji = innerTarget.getAttribute('data-kanji');
+                        const kanjiMeaning = innerTarget.getAttribute('data-meaning');
+                        
+                        // 두 번째 툴팁 내용 (각 한자의 뜻)
+                        const secondTooltipContent = `
+                            <div style="font-size: 1.1rem; font-weight: bold; margin-bottom: 0.3rem;">${kanji}</div>
+                            <div style="font-size: 0.95rem; color: #4CAF50;">${kanjiMeaning}</div>
+                        `;
+                        
+                        tippy(innerTarget, {
+                            content: secondTooltipContent,
+                            allowHTML: true,
+                            placement: 'right',
+                            theme: 'light-border',
+                            maxWidth: 250,
+                        });
+                    }
+                });
+            },
+            
+            // 툴팁이 숨겨질 때 두 번째 툴팁 인스턴스 정리
+            onHidden(instance) {
+                const innerTargets = instance.popper.querySelectorAll('.inner-kanji-target');
+                innerTargets.forEach(innerTarget => {
+                    if (innerTarget._tippy) {
+                        innerTarget._tippy.destroy();
+                        innerTarget._tippy = null;
+                    }
+                });
             }
         });
         
         // 이벤트 연결 완료 표시
-        span.dataset.eventsAttached = 'true';
+        span.dataset.tippyAttached = 'true';
     });
 }
 
-// 단어 tooltip 표시 (비동기 - 언어 쌍별 테이블 사용)
-async function showWordKanjiTooltip(e) {
-    const el = e.target;
+// 단일 한자 호버 이벤트 연결 (tippy.js 사용)
+async function attachSingleKanjiHoverEvents(container) {
+    const kanjiSpans = container.querySelectorAll('.kanji-word-hoverable');
+    console.log(`단일 한자 호버 이벤트 연결: ${kanjiSpans.length}개의 한자를 찾았습니다.`);
     
-    // 이미 고정된 툴팁이 있는지 확인
-    const existingTooltip = document.querySelector('.word-kanji-tooltip.pinned');
-    if (existingTooltip && existingTooltip.getAttribute('data-word') === el.getAttribute('data-word')) {
-        return; // 이미 고정된 툴팁이 있으면 표시하지 않음
+    if (typeof tippy === 'undefined') {
+        console.warn('tippy.js가 로드되지 않았습니다. 단일 한자 툴팁을 사용할 수 없습니다.');
+        return;
     }
     
-    const word = el.getAttribute('data-word');
-    let meaning = el.getAttribute('data-meaning');
-    const reading = el.getAttribute('data-reading') || '';
-    const onYomi = JSON.parse(el.getAttribute('data-on-yomi') || '[]');
-    const kunYomi = JSON.parse(el.getAttribute('data-kun-yomi') || '[]');
-    const explanation = el.getAttribute('data-explanation') || '';
-    const jlptLevel = el.getAttribute('data-jlpt-level') || '';
-    const onYomiWords = JSON.parse(el.getAttribute('data-on-yomi-words') || '[]');
-    const kunYomiWords = JSON.parse(el.getAttribute('data-kun-yomi-words') || '[]');
-    
-    // 텍스트 언어는 일본어
-    const textLanguage = 'ja';
-    
-    // 사용자가 선택한 언어 가져오기
-    const userLanguage = getCurrentUserLanguage();
-    
-    // 언어 쌍별 테이블에서 뜻 가져오기 (사용자 언어가 일본어가 아닌 경우)
-    if (userLanguage !== 'ja') {
-        const result = await getWordMeaningFromLanguagePair(word, textLanguage, userLanguage);
-        if (result && result.meaning) {
-            meaning = result.meaning;
+    kanjiSpans.forEach(async (span) => {
+        // 이미 이벤트가 연결된 경우 건너뛰기
+        if (span.dataset.tippyAttached === 'true') {
+            return;
         }
-    }
-    
-    // 한자 데이터에서 추가 정보 가져오기
-    const kanjiData = AppState.singleCharacters?.words?.find(w => w.word === word);
-    const fullOnYomi = kanjiData?.onYomi || onYomi;
-    const fullKunYomi = kanjiData?.kunYomi || kunYomi;
-    const fullExplanation = kanjiData?.explanation || explanation;
-    const fullJlptLevel = kanjiData?.jlptLevel || jlptLevel;
-    const fullOnYomiWords = kanjiData?.onYomiWords || onYomiWords;
-    const fullKunYomiWords = kanjiData?.kunYomiWords || kunYomiWords;
-    
-    // 고정되지 않은 툴팁만 제거
-    const unpinnedTooltip = document.querySelector('.word-kanji-tooltip:not(.pinned)');
-    if (unpinnedTooltip) {
-        unpinnedTooltip.remove();
-    }
-    
-    const tooltip = document.createElement('div');
-    tooltip.className = 'word-kanji-tooltip';
-    tooltip.setAttribute('data-word', word);
-    tooltip.setAttribute('data-element-id', el.getAttribute('data-element-id') || Date.now().toString());
-    
-    // 툴팁 내용 구성
-    let content = `<div class="tooltip-word" style="font-size: 1.5rem; font-weight: bold; margin-bottom: 0.5rem;">${word}</div>`;
-    
-    if (meaning) {
-        content += `<div class="tooltip-meaning" style="font-size: 1.1rem; margin-bottom: 0.5rem; color: #4CAF50;">${meaning}</div>`;
-    }
-    
-    if (fullJlptLevel) {
-        content += `<div class="tooltip-jlpt" style="display: inline-block; padding: 0.2rem 0.5rem; background: rgba(76, 175, 80, 0.2); border-radius: 4px; font-size: 0.85rem; margin-bottom: 0.5rem;">JLPT ${fullJlptLevel}</div>`;
-    }
-    
-    if (reading) {
-        const readingLabelText = typeof t === 'function' ? t('readingLabel') : '읽기:';
-        content += `<div class="tooltip-reading" style="margin-bottom: 0.5rem; color: rgba(255,255,255,0.9);">${readingLabelText} ${reading}</div>`;
-    }
-    
-    if (fullOnYomi.length > 0) {
-        const onYomiLabelText = typeof t === 'function' ? t('onYomiLabel') : '음독 (音読み):';
-        content += `<div class="tooltip-on-yomi" style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.2);">
-            <div style="font-size: 0.9rem; color: rgba(255,255,255,0.8); margin-bottom: 0.3rem;">${onYomiLabelText}</div>
-            <div style="font-size: 1rem; color: #FFC107;">${fullOnYomi.join(', ')}</div>
-        </div>`;
-    }
-    
-    if (fullKunYomi.length > 0) {
-        const kunYomiLabelText = typeof t === 'function' ? t('kunYomiLabel') : '훈독 (訓読み):';
-        content += `<div class="tooltip-kun-yomi" style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.2);">
-            <div style="font-size: 0.9rem; color: rgba(255,255,255,0.8); margin-bottom: 0.3rem;">${kunYomiLabelText}</div>
-            <div style="font-size: 1rem; color: #2196F3;">${fullKunYomi.join(', ')}</div>
-        </div>`;
-    }
-    
-    if (fullExplanation) {
-        content += `<div class="tooltip-explanation" style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.2); font-size: 0.9rem; color: rgba(255,255,255,0.85); line-height: 1.5;">${fullExplanation}</div>`;
-    }
-    
-    if (fullOnYomiWords.length > 0) {
-        const examples = fullOnYomiWords.slice(0, 3).map(w => {
-            const kanji = w.kanji || '';
-            const reading = w.reading || '';
-            return `${kanji}(${reading})`;
-        }).join(', ');
-        const onYomiExamplesLabel = typeof t === 'function' ? t('onYomiExamples') : '음독 예시:';
-        content += `<div class="tooltip-on-yomi-examples" style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.2); font-size: 0.85rem; color: rgba(255,255,255,0.7);">
-            <div style="margin-bottom: 0.3rem;">${onYomiExamplesLabel}</div>
-            <div>${examples}</div>
-        </div>`;
-    }
-    
-    if (fullKunYomiWords.length > 0) {
-        const examples = fullKunYomiWords.slice(0, 3).map(w => {
-            const kanji = w.kanji || '';
-            const reading = w.reading || '';
-            return `${kanji}(${reading})`;
-        }).join(', ');
-        const kunYomiExamplesLabel = typeof t === 'function' ? t('kunYomiExamples') : '훈독 예시:';
-        content += `<div class="tooltip-kun-yomi-examples" style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid rgba(255,255,255,0.2); font-size: 0.85rem; color: rgba(255,255,255,0.7);">
-            <div style="margin-bottom: 0.3rem;">${kunYomiExamplesLabel}</div>
-            <div>${examples}</div>
-        </div>`;
-    }
-    
-    const pinHintText = typeof t === 'function' ? t('clickToPin') : '💡 클릭하여 고정';
-    content += `<div class="tooltip-hint" style="margin-top: 0.5rem; font-size: 0.8rem; color: rgba(255,255,255,0.7);">${pinHintText}</div>`;
-    
-    tooltip.innerHTML = content;
-    
-    document.body.appendChild(tooltip);
-    
-    const rect = el.getBoundingClientRect();
-    tooltip.style.left = rect.left + (rect.width / 2) - (tooltip.offsetWidth / 2) + 'px';
-    tooltip.style.top = rect.top - tooltip.offsetHeight - 8 + 'px';
-    
-    // 화면 밖으로 나가지 않도록 조정
-    const tooltipRect = tooltip.getBoundingClientRect();
-    if (tooltipRect.left < 10) {
-        tooltip.style.left = '10px';
-    }
-    if (tooltipRect.right > window.innerWidth - 10) {
-        tooltip.style.left = (window.innerWidth - tooltip.offsetWidth - 10) + 'px';
-    }
-    if (tooltipRect.top < 10) {
-        tooltip.style.top = rect.bottom + 8 + 'px';
-    }
-    
-    // 툴팁은 클릭해도 고정되지 않도록 (단어 클릭으로만 고정)
+        
+        const kanji = span.getAttribute('data-word');
+        let meaning = span.getAttribute('data-meaning');
+        const reading = span.getAttribute('data-reading') || '';
+        const onYomi = JSON.parse(span.getAttribute('data-on-yomi') || '[]');
+        const kunYomi = JSON.parse(span.getAttribute('data-kun-yomi') || '[]');
+        const explanation = span.getAttribute('data-explanation') || '';
+        const jlptLevel = span.getAttribute('data-jlpt-level') || '';
+        const onYomiWords = JSON.parse(span.getAttribute('data-on-yomi-words') || '[]');
+        const kunYomiWords = JSON.parse(span.getAttribute('data-kun-yomi-words') || '[]');
+        
+        // 텍스트 언어는 일본어
+        const textLanguage = 'ja';
+        
+        // 사용자가 선택한 언어 가져오기
+        const userLanguage = getCurrentUserLanguage();
+        
+        // 언어 쌍별 테이블에서 뜻 가져오기 (사용자 언어가 일본어가 아닌 경우)
+        if (userLanguage !== 'ja') {
+            const result = await getWordMeaningFromLanguagePair(kanji, textLanguage, userLanguage);
+            if (result && result.meaning) {
+                meaning = result.meaning;
+            }
+        }
+        
+        // 한자 데이터에서 추가 정보 가져오기
+        const kanjiData = AppState.singleCharacters?.words?.find(w => w.word === kanji);
+        const fullOnYomi = kanjiData?.onYomi || onYomi;
+        const fullKunYomi = kanjiData?.kunYomi || kunYomi;
+        const fullExplanation = kanjiData?.explanation || explanation;
+        const fullJlptLevel = kanjiData?.jlptLevel || jlptLevel;
+        const fullOnYomiWords = kanjiData?.onYomiWords || onYomiWords;
+        const fullKunYomiWords = kanjiData?.kunYomiWords || kunYomiWords;
+        
+        // 툴팁 내용 구성
+        let tooltipContent = `<div style="font-size: 1.5rem; font-weight: bold; margin-bottom: 0.5rem;">${kanji}</div>`;
+        
+        if (meaning) {
+            tooltipContent += `<div style="font-size: 1.1rem; margin-bottom: 0.5rem; color: #4CAF50;">${meaning}</div>`;
+        }
+        
+        if (fullJlptLevel) {
+            tooltipContent += `<div style="display: inline-block; padding: 0.2rem 0.5rem; background: rgba(76, 175, 80, 0.2); border-radius: 4px; font-size: 0.85rem; margin-bottom: 0.5rem;">JLPT ${fullJlptLevel}</div>`;
+        }
+        
+        if (reading) {
+            const readingLabelText = typeof t === 'function' ? t('readingLabel') : '읽기:';
+            tooltipContent += `<div style="margin-bottom: 0.5rem; color: rgba(0,0,0,0.8);">${readingLabelText} ${reading}</div>`;
+        }
+        
+        if (fullOnYomi.length > 0) {
+            const onYomiLabelText = typeof t === 'function' ? t('onYomiLabel') : '음독 (音読み):';
+            tooltipContent += `<div style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid rgba(0,0,0,0.1);">
+                <div style="font-size: 0.9rem; color: rgba(0,0,0,0.7); margin-bottom: 0.3rem;">${onYomiLabelText}</div>
+                <div style="font-size: 1rem; color: #FFC107;">${fullOnYomi.join(', ')}</div>
+            </div>`;
+        }
+        
+        if (fullKunYomi.length > 0) {
+            const kunYomiLabelText = typeof t === 'function' ? t('kunYomiLabel') : '훈독 (訓読み):';
+            tooltipContent += `<div style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid rgba(0,0,0,0.1);">
+                <div style="font-size: 0.9rem; color: rgba(0,0,0,0.7); margin-bottom: 0.3rem;">${kunYomiLabelText}</div>
+                <div style="font-size: 1rem; color: #2196F3;">${fullKunYomi.join(', ')}</div>
+            </div>`;
+        }
+        
+        if (fullExplanation) {
+            tooltipContent += `<div style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid rgba(0,0,0,0.1); font-size: 0.9rem; color: rgba(0,0,0,0.85); line-height: 1.5;">${fullExplanation}</div>`;
+        }
+        
+        if (fullOnYomiWords.length > 0) {
+            const examples = fullOnYomiWords.slice(0, 3).map(w => {
+                const kanji = w.kanji || '';
+                const reading = w.reading || '';
+                return `${kanji}(${reading})`;
+            }).join(', ');
+            const onYomiExamplesLabel = typeof t === 'function' ? t('onYomiExamples') : '음독 예시:';
+            tooltipContent += `<div style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid rgba(0,0,0,0.1); font-size: 0.85rem; color: rgba(0,0,0,0.7);">
+                <div style="margin-bottom: 0.3rem;">${onYomiExamplesLabel}</div>
+                <div>${examples}</div>
+            </div>`;
+        }
+        
+        if (fullKunYomiWords.length > 0) {
+            const examples = fullKunYomiWords.slice(0, 3).map(w => {
+                const kanji = w.kanji || '';
+                const reading = w.reading || '';
+                return `${kanji}(${reading})`;
+            }).join(', ');
+            const kunYomiExamplesLabel = typeof t === 'function' ? t('kunYomiExamples') : '훈독 예시:';
+            tooltipContent += `<div style="margin-top: 0.5rem; padding-top: 0.5rem; border-top: 1px solid rgba(0,0,0,0.1); font-size: 0.85rem; color: rgba(0,0,0,0.7);">
+                <div style="margin-bottom: 0.3rem;">${kunYomiExamplesLabel}</div>
+                <div>${examples}</div>
+            </div>`;
+        }
+        
+        // tippy.js로 툴팁 생성
+        tippy(span, {
+            content: tooltipContent,
+            allowHTML: true,
+            interactive: true,
+            placement: 'top',
+            theme: 'light-border',
+            maxWidth: 350,
+        });
+        
+        // 이벤트 연결 완료 표시
+        span.dataset.tippyAttached = 'true';
+    });
 }
 
-// 단어 tooltip 숨기기
-function hideWordKanjiTooltip() {
-    // 고정되지 않은 툴팁만 제거
-    const unpinnedTooltip = document.querySelector('.word-kanji-tooltip:not(.pinned)');
-    if (unpinnedTooltip) {
-        unpinnedTooltip.remove();
-    }
-}
 
 // 어원 호버 기능
 function addEtymologyHover(container, word) {
@@ -2076,6 +2270,11 @@ function displayReadingPassage(passage) {
         finalHtml = levelBadge + finalHtml;
     }
     
+    console.log('=== displayReadingPassage: 본문 HTML 생성 ===');
+    console.log('원본 텍스트:', passage.text.substring(0, 100) + '...');
+    console.log('formattedText (줄바꿈 처리 후):', formattedText.substring(0, 200) + '...');
+    console.log('finalHtml (최종 HTML):', finalHtml.substring(0, 300) + '...');
+    
     const readingTextDiv = document.getElementById('readingText');
     
     // text-body 요소 찾기 또는 생성
@@ -2085,15 +2284,21 @@ function displayReadingPassage(passage) {
         textBody.id = 'text-body';
         readingTextDiv.innerHTML = '';
         readingTextDiv.appendChild(textBody);
+        console.log('text-body 요소 새로 생성');
     } else {
-        // 기존 text-body가 있으면 처리 상태 초기화
+        // 기존 text-body가 있으면 완전히 비우고 처리 상태 초기화
+        console.log('기존 text-body 발견, 기존 내용:', textBody.innerHTML.substring(0, 200));
+        textBody.innerHTML = '';
         if (textBody.dataset) {
             textBody.dataset.kanjiProcessed = 'false';
         }
+        console.log('text-body 내용 비움 완료');
     }
     
     textBody.innerHTML = finalHtml;
-    console.log('displayReadingPassage: textBody.innerHTML 설정 완료');
+    console.log('textBody.innerHTML 설정 완료');
+    console.log('설정 후 textBody.innerHTML:', textBody.innerHTML.substring(0, 500) + '...');
+    console.log('설정 후 textBody.textContent:', textBody.textContent.substring(0, 200) + '...');
     document.getElementById('ttsBtn').style.display = 'inline-block';
     updateTTSButtons();
     
@@ -3156,14 +3361,23 @@ async function displayExtractedText(text, certType) {
             readingTextDiv.innerHTML = '';
             readingTextDiv.appendChild(textBody);
         } else {
-            // 기존 text-body가 있으면 처리 상태 초기화
+            // 기존 text-body가 있으면 완전히 비우고 처리 상태 초기화
+            textBody.innerHTML = '';
             if (textBody.dataset) {
                 textBody.dataset.kanjiProcessed = 'false';
             }
         }
         
+        console.log('=== displayExtractedText: 본문 HTML 생성 ===');
+        console.log('원본 텍스트:', text.substring(0, 100) + '...');
+        console.log('formattedText (줄바꿈 처리 후):', formattedText.substring(0, 200) + '...');
+        console.log('기존 textBody.innerHTML:', textBody.innerHTML.substring(0, 200));
+        
         textBody.innerHTML = `<p>${formattedText}</p>`;
-        console.log('displayExtractedText: textBody.innerHTML 설정 완료');
+        
+        console.log('textBody.innerHTML 설정 완료');
+        console.log('설정 후 textBody.innerHTML:', textBody.innerHTML.substring(0, 500) + '...');
+        console.log('설정 후 textBody.textContent:', textBody.textContent.substring(0, 200) + '...');
         document.getElementById('ttsBtn').style.display = 'inline-block';
         updateTTSButtons();
         

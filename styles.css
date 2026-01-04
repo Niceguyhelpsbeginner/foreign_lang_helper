@@ -759,6 +759,18 @@ header h1 {
     background: #eef2ff;
 }
 
+/* 합성어 호버 기능 */
+.kanji-compound-hoverable {
+    cursor: pointer;
+    position: relative;
+    border-bottom: 2px dotted #4CAF50;
+    transition: background 0.2s;
+}
+
+.kanji-compound-hoverable:hover {
+    background: #e8f5e9;
+}
+
 .word-kanji-tooltip {
     position: fixed;
     background: var(--text-primary);
