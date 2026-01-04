@@ -4,7 +4,8 @@
   "description": "외국어 학습 도우미",
   "scripts": {
     "migrate": "node migrate_data.js",
-    "check-data": "node check_supabase_data.js"
+    "check-data": "node check_supabase_data.js",
+    "build": "echo 'Build completed - static files ready for deployment'"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.39.0"

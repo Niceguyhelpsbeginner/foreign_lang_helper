@@ -25,14 +25,15 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # 4. Vite 빌드
+      # 4. 빌드 (정적 파일 프로젝트이므로 빌드 과정은 선택사항)
       - name: Build project
         run: npm run build
 
-      # 5. GitHub Pages로 배포
+      # 5. GitHub Pages로 배포 (루트 디렉토리의 정적 파일 배포)
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist  # Vite 기본 빌드 폴더
+          publish_dir: ./  # 루트 디렉토리 배포
+          exclude_assets: 'node_modules,dist,.git'
 
