@@ -43,6 +43,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./  # 루트 디렉토리 배포
+          keep_files: false
           exclude_assets: |
             node_modules
             dist
@@ -57,4 +58,6 @@ jobs:
             jlpt/jlptN3
             jlpt/jlptN4
             jlpt/jlptN5
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
 
