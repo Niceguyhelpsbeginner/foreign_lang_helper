@@ -19,5 +19,5 @@
 
 // 기존 Google Cloud API 키를 사용하거나, Google AI Studio에서 새로 발급받으세요
 // Google AI Studio: https://makersuite.google.com/app/apikey
-const GEMINI_API_KEY = 'AIzaSyAaAgorImh1pwmHJcNZuQKcjbJ-UQeebMw';
+const GEMINI_API_KEY = 'AIzaSyCL8iPip_KexnMnNRylo5FmdSXh2Gp0AEM';
 
