@@ -1,16 +1,28 @@
 {
   "name": "foreign_lang_helper",
   "version": "1.0.0",
-  "description": "외국어 학습 도우미",
+  "description": "Travel The Words - 외국어 학습 도우미",
   "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
     "migrate": "node migrate_data.js",
-    "check-data": "node check_supabase_data.js",
-    "build": "echo 'Build completed - static files ready for deployment'"
+    "check-data": "node check_supabase_data.js"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.39.0"
+    "@supabase/supabase-js": "^2.39.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "next": "^14.0.0",
+    "tippy.js": "^6.3.7",
+    "@popperjs/core": "^2.11.8"
   },
   "devDependencies": {
-    "puppeteer": "^24.34.0"
+    "puppeteer": "^24.34.0",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "typescript": "^5.0.0"
   }
 }
