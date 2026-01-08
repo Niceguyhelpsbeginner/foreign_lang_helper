@@ -34,7 +34,7 @@ body {
 
 header {
     background: var(--card-bg);
-    padding: 1.5rem;
+    padding: 1rem 1.5rem 1rem 1.5rem; 
     border-radius: 12px;
     box-shadow: var(--shadow);
     margin-bottom: 1.5rem;

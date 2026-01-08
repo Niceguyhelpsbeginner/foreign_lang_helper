@@ -2,7 +2,7 @@
 const translations = {
     ko: {
         // 헤더
-        appTitle: "외국어 학습 도우미",
+        appTitle: "Travel The Words",
         login: "로그인",
         logout: "로그아웃",
         account: "계정 관리",
@@ -265,7 +265,7 @@ const translations = {
     },
     ja: {
         // ヘッダー
-        appTitle: "外国語学習ヘルパー",
+        appTitle: "Travel The Words",
         login: "ログイン",
         logout: "ログアウト",
         account: "アカウント管理",
@@ -512,7 +512,7 @@ const translations = {
     },
     en: {
         // Header
-        appTitle: "Foreign Language Helper",
+        appTitle: "travel the words",
         login: "Login",
         logout: "Logout",
         account: "Account",
@@ -691,7 +691,7 @@ const translations = {
     },
     zh: {
         // 标题
-        appTitle: "外语学习助手",
+        appTitle: "Travel The Words",
         login: "登录",
         logout: "登出",
         account: "账户管理",
@@ -955,11 +955,6 @@ function t(key) {
     return translations[currentLanguage][key] || translations['ko'][key] || key;
 }
 
-// 모든 텍스트 업데이트 함수
-function updateAllTexts() {
-    // 헤더
-    const headerTitle = document.querySelector('header h1');
-    if (headerTitle) headerTitle.textContent = '🌍 ' + t('appTitle');
     
     document.getElementById('loginBtn')?.setAttribute('title', t('login'));
     document.getElementById('logoutBtn')?.setAttribute('title', t('logout'));

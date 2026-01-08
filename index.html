@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>외국어 학습 도우미</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favicon.jpg">
     <!-- Supabase 클라이언트 라이브러리 -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <!-- Tesseract.js OCR 라이브러리 -->
@@ -19,7 +20,11 @@
 <body>
     <div class="container">
         <header>
-            <h1>🌍 외국어 학습 도우미</h1>
+            <h1>
+                <img src="favicon.jpg" alt="travel the words" style="width: 32px; height: 32px; vertical-align: middle; margin-right: 8px; border-radius: 50%;">
+                Travel The Words
+            </h1>
+
             <div class="header-actions">
                 <span id="userInfo" style="display: none; margin-right: 1rem; color: var(--text-primary); font-weight: 600;"></span>
                 <button class="btn-icon" id="loginBtn" title="로그인" style="display: none;">🔐</button>
